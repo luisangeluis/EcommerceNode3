@@ -17,7 +17,7 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   id!: string;
 
   @Column({ allowNull: false })
-  name!: string;
+  title!: string;
 
   @Column({
     type: DataType.STRING,
