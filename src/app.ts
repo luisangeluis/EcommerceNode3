@@ -3,6 +3,7 @@ import productRoutes from "./routes/product.router";
 import db from "./db/connection";
 
 const app = express();
+app.use(express.json());
 
 db.authenticate()
   .then((_res) => {

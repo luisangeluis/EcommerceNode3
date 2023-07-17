@@ -6,4 +6,7 @@ export interface ProductAttributes {
 }
 
 export interface ProductCreationAttributes
-  extends Optional<ProductAttributes, 'id'> {}
+  extends Optional<ProductAttributes, "id"> {}
+
+export interface ProductUpdateAttributes
+  extends Partial<ProductCreationAttributes> {}
