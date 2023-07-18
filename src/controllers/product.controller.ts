@@ -24,8 +24,14 @@ export const createProduct = async (
 export const updateProduct = async (
   id: string,
   data: ProductUpdateAttributes
-) => {
+): Promise<number[]> => {
   const response = await Product.update(data, { where: { id } });
+
+  return response;
+};
+
+export const deleteProduct = async (id: string): Promise<number> => {
+  const response = await Product.destroy({ where: { id } });
 
   return response;
 };

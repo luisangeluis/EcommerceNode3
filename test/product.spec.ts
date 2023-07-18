@@ -1,7 +1,10 @@
 import app from "../src/app";
 import chai from "chai";
 import chaiHttp from "chai-http";
-import { ProductCreationAttributes } from "../src/types";
+import {
+  ProductCreationAttributes,
+  ProductUpdateAttributes,
+} from "../src/types";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -91,22 +94,34 @@ describe("POST - Create a product", () => {
 });
 
 describe("PUT - Edit a product", () => {
-  it("Should respond with 201 status code", (done) => {
-    const product: ProductCreationAttributes = {
-      title: "A product",
-      description: "A pruduct",
-      price: 1,
+  it("Should respond with 404 status code", (done) => {
+    const id = 1;
+    const product: ProductUpdateAttributes = {
+      price: 10,
     };
 
     chai
       .request(app)
-      .post(`/api/v1/products/`)
+      .put(`/api/v1/products/${id}`)
       .send(product)
       .end((_err, res) => {
-        expect(res).to.have.status(201);
+        expect(res).to.have.status(404);
         done();
       });
   });
+});
 
-  
+describe("Delete - Delete a product", () => {
+  it("Should respond with 404 status code", (done) => {
+    const id = 1;
+
+    chai
+      .request(app)
+      .put(`/api/v1/products/${id}`)
+      .send()
+      .end((_err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
 });

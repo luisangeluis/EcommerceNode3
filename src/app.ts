@@ -6,17 +6,11 @@ const app = express();
 app.use(express.json());
 
 db.authenticate()
-  .then((_res) => {
-    console.log("database autenticate");
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+  .then((_res) => console.log("database autenticate"))
+  .catch((error) => console.log(error));
 
 db.sync()
-  .then(() => {
-    console.log("database synced");
-  })
+  .then(() => console.log("database synced"))
   .catch((error) => console.log(error));
 // }
 
