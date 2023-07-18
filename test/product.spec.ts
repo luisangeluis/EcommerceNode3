@@ -5,9 +5,19 @@ import {
   ProductCreationAttributes,
   ProductUpdateAttributes,
 } from "../src/types";
+import { initDb } from "../src/db/connection";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
+
+before(async () => {
+  try {
+    await initDb();
+    console.log("initialized DB from before");
+  } catch (error) {
+    console.log("failed to initialize from before");
+  }
+});
 
 describe("Get - products", () => {
   it("Should respond with 200 status code", (done) => {

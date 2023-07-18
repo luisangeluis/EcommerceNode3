@@ -6,32 +6,28 @@ import {
 } from "../types";
 import { v4 as uuidv4 } from "uuid";
 
+//Geat all products
 export const readAllProducts = async (): Promise<ProductAttributes[]> =>
   await Product.findAll();
 
+//Get a product by id
 export const readProductById = async (
   id: string
 ): Promise<ProductAttributes | null> =>
   await Product.findOne({ where: { id } });
 
+//Create a product
 export const createProduct = async (
   product: ProductCreationAttributes
-): Promise<ProductAttributes> => {
-  const response = await Product.create({ ...product, id: uuidv4() });
-  return response;
-};
+): Promise<ProductAttributes> =>
+  await Product.create({ ...product, id: uuidv4() });
 
+//Update a product
 export const updateProduct = async (
   id: string,
   data: ProductUpdateAttributes
-): Promise<number[]> => {
-  const response = await Product.update(data, { where: { id } });
+): Promise<number[]> => await Product.update(data, { where: { id } });
 
-  return response;
-};
-
-export const deleteProduct = async (id: string): Promise<number> => {
-  const response = await Product.destroy({ where: { id } });
-
-  return response;
-};
+//Delete a product
+export const deleteProduct = async (id: string): Promise<number> =>
+  await Product.destroy({ where: { id } });

@@ -1,7 +1,7 @@
-import { Sequelize } from 'sequelize-typescript';
-import dotenv from 'dotenv';
-import type { Dialect } from 'sequelize';
-import Product from '../models/Product.model';
+import { Sequelize } from "sequelize-typescript";
+import dotenv from "dotenv";
+import type { Dialect } from "sequelize";
+import Product from "../models/Product.model";
 
 dotenv.config();
 
@@ -17,5 +17,17 @@ const db = new Sequelize(database, username, password, {
   host,
   models: [Product],
 });
+
+export const initDb = async (): Promise<void> => {
+  try {
+    await db.authenticate();
+
+    if (process.env.NODE_ENV === "production") await db.sync();
+    else await db.sync({ force: true });
+  } catch (error) {
+    console.log("ocurrio un error", error);
+    process.exit(1);
+  }
+};
 
 export default db;
