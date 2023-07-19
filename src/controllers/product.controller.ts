@@ -19,8 +19,9 @@ export const readProductById = async (
 //Create a product
 export const createProduct = async (
   product: ProductCreationAttributes
-): Promise<ProductAttributes> =>
-  await Product.create({ ...product, id: uuidv4() });
+): Promise<ProductAttributes> => {
+  return await Product.create({ ...product, id: uuidv4() });
+};
 
 //Update a product
 export const updateProduct = async (

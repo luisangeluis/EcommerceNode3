@@ -4,6 +4,7 @@ import {
   Model,
   DataType,
   PrimaryKey,
+  IsNumeric,
 } from 'sequelize-typescript';
 import type { ProductAttributes, ProductCreationAttributes } from '../types';
 
@@ -25,6 +26,7 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   })
   description!: string;
 
+  @IsNumeric
   @Column({ allowNull: false })
   price!: number;
 }

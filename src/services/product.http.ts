@@ -36,7 +36,7 @@ export const post = async (req: Request, res: Response) => {
     // const data = req.body;
     const { title, description, price } = req.body;
 
-    if (!title || !description || !price || isNaN(price)) {
+    if (!title || !description || !price) {
       return res.status(400).json({
         message: "At least these  fields must be completed",
         fields: {
@@ -51,6 +51,10 @@ export const post = async (req: Request, res: Response) => {
 
     return res.status(201).json({ response });
   } catch (error: any) {
+    if (error.name === "SequelizeValidationError") {
+      const errors = error.errors.map((e: any) => e.message);
+      return res.status(400).json({ error: errors });
+    }
     return res.status(500).json({ message: error.message });
   }
 };
