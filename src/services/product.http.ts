@@ -36,7 +36,7 @@ export const post = async (req: Request, res: Response) => {
     // const data = req.body;
     const { title, description, price } = req.body;
 
-    if (!title || !description || !price) {
+    if (!title || !description || !price || isNaN(price)) {
       return res.status(400).json({
         message: "At least these  fields must be completed",
         fields: {

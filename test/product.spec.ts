@@ -67,8 +67,9 @@ describe("Get - product by id", () => {
   });
 });
 
+//POST CREATE A PRODUCT
 describe("POST - Create a product", () => {
-  it("Should respond with 201 status code", (done) => {
+  it("Should respond with 201 status code, This insert all necesary", (done) => {
     const product: ProductCreationAttributes = {
       title: "A product",
       description: "A pruduct",
@@ -98,6 +99,56 @@ describe("POST - Create a product", () => {
       .send(product)
       .end((_err, res) => {
         expect(res.body).to.be.an("object");
+        done();
+      });
+  });
+
+  it("Should respond with 400 status code", (done) => {
+    const product: ProductCreationAttributes = {
+      title: "A product",
+      description: "A pruduct",
+    };
+
+    chai
+      .request(app)
+      .post(`/api/v1/products/`)
+      .send(product)
+      .end((_err, res) => {
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
+
+  it("Should respond with 400 status code. Request with a non-numeric value", (done) => {
+    const product: ProductCreationAttributes = {
+      title: "A product",
+      description: "A pruduct",
+      price: "aaa",
+    };
+
+    chai
+      .request(app)
+      .post(`/api/v1/products/`)
+      .send(product)
+      .end((_err, res) => {
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
+
+  it("Should respond with 400 status code. Request with authenticate empty string", (done) => {
+    const product: ProductCreationAttributes = {
+      title: "A product",
+      description: "A pruduct",
+      price: "",
+    };
+
+    chai
+      .request(app)
+      .post(`/api/v1/products/`)
+      .send(product)
+      .end((_err, res) => {
+        expect(res).to.have.status(400);
         done();
       });
   });
