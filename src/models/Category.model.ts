@@ -16,7 +16,7 @@ class Category extends Model<CategoryAttributes, CategoryCreationAttributes> {
     type: DataType.UUID,
     allowNull: false,
   })
-  id!: string;
+  readonly id!: string;
 
   @Column({ allowNull: false })
   name!: string;

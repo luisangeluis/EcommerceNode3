@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import type { Dialect } from "sequelize";
 import Product from "../models/Product.model";
 import Category from "../models/Category.model";
+import User from "../models/User.model";
+import Role from "../models/Role.model";
 
 dotenv.config();
 
@@ -16,7 +18,7 @@ const database = process.env.DB_NAME as string;
 const db = new Sequelize(database, username, password, {
   dialect,
   host,
-  models: [Product, Category],
+  models: [Product, Category, User, Role],
 });
 
 // db.addModels([Product, Category]);
