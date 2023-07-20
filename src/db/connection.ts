@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
 import type { Dialect } from "sequelize";
 import Product from "../models/Product.model";
+import Category from "../models/Category.model";
 
 dotenv.config();
 
@@ -15,8 +16,10 @@ const database = process.env.DB_NAME as string;
 const db = new Sequelize(database, username, password, {
   dialect,
   host,
-  models: [Product],
+  models: [Product, Category],
 });
+
+// db.addModels([Product, Category]);
 
 export const initDb = async (): Promise<void> => {
   try {

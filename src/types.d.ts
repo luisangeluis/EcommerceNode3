@@ -3,6 +3,7 @@ export interface ProductAttributes {
   title: string;
   description: string;
   price: number;
+  categoryId: string;
 }
 
 export interface ProductCreationAttributes
@@ -10,3 +11,11 @@ export interface ProductCreationAttributes
 
 export interface ProductUpdateAttributes
   extends Partial<ProductCreationAttributes> {}
+
+export interface CategoryAttributes {
+  readonly id: string;
+  name: string;
+}
+
+export interface CategoryCreationAttributes
+  extends Optional<CategoryAttributes, "id"> {}

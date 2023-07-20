@@ -5,14 +5,17 @@ import {
   DataType,
   PrimaryKey,
   IsNumeric,
-} from 'sequelize-typescript';
-import type { ProductAttributes, ProductCreationAttributes } from '../types';
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import type { ProductAttributes, ProductCreationAttributes } from "../types";
+import Category from "./Category.model";
 
 @Table
 class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   @PrimaryKey
   @Column({
-    type: DataType.STRING,
+    type: DataType.UUID,
     allowNull: false,
   })
   id!: string;
@@ -21,14 +24,24 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   title!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
   })
   description!: string;
 
   @IsNumeric
-  @Column({ allowNull: false })
+  @Column({
+    allowNull: false,
+    type: DataType.DECIMAL(10, 2),
+  })
   price!: number;
+
+  @ForeignKey(() => Category)
+  @Column({ allowNull: false, type: DataType.UUID })
+  categoryId!: string;
+
+  @BelongsTo(() => Category)
+  category!: Category;
 }
 
 export default Product;
