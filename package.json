@@ -2,7 +2,8 @@
   "name": "node-starter",
   "version": "0.0.0",
   "scripts": {
-    "test": "mocha --require ts-node/register test/**/*.ts",
+    "test": "mocha --require ts-node/register 'test/**/*.ts'",
+    "test:user": "mocha --require ts-node/register 'test/user/**/*.ts'",
     "dev": "ts-node-dev src/index.ts",
     "build": "npx tsc"
   },

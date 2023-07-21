@@ -12,11 +12,6 @@ import chaiHttp from "chai-http";
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-// after(async () => {
-//   // Después de las pruebas, cierra la conexión con la base de datos de pruebas
-//   await db.close();
-// });
-
 describe("Get - products", () => {
   it("Should respond with 200 status code", (done) => {
     chai
