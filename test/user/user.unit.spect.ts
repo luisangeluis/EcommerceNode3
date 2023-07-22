@@ -1,19 +1,36 @@
-import app from "../../src/app";
 import chai from "chai";
 import chaiHttp from "chai-http";
 
-chai.use(chaiHttp);
-const expect = chai.expect;
 
-describe("Get - users", () => {
-  it("Should respond with 200 status code", (done) => {
-    chai
-      .request(app)
-      .get("/api/v1/users")
-      .send()
-      .end((_err, res) => {
-        expect(res).to.have.status(200);
-        done();
-      });
+import * as userControllers from "../../src/controllers/user.controller";
+
+import db from "../../src/db/connection";
+import Role from "../../src/models/Role.model";
+
+chai.use(chaiHttp);
+// const expect = chai.expect;
+
+before(async () => {
+  await db.sync({ force: true });
+});
+
+describe("POST - users", () => {
+  it("Should return a new user when I send correct data", async () => {
+    const role = await Role.findOne({ where: { title: "customer" } });
+
+    let body = {};
+    if (role) {
+      body = {
+        firstName: "a name",
+        lastName: "a last name",
+        email: "user@correo.com",
+        password: "abcde",
+        roleId: role?.id,
+      };
+      const user = await userControllers.createUser(body);
+      console.log(user);
+      
+      expect(user?.firstName).toEqual("a")
+    }
   });
 });

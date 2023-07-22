@@ -1,6 +1,7 @@
 import express from "express";
 import productRoutes from "./routes/product.router";
 import db from "./db/connection";
+import { generateData } from "./utils/defaultData";
 // import db from "./db/connection";
 
 const app = express();
@@ -12,7 +13,11 @@ app.use(express.json());
     await db.authenticate();
 
     if (process.env.NODE_ENV === "production") await db.sync();
-    else await db.sync({ force: true });
+    else {
+      await db.sync({ force: true });
+    }
+
+    await generateData();
     console.log("db synced");
   } catch (error: any) {
     console.log("error:", error.message);

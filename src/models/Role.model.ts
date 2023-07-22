@@ -10,7 +10,9 @@ import { RoleAttributes, RoleCreationAttributes } from "../types";
 import { UserRoleEnum } from "../utils/Enums";
 import User from "./User.model";
 
-@Table
+@Table({
+  timestamps: false,
+})
 class Role extends Model<RoleAttributes, RoleCreationAttributes> {
   @PrimaryKey
   @Column({
@@ -20,8 +22,9 @@ class Role extends Model<RoleAttributes, RoleCreationAttributes> {
   id!: string;
 
   @Column({
+    
     allowNull: false,
-  })
+   })
   title!: UserRoleEnum;
 
   @HasMany(() => User)

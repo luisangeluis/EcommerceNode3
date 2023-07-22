@@ -40,7 +40,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
   email!: string;
 
   @Column({
-    type: DataType.STRING(500),
+    type: DataType.STRING(400),
     allowNull: false,
   })
   password!: string;
