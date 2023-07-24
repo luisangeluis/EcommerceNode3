@@ -5,6 +5,7 @@ import Product from "../models/Product.model";
 import Category from "../models/Category.model";
 import User from "../models/User.model";
 import Role from "../models/Role.model";
+import { generateData } from "../utils/defaultData";
 
 dotenv.config();
 
@@ -23,18 +24,19 @@ const db = new Sequelize(database, username, password, {
   // logging: isTesting,
 });
 
-// db.addModels([Product, Category]);
+export const initDb = async (): Promise<void> => {
+  try {
+    await db.authenticate();
 
-// export const initDb = async (): Promise<void> => {
-//   try {
-//     await db.authenticate();
+    if (process.env.NODE_ENV === "production") await db.sync();
+    else await db.sync({ force: true });
+    await generateData();
+    console.log("db synced");
+  } catch (error: any) {
+    console.log("error:", error.message);
 
-//     if (process.env.NODE_ENV === "production") await db.sync();
-//     else await db.sync({ force: true });
-//   } catch (error) {
-//     console.log("ocurrio un error", error);
-//     process.exit(1);
-//   }
-// };
+    process.exit(1);
+  }
+};
 
 export default db;

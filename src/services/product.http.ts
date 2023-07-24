@@ -23,9 +23,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
     const response = await readProductById(id);
     response
       ? res.status(200).json(response)
-      : res
-          .status(404)
-          .json({ message: `Product with id:${id} doesn't exist` });
+      : res.status(404).send(`Product with id:${id} doesn't exist`);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

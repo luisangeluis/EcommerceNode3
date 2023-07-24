@@ -1,4 +1,4 @@
-import { UserRoleEnum } from "./utils/Enums";
+import { UserRoleEnum, ProductCategoryEnum } from "./utils/Enums";
 
 //PRODUCT
 export interface ProductAttributes {
@@ -18,7 +18,7 @@ export interface ProductUpdateAttributes
 //CATEGORY
 export interface CategoryAttributes {
   readonly id: string;
-  name: string;
+  name: ProductCategoryEnum;
 }
 
 export interface CategoryCreationAttributes

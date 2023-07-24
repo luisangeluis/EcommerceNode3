@@ -1,7 +1,8 @@
 import app from "../src/app";
 import chai from "chai";
 import chaiHttp from "chai-http";
-// import db from "../src/db/connection";
+import Product from "../src/models/Product.model";
+import { initDb } from "../src/db/connection";
 
 // import {
 //   ProductCreationAttributes,
@@ -11,6 +12,8 @@ import chaiHttp from "chai-http";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
+
+before(async () => await initDb());
 
 describe("Get - products", () => {
   it("Should respond with 200 status code", (done) => {
@@ -24,7 +27,7 @@ describe("Get - products", () => {
       });
   });
 
-  it("Should respond with an array", (done) => {
+  it("Should respond with an array of products", (done) => {
     chai
       .request(app)
       .get("/api/v1/products")
@@ -36,29 +39,33 @@ describe("Get - products", () => {
   });
 });
 
-// describe("Get - product by id", () => {
-//   it("Should respond with 200 status code", (done) => {
-//     const id = 1;
-//     chai
-//       .request(app)
-//       .get(`/api/v1/products/${id}`)
-//       .end((_err, res) => {
-//         expect(res).to.have.status(404);
-//         done();
-//       });
-//   });
+describe("Get - product by id", () => {
+  // before(async () => await initDb());
+  // after(async () => await db.close());
 
-//   it("Should respond with a object", (done) => {
-//     const id = 1;
-//     chai
-//       .request(app)
-//       .get(`/api/v1/products/${id}`)
-//       .end((_err, res) => {
-//         expect(res.body).to.be.an("object");
-//         done();
-//       });
-//   });
-// });
+  it("Should respond with 200 status code when I send a correct product id", async () => {
+    const product = await Product.findOne();
+    if (product) {
+      const id = product.id;
+      console.log(id);
+
+      const response = await chai.request(app).get(`/api/v1/products/${id}`);
+      // console.log({ response });
+
+      expect(response).to.have.status(200);
+    }
+  });
+  // it("Should respond with 404 status code when I send a wrong product id", (done) => {
+  //   const id = 1;
+  //   chai
+  //     .request(app)
+  //     .get(`/api/v1/products/${id}`)
+  //     .end((_err, res) => {
+  //       expect(res).to.have.status(404);
+  //       done();
+  //     });
+  // });
+});
 
 // //POST CREATE A PRODUCT
 // describe("POST - Create a product", () => {
