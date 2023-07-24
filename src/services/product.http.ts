@@ -32,24 +32,32 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
 export const post = async (req: Request, res: Response) => {
   try {
     // const data = req.body;
-    const { title, description, price } = req.body;
+    const { title, description, price, categoryId } = req.body;
 
-    if (!title || !description || !price) {
+    if (!title || !description || !price || !categoryId) {
       return res.status(400).json({
         message: "At least these  fields must be completed",
         fields: {
           name: "string",
           description: "string",
           price: "number",
+          categoryId: "string",
         },
       });
     }
 
-    const response = await createProduct({ title, description, price });
+    const response = await createProduct({
+      title,
+      description,
+      price,
+      categoryId,
+    });
 
     return res.status(201).json({ response });
   } catch (error: any) {
-    if (error.name === "SequelizeValidationError") {
+    if (error.name === "SequelizeForeignKeyConstraintError") {
+      return res.status(400).json({ error: error.message });
+    } else if (error.name === "SequelizeValidationError") {
       const errors = error.errors.map((e: any) => e.message);
       return res.status(400).json({ error: errors });
     }

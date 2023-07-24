@@ -15,13 +15,13 @@ const username = process.env.DB_USER as string;
 const password = process.env.DB_PASSWORD;
 const database = process.env.DB_NAME as string;
 
-// const isTesting = process.env.NODE_ENV === "test";
+const isTesting = process.env.NODE_ENV === "test";
 
 const db = new Sequelize(database, username, password, {
   dialect,
   host,
   models: [Product, Category, User, Role],
-  // logging: isTesting,
+  logging: isTesting,
 });
 
 export const initDb = async (): Promise<void> => {
