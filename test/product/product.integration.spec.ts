@@ -1,16 +1,13 @@
-import app from "../src/app";
 import chai from "chai";
 import chaiHttp from "chai-http";
-import Product from "../src/models/Product.model";
-import { initDb } from "../src/db/connection";
-import Category from "../src/models/Category.model";
+import app from "../../src/app";
+import Product from "../../src/models/Product.model";
+import Category from "../../src/models/Category.model";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-before(async () => await initDb());
-
-describe("Get - products", () => {
+describe("GET - products - integration tests", () => {
   it("Should respond with 200 status code", (done) => {
     chai
       .request(app)
@@ -21,20 +18,9 @@ describe("Get - products", () => {
         done();
       });
   });
-
-  it("Should respond with an array of products", (done) => {
-    chai
-      .request(app)
-      .get("/api/v1/products")
-      .send()
-      .end((_err, res) => {
-        expect(res.body).to.be.an("array");
-        done();
-      });
-  });
 });
 
-describe("Get - product by id", () => {
+describe("GET - product by id - integration tests", () => {
   it("Should respond with 200 status code when I send a correct product id", async () => {
     const product = await Product.findOne();
     if (product) {
@@ -58,17 +44,16 @@ describe("Get - product by id", () => {
 });
 
 //POST CREATE A PRODUCT
-describe("POST - Create a product", () => {
-  it("Should respond with 201 status code, This insert all necesary", async () => {
+describe("POST - Create a product - integration tests", () => {
+  it("Should respond with 201 status code when I send all necesary", async () => {
     const category = await Category.findOne();
 
     if (category) {
       const product = {
-        title: "A product",
-        description: "A pruduct",
+        title: "a product",
+        description: "a pruduct",
         price: 1,
         categoryId: category.id,
-        // categoryId: 1,
       };
 
       const response = await chai
@@ -80,55 +65,38 @@ describe("POST - Create a product", () => {
     }
   });
 
-  // it("Should respond with an object", (done) => {
-  //   const product: ProductCreationAttributes = {
-  //     title: "A product",
-  //     description: "A pruduct",
-  //     price: 1,
-  //   };
+  it("Should respond with 400 status code when a property is missing", async () => {
+    const category = await Category.findOne();
+    if (category) {
+      const product = {
+        title: "a product",
+        price: 5,
+        categoryId: category.id,
+      };
 
-  //   chai
-  //     .request(app)
-  //     .post(`/api/v1/products/`)
-  //     .send(product:ProductCreationAttributes)
-  //     .end((_err, res) => {
-  //       expect(res.body).to.be.an("object");
-  //       done();
-  //     });
-  // });
+      const response = await chai
+        .request(app)
+        .post(`/api/v1/products/`)
+        .send(product);
 
-  // it("Should respond with 400 status code", (done) => {
-  //   const product: ProductCreationAttributes = {
-  //     title: "A product",
-  //     description: "A pruduct",
-  //   };
+      expect(response).to.have.status(400);
+    }
+  });
 
-  //   chai
-  //     .request(app)
-  //     .post(`/api/v1/products/`)
-  //     .send(product)
-  //     .end((_err, res) => {
-  //       expect(res).to.have.status(400);
-  //       done();
-  //     });
-  // });
+  it("Should respond with 400 status code. Request with a non-numeric value", async () => {
+    const category = await Category.findOne();
 
-  // it("Should respond with 400 status code. Request with a non-numeric value", (done) => {
-  //   const product: ProductCreationAttributes = {
-  //     title: "A product",
-  //     description: "A pruduct",
-  //     price: "aaa",
-  //   };
-
-  //   chai
-  //     .request(app)
-  //     .post(`/api/v1/products/`)
-  //     .send(product)
-  //     .end((_err, res) => {
-  //       expect(res).to.have.status(400);
-  //       done();
-  //     });
-  // });
+    if (category) {
+      const product = {
+        title: "A product",
+        description: "A pruduct",
+        price: "aaa",
+        categoryId: category.id,
+      };
+      const response = await chai.request(app).post(`/api/v1/products/`).send(product);
+      expect(response).to.have.status(400);
+    } 
+  });
 
   // it("Should respond with 400 status code. Request with authenticate empty string", (done) => {
   //   const product: ProductCreationAttributes = {
