@@ -93,46 +93,116 @@ describe("POST - Create a product - integration tests", () => {
         price: "aaa",
         categoryId: category.id,
       };
-      const response = await chai.request(app).post(`/api/v1/products/`).send(product);
+      const response = await chai
+        .request(app)
+        .post(`/api/v1/products/`)
+        .send(product);
       expect(response).to.have.status(400);
-    } 
+    }
   });
 
-  // it("Should respond with 400 status code. Request with authenticate empty string", (done) => {
-  //   const product: ProductCreationAttributes = {
-  //     title: "A product",
-  //     description: "A pruduct",
-  //     price: "",
-  //   };
+  it("Should respond with 400 status code. Request with a empty string in a property", async () => {
+    const category = await Category.findOne();
 
-  //   chai
-  //     .request(app)
-  //     .post(`/api/v1/products/`)
-  //     .send(product)
-  //     .end((_err, res) => {
-  //       expect(res).to.have.status(400);
-  //       done();
-  //     });
-  // });
+    if (category) {
+      const product = {
+        title: "",
+        description: "A product",
+        price: 2,
+        categoryId: category.id,
+      };
+
+      const response = await chai
+        .request(app)
+        .post(`/api/v1/products/`)
+        .send(product);
+
+      expect(response).to.have.status(400);
+    }
+  });
 });
 
-// describe("PUT - Edit a product", () => {
-//   it("Should respond with 404 status code", (done) => {
-//     const id = 1;
-//     const product: ProductUpdateAttributes = {
-//       price: 10,
-//     };
+describe("PUT - Edit a product integration tests", () => {
+  it("Should respond with 200 status code when I do a valid update ", async () => {
+    const product = await Product.findOne();
 
-//     chai
-//       .request(app)
-//       .put(`/api/v1/products/${id}`)
-//       .send(product)
-//       .end((_err, res) => {
-//         expect(res).to.have.status(404);
-//         done();
-//       });
-//   });
-// });
+    if (product) {
+      const newData = {
+        price: 10,
+      };
+      const response = await chai
+        .request(app)
+        .put(`/api/v1/products/${product.id}`)
+        .send(newData);
+
+      expect(response).to.have.status(200);
+    }
+  });
+
+  it("Should respond with 400 status code when I do an invalid update ", async () => {
+    const product = await Product.findOne();
+
+    if (product) {
+      const newData = {
+        price: "tres",
+      };
+      const response = await chai
+        .request(app)
+        .put(`/api/v1/products/${product.id}`)
+        .send(newData);
+
+      expect(response).to.have.status(400);
+    }
+  });
+
+  it("Should respond with 404 status code when I send and invalid id", (done) => {
+    const id = 1;
+    const product = {
+      price: 10,
+    };
+
+    chai
+      .request(app)
+      .put(`/api/v1/products/${id}`)
+      .send(product)
+      .end((_err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+
+  it("Should respond with 400 status code when I do an invalid update with the foreign key", async () => {
+    const product = await Product.findOne();
+
+    if (product) {
+      const newData = {
+        categoryId: "tres",
+      };
+      const response = await chai
+        .request(app)
+        .put(`/api/v1/products/${product.id}`)
+        .send(newData);
+
+      expect(response).to.have.status(400);
+    }
+  });
+
+  it("Should respond with 400 status code when I send property that doesn't exist", async () => {
+    const product = await Product.findOne();
+
+    if (product) {
+      const newData = {
+        invalidProperty: "hola",
+      };
+      const response = await chai
+        .request(app)
+        .put(`/api/v1/products/${product.id}`)
+        .send(newData);
+
+      expect(response).to.have.status(400);
+    }
+  });
+});
 
 // describe("Delete - Delete a product", () => {
 //   it("Should respond with 404 status code", (done) => {

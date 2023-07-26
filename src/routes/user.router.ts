@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { Request, Response } from "express";
+import * as userServices from "../services/user.http";
 
 const router = Router();
 
-router.route("/").post((_req: Request, res: Response) => res.send(200));
+router.route("/").post(userServices.post);
+
+export default router;

@@ -4,6 +4,6 @@ import type { UserAttributes, UserCreationAttributes } from "../types";
 
 export const createUser = async (
   newUser: UserCreationAttributes
-): Promise<UserAttributes | undefined> => {
+): Promise<UserAttributes> => {
   return await User.create({ ...newUser, id: UUIDV4() });
 };

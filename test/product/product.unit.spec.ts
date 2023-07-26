@@ -44,10 +44,10 @@ describe("CREATE - product - unit tests", () => {
       };
 
       const response = await productControllers.createProduct(product);
-      expect(response.title).to.equal("a product");
-      expect(response.description).to.equal("a product");
-      expect(response.price).to.equal(1);
-      expect(response.categoryId).to.equal(category.id);
+      expect(response?.title).to.equal("a product");
+      expect(response?.description).to.equal("a product");
+      expect(response?.price).to.equal(1);
+      expect(response?.categoryId).to.equal(category.id);
     }
   });
 
@@ -86,4 +86,25 @@ describe("CREATE - product - unit tests", () => {
       }
     }
   });
+
+  it("Should thrown an error when some property is an empty string", async () => {
+    const category = await Category.findOne();
+
+    if (category) {
+      const product = {
+        title: "",
+        description: "A pruduct",
+        price: 1,
+        categoryId: category.id,
+      };
+      try {
+        await Product.create(product);
+        expect.fail("Expected an error to be thrown");
+      } catch (error: any) {
+        expect(error.message).to.be.an("string");
+      }
+    }
+  });
 });
+
+describe("EDIT - product - unit tests", () => {});

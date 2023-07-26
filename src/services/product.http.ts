@@ -65,12 +65,33 @@ export const post = async (req: Request, res: Response) => {
   }
 };
 
-export const edit = async (req: Request, res: Response) => {
+export const edit = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { id } = req.params;
+    const productId = req.params.id;
     const data = req.body;
+    const { id, ...restOfData } = data;
 
-    const response = await updateProduct(id, data);
+    if (!Object.keys(restOfData).length)
+      return res.status(400).send("Missing data");
+
+    if (
+      !restOfData.title &&
+      !restOfData.description &&
+      !restOfData.price &&
+      !restOfData.categoryId
+    ) {
+      return res.status(400).json({
+        message: "At least any these  fields must be completed",
+        fields: {
+          name: "string",
+          description: "string",
+          price: "number",
+          categoryId: "string",
+        },
+      });
+    }
+
+    const response = await updateProduct(productId, data);
 
     if (response[0] > 0) {
       return res
@@ -82,6 +103,12 @@ export const edit = async (req: Request, res: Response) => {
       .status(404)
       .json({ message: `Product with id: ${id} doesn't exist` });
   } catch (error: any) {
+    if (error.name === "SequelizeForeignKeyConstraintError") {
+      return res.status(400).json({ error: error.message });
+    } else if (error.name === "SequelizeValidationError") {
+      const errors = error.errors.map((e: any) => e.message);
+      return res.status(400).json({ error: errors });
+    }
     return res.status(500).json({ message: error.message });
   }
 };
