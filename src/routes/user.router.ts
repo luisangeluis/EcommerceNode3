@@ -1,8 +1,8 @@
-import { Router } from "express";
-import * as userServices from "../services/user.http";
+// import { Router } from "express";
+// import * as userServices from "../services/user.http";
 
-const router = Router();
+// const router = Router();
 
-router.route("/").post(userServices.post);
+// // router.route("/").post(userServices.post);
 
-export default router;
+// export default router;

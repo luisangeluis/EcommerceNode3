@@ -4,6 +4,7 @@
   "scripts": {
     "test": "mocha --timeout 10000 --require ts-node/register 'test/product/**/*.ts'",
     "test:product": "mocha --timeout 10000 --require ts-node/register  test/setup.ts 'test/product/**/*.ts'",
+    "test:user": "mocha --timeout 10000 --require ts-node/register  test/setup.ts 'test/user/**/*.ts'",
     "dev": "ts-node-dev src/index.ts",
     "build": "npx tsc"
   },
