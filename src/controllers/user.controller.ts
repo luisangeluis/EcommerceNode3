@@ -7,3 +7,9 @@ export const createUser = async (
 ): Promise<UserAttributes> => {
   return await User.create({ ...newUser, id: uuidv4() });
 };
+
+export const getUserByEmail = async (
+  email: string
+): Promise<UserAttributes | null> => {
+  return await User.findOne({ where: { email } });
+};
