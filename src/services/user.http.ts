@@ -26,10 +26,15 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
       });
 
     const response = await userControllers.createUser(restOfData);
-    const { password, ...restOfResponse } = response;
-    return res
-      .status(201)
-      .json({ message: "User created successfully", response: restOfResponse });
+
+    return res.status(201).json({
+      message: "User created successfully",
+      response: {
+        id: response.id,
+        firstName: response.firstName,
+        roleId: response.roleId,
+      },
+    });
   } catch (error: any) {
     return res.status(500).send(`error ${error.message}`);
   }
