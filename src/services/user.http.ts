@@ -24,11 +24,12 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
           roleId: "string",
         },
       });
-    const response = await userControllers.createUser(restOfData);
 
+    const response = await userControllers.createUser(restOfData);
+    const { password, ...restOfResponse } = response;
     return res
       .status(201)
-      .json({ message: "User created successfully", response });
+      .json({ message: "User created successfully", response: restOfResponse });
   } catch (error: any) {
     return res.status(500).send(`error ${error.message}`);
   }

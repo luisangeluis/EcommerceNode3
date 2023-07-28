@@ -93,10 +93,12 @@ describe("POST - Create a product - integration tests", () => {
         price: "aaa",
         categoryId: category.id,
       };
+
       const response = await chai
         .request(app)
         .post(`/api/v1/products/`)
         .send(product);
+
       expect(response).to.have.status(400);
     }
   });
