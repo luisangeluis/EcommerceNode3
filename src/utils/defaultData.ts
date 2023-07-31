@@ -2,6 +2,7 @@ import Category from "../models/Category.model";
 import Product from "../models/Product.model";
 import Role from "../models/Role.model";
 import { v4 as uuidv4 } from "uuid";
+import User from "../models/User.model";
 
 export const generateData = async (): Promise<void> => {
   await Role.bulkCreate([
@@ -9,6 +10,17 @@ export const generateData = async (): Promise<void> => {
     { title: "seller", id: uuidv4() },
     { title: "customer", id: uuidv4() },
   ]);
+
+  const customeRole = await Role.findOne({ where: { title: "customer" } });
+
+  await User.create({
+    id: uuidv4(),
+    firstName: "juan",
+    lastName: "perez",
+    email: "juan.perez@correo.com",
+    password: "12345",
+    roleId: customeRole?.id,
+  });
 
   await Category.bulkCreate([
     { name: "sport", id: uuidv4() },
