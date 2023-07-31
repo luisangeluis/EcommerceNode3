@@ -5,6 +5,8 @@ import Product from "../models/Product.model";
 import Category from "../models/Category.model";
 import User from "../models/User.model";
 import Role from "../models/Role.model";
+import Cart from "../models/Cart.model";
+import CartItem from "../models/CartItem.model";
 import { generateData } from "../utils/defaultData";
 
 dotenv.config();
@@ -20,7 +22,7 @@ const isTesting = process.env.NODE_ENV === "test";
 const db = new Sequelize(database, username, password, {
   dialect,
   host,
-  models: [Product, Category, User, Role],
+  models: [Product, Category, User, Role, Cart, CartItem],
   logging: isTesting,
 });
 

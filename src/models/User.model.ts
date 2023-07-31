@@ -3,6 +3,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasOne,
   IsEmail,
   Model,
   PrimaryKey,
@@ -10,6 +11,7 @@ import {
 } from "sequelize-typescript";
 import { UserAttributes, UserCreationAttributes } from "../types";
 import Role from "./Role.model";
+import Cart from "./Cart.model";
 
 @Table
 class User extends Model<UserAttributes, UserCreationAttributes> {
@@ -51,6 +53,9 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
 
   @BelongsTo(() => Role)
   role!: Role;
+
+  @HasOne(() => Cart)
+  cart!: Cart;
 }
 
 export default User;

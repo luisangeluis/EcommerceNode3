@@ -45,3 +45,22 @@ export interface RoleAttributes {
 
 export interface RoleCreationAttributes
   extends Optional<RoleAttributes, "id"> {}
+
+//Cart
+export interface CartAttributes {
+  readonly id: string;
+  userId: string;
+}
+
+export interface CartCreationAttributes
+  extends Optional<CartAttributes, "id"> {}
+
+export interface CartItemAttributes {
+  readonly id: string;
+  productId: string;
+  cartId: string;
+  quantity: number;
+}
+
+export interface CartItemCreationAttributes
+  extends Optional<ProductsCartAttributes, "id"> {}
