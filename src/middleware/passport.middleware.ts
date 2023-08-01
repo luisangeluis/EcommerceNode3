@@ -1,25 +1,27 @@
-// import passport from "passport";
-import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { getUserById } from "../controllers/user.controller";
+import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
+// const JwtStrategy = require("passport-jwt").Strategy,
+//   ExtractJwt = require("passport-jwt").ExtractJwt;
 
 const setPassport = (passport: any) => {
   const opts = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
-    secretOrKey: "academlo",
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: "academlo", // debe estar en una variable de entorno
   };
-
   passport.use(
-    new JwtStrategy(opts, async (decoded, done) => {
+    new JwtStrategy(opts, async (payload: any, done: any) => {
       try {
-        const user = await getUserById(decoded.id);
+        console.log("payload", payload);
+
+        const user = await getUserById(payload.id);
 
         if (!user) {
           return done(null, false);
         }
 
-        return done(null, decoded);
+        return done(null, user);
       } catch (error: any) {
-        return done(error.message);
+        return done(error, false);
       }
     })
   );
