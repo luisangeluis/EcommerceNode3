@@ -1,9 +1,10 @@
-// run `node index.js` in the terminal
-
-import app from './app';
+import app from "./app";
+import { initDb } from "./db/connection";
 
 const PORT = 3000;
 
-app.listen(PORT, () => {
-  console.log(`server listen on port ${PORT}`);
-});
+initDb();
+
+app.listen(PORT, () => console.log(`server listen on port ${PORT}`));
+
+export default app;

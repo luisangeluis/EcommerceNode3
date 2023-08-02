@@ -1,27 +1,20 @@
 import express from "express";
 import productRoutes from "./routes/product.router";
-import db from "./db/connection";
+// import userRoutes from "./routes/user.router";
+import authRoutes from "./routes/auth.router";
+import passport from "passport";
+import setPassport from "./middleware/passport.middleware";
+
+setPassport(passport);
 
 const app = express();
+
+app.use(passport.initialize());
 app.use(express.json());
 
-db.authenticate()
-  .then((_res) => {
-    console.log("database autenticate");
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-
-db.sync()
-  .then(() => {
-    console.log("database synced");
-  })
-  .catch((error) => console.log(error));
-// }
-
 app.use("/api/v1/products", productRoutes);
-
+// app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/auth", authRoutes);
 app.get("/", (_req, res) => res.send("hola"));
 
 export default app;
