@@ -3,7 +3,7 @@ import productRoutes from "./routes/product.router";
 // import userRoutes from "./routes/user.router";
 import authRoutes from "./routes/auth.router";
 import passport from "passport";
-import setPassport from "./middleware/passport.middleware";
+import setPassport from "./middleware/passport.middleware" ;
 
 setPassport(passport);
 
