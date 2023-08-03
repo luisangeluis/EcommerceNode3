@@ -1,11 +1,13 @@
 import express from 'express';
 import productRoutes from './routes/product.router';
 // import userRoutes from "./routes/user.router";
-import authRoutes from './routes/auth.router';
-import passport from 'passport';
-import setPassport from './middleware/passport.middleware';
 
-setPassport(passport);
+import authRoutes from "./routes/auth.router";
+// import passport from "passport";
+import passport from "./middleware/passport.middleware";
+
+
+// setPassport(passport);
 
 const app = express();
 

@@ -14,7 +14,7 @@ export const generateData = async (): Promise<void> => {
   const customeRole = await Role.findOne({ where: { title: "customer" } });
 
   await User.create({
-    id: uuidv4(),
+    id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     firstName: "juan",
     lastName: "perez",
     email: "juan.perez@correo.com",

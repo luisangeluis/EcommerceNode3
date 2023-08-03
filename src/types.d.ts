@@ -37,6 +37,9 @@ export interface UserAttributes {
 export interface UserCreationAttributes
   extends Optional<UserAttributes, "id"> {}
 
+export interface UserTokenAttributes
+  extends Pick<UserAttributes, firstName | email | roleId> {}
+
 //ROLE
 export interface RoleAttributes {
   readonly id: string;
@@ -63,4 +66,4 @@ export interface CartItemAttributes {
 }
 
 export interface CartItemCreationAttributes
-  extends Optional<ProductsCartAttributes, "id"> {}
+  extends Optional<CartItemAttributes, "id"> {}
