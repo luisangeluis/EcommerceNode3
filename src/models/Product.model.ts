@@ -7,11 +7,10 @@ import {
   IsNumeric,
   ForeignKey,
   BelongsTo,
-  BelongsToMany,
+  HasMany,
 } from "sequelize-typescript";
 import type { ProductAttributes, ProductCreationAttributes } from "../types";
 import Category from "./Category.model";
-import Cart from "./Cart.model";
 import CartItem from "./CartItem.model";
 
 @Table
@@ -46,8 +45,11 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   @BelongsTo(() => Category)
   category!: Category;
 
-  @BelongsToMany(() => Cart, () => CartItem)
-  carts?: Cart[];
+  // @BelongsToMany(() => Cart, () => CartItem)
+  // carts?: Cart[];
+
+  @HasMany(() => CartItem)
+  cartItems!: CartItem[];
 }
 
 export default Product;
