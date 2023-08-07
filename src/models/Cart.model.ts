@@ -7,10 +7,12 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  HasOne,
 } from "sequelize-typescript";
 import { CartAttributes, CartCreationAttributes } from "../types";
 import User from "./User.model";
 import CartItem from "./CartItem.model";
+import { Order } from "./Order.model";
 
 @Table
 class Cart extends Model<CartAttributes, CartCreationAttributes> {
@@ -36,6 +38,9 @@ class Cart extends Model<CartAttributes, CartCreationAttributes> {
 
   @HasMany(() => CartItem)
   cartItems!: CartItem[];
+
+  @HasOne(() => Order)
+  order!: Order;
 }
 
 export default Cart;

@@ -68,3 +68,12 @@ export interface CartItemAttributes {
 
 export interface CartItemCreationAttributes
   extends Optional<CartItemAttributes, "id"> {}
+
+export interface OrderAttributes {
+  readonly id: string;
+  cartId: string;
+  total: number;
+}
+
+export interface OrderCreationAttributes
+  extends Optional<OrderAttributes, "id"> {}
