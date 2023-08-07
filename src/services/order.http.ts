@@ -12,14 +12,20 @@ export const post = async (req: Request, res: Response) => {
 
     const cart = await readCartByUserId(userId);
     console.log("cartId:", cart?.id);
-    console.log({cart});
+    console.log({ cart });
     const total = cart?.cartItems.reduce(
       (accum, current) => accum + current.price * current.quantity,
       0
     );
     console.log({ total });
 
-    const order = await orderControllers.createOrder();
+    const order = await orderControllers.createOrder({
+      cartId: cart?.id,
+      total,
+    });
+
+    
+
     return res.status(201).json({ message: "Post order" });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });

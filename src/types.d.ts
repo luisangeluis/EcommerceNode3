@@ -77,3 +77,15 @@ export interface OrderAttributes {
 
 export interface OrderCreationAttributes
   extends Optional<OrderAttributes, "id"> {}
+
+export interface OrderDetailAttributes {
+  readonly id: string;
+  orderId: string;
+  productId: string;
+  quantity: number;
+  price: number;
+  subtotal: number;
+}
+
+export interface OrderDetailCreationAttributes
+  extends Optional<OrderDetailAttributes, "id"> {}
