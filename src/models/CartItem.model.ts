@@ -6,6 +6,8 @@ import {
   PrimaryKey,
   ForeignKey,
   Default,
+  IsNumeric,
+  BelongsTo,
 } from "sequelize-typescript";
 import { CartItemAttributes, CartItemCreationAttributes } from "../types";
 import Product from "./Product.model";
@@ -34,12 +36,25 @@ class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
   })
   cartId!: string;
 
+  @BelongsTo(() => Product)
+  product!: Product;
+
+  @BelongsTo(() => Cart)
+  cart!: Cart;
+
   @Default(1)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
   quantity!: number;
+
+  @IsNumeric
+  @Column({
+    allowNull: false,
+    type: DataType.DECIMAL(10, 2),
+  })
+  price!: number;
 }
 
 export default CartItem;

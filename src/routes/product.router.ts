@@ -1,7 +1,6 @@
 import { Router } from "express";
 import * as productServices from "../services/product.http";
 import * as cartServices from "../services/cart.http";
-// import passport from "passport";
 import passport from "../middleware/passport.middleware";
 
 const router = Router();

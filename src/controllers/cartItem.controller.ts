@@ -9,12 +9,12 @@ export const createCartItem = async (
 };
 
 export const readOrCreateCartItem = async (
-  cartItem: CartItemCreationAttributes
+  cartItem: Partial<CartItemAttributes>
 ) => {
   const response = await CartItem.findOrCreate({
     where: { productId: cartItem.productId },
     defaults: {
-      //   ...cartItem,
+      ...cartItem,
       id: uuidv4(),
     },
   });
