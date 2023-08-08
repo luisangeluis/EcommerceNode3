@@ -15,7 +15,7 @@ export const readCartByUserId = async (userId: string) => {
         include: [
           {
             model: Product,
-            attributes: ["title", "description", "categoryId"],
+            attributes: ["id", "title", "description", "categoryId"],
           },
         ],
       },

@@ -12,6 +12,7 @@ import {
 import type { ProductAttributes, ProductCreationAttributes } from "../types";
 import Category from "./Category.model";
 import CartItem from "./CartItem.model";
+import OrderDetail from "./OrderDetail.model";
 
 @Table
 class Product extends Model<ProductAttributes, ProductCreationAttributes> {
@@ -50,6 +51,9 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
 
   @HasMany(() => CartItem)
   cartItems!: CartItem[];
+
+  @HasMany(() => OrderDetail)
+  orderDetails!: OrderDetail[];
 }
 
 export default Product;
