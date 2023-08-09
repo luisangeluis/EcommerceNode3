@@ -3,17 +3,16 @@ import type { UserTokenAttributes } from "../types";
 import * as orderControllers from "../controllers/order.controller";
 import * as orderDetailControllers from "../controllers/orderDetail.controller";
 import { readCartByUserId } from "../controllers/cart.controller";
+import db from "../db/connection";
 
 export const post = async (req: Request, res: Response) => {
+  const transaction = await db.transaction();
+
   try {
-    // const cartId = req.params.cartId;
     const userId = (req.user as UserTokenAttributes)?.id;
     //****TODO LOGICA PARA PAGOS
     //*************************/
     const cart = await readCartByUserId(userId);
-    // console.log("cartId:", cart?.id);
-    console.log({ cart });
-    console.log("cartitems:", cart?.cartItems);
 
     if (!cart?.cartItems.length || cart?.cartItems.length === 0)
       return res
@@ -25,12 +24,8 @@ export const post = async (req: Request, res: Response) => {
       0
     );
 
-    console.log({ total });
-
-    const order = await orderControllers.createOrder({
-      cartId: cart?.id,
-      total,
-    });
+    const newOrder = { cartId: cart?.id, total };
+    const order = await orderControllers.createOrder(newOrder, transaction);
 
     const orderDetails = cart?.cartItems.map((cartItem) => {
       const price = cartItem.price;
@@ -43,18 +38,17 @@ export const post = async (req: Request, res: Response) => {
         price,
         subtotal: quantity * price,
       };
-      // return newOrderDetail;
-      return orderDetailControllers.createOrderDetail(newOrderDetail);
+      return orderDetailControllers.createOrderDetail(
+        newOrderDetail,
+        transaction
+      );
     });
 
     await Promise.all(orderDetails);
-
-    // for (const orderDetail of orderDetails) {
-    //   await orderDetailControllers.createOrderDetail(orderDetail);
-    // }
-
+    await transaction.commit();
     return res.status(201).json({ message: "Post order" });
   } catch (error: any) {
+    await transaction.rollback();
     return res.status(500).json({ message: error.message });
   }
 };

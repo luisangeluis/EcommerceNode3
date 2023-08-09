@@ -1,13 +1,13 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
 import type { Dialect } from "sequelize";
+import { generateData } from "../utils/defaultData";
 import Product from "../models/Product.model";
 import Category from "../models/Category.model";
 import User from "../models/User.model";
 import Role from "../models/Role.model";
 import Cart from "../models/Cart.model";
 import CartItem from "../models/CartItem.model";
-import { generateData } from "../utils/defaultData";
 import { Order } from "../models/Order.model";
 import OrderDetail from "../models/OrderDetail.model";
 

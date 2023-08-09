@@ -14,6 +14,8 @@ router
     cartServices.addToCart
   );
 
+// router.router("/my-products_as-seller").get()
+
 router
   .route("/:id")
   .get(productServices.getById)

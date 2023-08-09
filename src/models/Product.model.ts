@@ -13,6 +13,7 @@ import type { ProductAttributes, ProductCreationAttributes } from "../types";
 import Category from "./Category.model";
 import CartItem from "./CartItem.model";
 import OrderDetail from "./OrderDetail.model";
+import User from "./User.model";
 
 @Table
 class Product extends Model<ProductAttributes, ProductCreationAttributes> {
@@ -43,11 +44,15 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   @Column({ allowNull: false, type: DataType.UUID })
   categoryId!: string;
 
+  @ForeignKey(() => User)
+  @Column({ allowNull: false, type: DataType.UUID })
+  sellerId!: string;
+
   @BelongsTo(() => Category)
   category!: Category;
 
-  // @BelongsToMany(() => Cart, () => CartItem)
-  // carts?: Cart[];
+  @BelongsTo(() => User)
+  user!: User;
 
   @HasMany(() => CartItem)
   cartItems!: CartItem[];

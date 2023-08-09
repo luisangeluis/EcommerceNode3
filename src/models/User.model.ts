@@ -3,6 +3,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   HasOne,
   IsEmail,
   Model,
@@ -12,6 +13,7 @@ import {
 import { UserAttributes, UserCreationAttributes } from "../types";
 import Role from "./Role.model";
 import Cart from "./Cart.model";
+import Product from "./Product.model";
 
 @Table
 class User extends Model<UserAttributes, UserCreationAttributes> {
@@ -56,6 +58,9 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
 
   @HasOne(() => Cart)
   cart!: Cart;
+
+  @HasMany(() => Product)
+  products!: Product[];
 }
 
 export default User;
