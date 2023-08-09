@@ -6,21 +6,63 @@ import User from "../models/User.model";
 
 export const generateData = async (): Promise<void> => {
   await Role.bulkCreate([
-    { title: "admin", id: uuidv4() },
-    { title: "seller", id: uuidv4() },
-    { title: "customer", id: uuidv4() },
+    { title: "admin", id: "bfff93c9-f81b-4c01-aaa9-df9167611595" },
+    { title: "seller", id: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7" },
+    { title: "customer", id: "536e9745-8769-45e1-bca4-1e9b3054fac8" },
   ]);
 
-  const customeRole = await Role.findOne({ where: { title: "customer" } });
+  // const customeRole = await Role.findOne({ where: { title: "customer" } });
 
-  await User.create({
-    id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
-    firstName: "juan",
-    lastName: "perez",
-    email: "juan.perez@correo.com",
-    password: "12345",
-    roleId: customeRole?.id,
-  });
+  await User.bulkCreate([
+    {
+      id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+      firstName: "juan",
+      lastName: "perez",
+      email: "juan.perez@correo.com",
+      password: "12345",
+      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+    },
+    {
+      id: "45925e48-60d5-4c08-8962-3001195167dd",
+      firstName: "Brook",
+      lastName: "Biasetti",
+      email: "bbiasetti0@nhs.uk",
+      password: "xP4(8",
+      roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+    },
+    {
+      id: "2940915c-071e-423e-827c-a04d1ead2ce7",
+      firstName: "Rufus",
+      lastName: "Pinnocke",
+      email: "rpinnocke1@slashdot.org",
+      password: "uN8/!kH",
+      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+    },
+    {
+      id: uuidv4(),
+      firstName: "Holly",
+      lastName: "Chaperling",
+      email: "hchaperling2@youtu.be",
+      password: "oT6=/&",
+      roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+    },
+    {
+      id: uuidv4(),
+      firstName: "Theressa",
+      lastName: "Kadd",
+      email: "tkadd3@cdbaby.com",
+      password: "uM8~&",
+      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+    },
+    {
+      id: uuidv4(),
+      firstName: "Clemmy",
+      lastName: "Haylor",
+      email: "chaylor4@creativecommons.org",
+      password: "bE1<6YMRjw",
+      roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+    },
+  ]);
 
   await Category.bulkCreate([
     { name: "sport", id: uuidv4() },
@@ -39,6 +81,7 @@ export const generateData = async (): Promise<void> => {
       description: "a car",
       price: "100",
       categoryId: home?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b",
@@ -46,6 +89,7 @@ export const generateData = async (): Promise<void> => {
       description: "a dog",
       price: "200",
       categoryId: home?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "dc228176-e25a-4f2e-a485-5c16aa83a415",
@@ -53,6 +97,7 @@ export const generateData = async (): Promise<void> => {
       description: "a refrigerator",
       price: "300",
       categoryId: home?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "32d3483f-4a85-4be4-872f-58932c15acf0",
@@ -60,6 +105,7 @@ export const generateData = async (): Promise<void> => {
       description: "a ball",
       price: "50",
       categoryId: sport?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "f0e133b4-c8d1-45db-b4fa-a71bca80d681",
@@ -67,6 +113,7 @@ export const generateData = async (): Promise<void> => {
       description: "a xbox",
       price: "400",
       categoryId: toys?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "c46131b5-6d22-4420-bf3d-64789cd49cb2",
@@ -74,6 +121,7 @@ export const generateData = async (): Promise<void> => {
       description: "a play station",
       price: "400",
       categoryId: toys?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "2e112c93-7db1-48b9-b978-85fa51f1c7bd",
@@ -81,6 +129,7 @@ export const generateData = async (): Promise<void> => {
       description: "a cell phone",
       price: "300",
       categoryId: home?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "10119ed0-b180-4ed5-a2b4-3c3619af97d9",
@@ -88,6 +137,7 @@ export const generateData = async (): Promise<void> => {
       description: "a tablet",
       price: "300",
       categoryId: home?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "69c28868-c096-4fb8-8d0b-fbd2bcbbe113",
@@ -95,6 +145,7 @@ export const generateData = async (): Promise<void> => {
       description: "a nintendo switch",
       price: "300",
       categoryId: toys?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "16cb051e-3109-474e-be38-48d032ea9dfa",
@@ -102,6 +153,7 @@ export const generateData = async (): Promise<void> => {
       description: "a laptop",
       price: "500",
       categoryId: home?.id,
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
       id: "87860648-450b-460e-9ba4-2fae3179716d",
@@ -109,6 +161,7 @@ export const generateData = async (): Promise<void> => {
       description: "a earphone",
       price: "100",
       categoryId: home?.id,
+      sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
     {
       id: "7802d357-239d-415e-859c-d0c1da0010a0",
@@ -116,6 +169,7 @@ export const generateData = async (): Promise<void> => {
       description: "a television",
       price: "100",
       categoryId: toys?.id,
+      sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
     {
       id: "bb4dcbe5-2974-4326-a999-b0dd9c641e03",
@@ -123,6 +177,7 @@ export const generateData = async (): Promise<void> => {
       description: "a backpack",
       price: "250",
       categoryId: sport?.id,
+      sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
     {
       id: "d0ea5e20-cce1-4198-9184-cf20f93fbd9c",
@@ -130,6 +185,7 @@ export const generateData = async (): Promise<void> => {
       description: "a washing machine",
       price: "450",
       categoryId: home?.id,
+      sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
     {
       id: "6edfd984-807f-4829-932f-0511fb1881b7",
@@ -137,6 +193,7 @@ export const generateData = async (): Promise<void> => {
       description: "a volleyball ball",
       price: "150",
       categoryId: sport?.id,
+      sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
   ]);
 };
