@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import type { UserTokenAttributes } from "../types";
 import { getRoleByName } from "../controllers/role.controller";
 
-export const isAseller = async (
+const isAseller = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -17,3 +17,5 @@ export const isAseller = async (
 
   next();
 };
+
+export default isAseller;

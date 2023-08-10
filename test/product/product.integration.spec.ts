@@ -3,6 +3,7 @@ import chaiHttp from "chai-http";
 import app from "../../src/app";
 import Product from "../../src/models/Product.model";
 import Category from "../../src/models/Category.model";
+import jwt from "jsonwebtoken";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -44,21 +45,33 @@ describe("GET - product by id - integration tests", () => {
 });
 
 //POST CREATE A PRODUCT
-describe("POST - Create a product - integration tests", () => {
-  it("Should respond with 201 status code when I send all necesary", async () => {
-    const category = await Category.findOne();
+describe("POST - Create a product - integration tests", async () => {
+  const category = await Category.findOne();
+  const jwtKey = process.env.JWT_KEY as string;
 
+  const token = jwt.sign(
+    {
+      id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+      email: "juan.perez@correo.com",
+      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+    },
+    jwtKey
+  );
+
+  it("Should respond with 201 status code when I send all necesary", async () => {
     if (category) {
       const product = {
         title: "a product",
         description: "a pruduct",
         price: 1,
         categoryId: category.id,
+        sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
       };
 
       const response = await chai
         .request(app)
         .post(`/api/v1/products/`)
+        .set("Authorization", `Bearer ${token}`)
         .send(product);
 
       expect(response).to.have.status(201);
@@ -66,7 +79,6 @@ describe("POST - Create a product - integration tests", () => {
   });
 
   it("Should respond with 400 status code when a property is missing", async () => {
-    const category = await Category.findOne();
     if (category) {
       const product = {
         title: "a product",
@@ -77,6 +89,7 @@ describe("POST - Create a product - integration tests", () => {
       const response = await chai
         .request(app)
         .post(`/api/v1/products/`)
+        .set("Authorization", `Bearer ${token}`)
         .send(product);
 
       expect(response).to.have.status(400);
@@ -84,8 +97,6 @@ describe("POST - Create a product - integration tests", () => {
   });
 
   it("Should respond with 400 status code. Request with a non-numeric value", async () => {
-    const category = await Category.findOne();
-
     if (category) {
       const product = {
         title: "A product",
@@ -97,6 +108,7 @@ describe("POST - Create a product - integration tests", () => {
       const response = await chai
         .request(app)
         .post(`/api/v1/products/`)
+        .set("Authorization", `Bearer ${token}`)
         .send(product);
 
       expect(response).to.have.status(400);
@@ -104,8 +116,6 @@ describe("POST - Create a product - integration tests", () => {
   });
 
   it("Should respond with 400 status code. Request with a empty string in a property", async () => {
-    const category = await Category.findOne();
-
     if (category) {
       const product = {
         title: "",
@@ -117,6 +127,7 @@ describe("POST - Create a product - integration tests", () => {
       const response = await chai
         .request(app)
         .post(`/api/v1/products/`)
+        .set("Authorization", `Bearer ${token}`)
         .send(product);
 
       expect(response).to.have.status(400);
@@ -124,10 +135,10 @@ describe("POST - Create a product - integration tests", () => {
   });
 });
 
-describe("PUT - Edit a product integration tests", () => {
-  it("Should respond with 200 status code when I do a valid update ", async () => {
-    const product = await Product.findOne();
+describe("PUT - Edit a product integration tests", async () => {
+  const product = await Product.findOne();
 
+  it("Should respond with 200 status code when I do a valid update ", async () => {
     if (product) {
       const newData = {
         price: 10,
@@ -142,8 +153,6 @@ describe("PUT - Edit a product integration tests", () => {
   });
 
   it("Should respond with 400 status code when I do an invalid update ", async () => {
-    const product = await Product.findOne();
-
     if (product) {
       const newData = {
         price: "tres",
@@ -174,8 +183,6 @@ describe("PUT - Edit a product integration tests", () => {
   });
 
   it("Should respond with 400 status code when I do an invalid update with the foreign key", async () => {
-    const product = await Product.findOne();
-
     if (product) {
       const newData = {
         categoryId: "tres",
@@ -190,8 +197,6 @@ describe("PUT - Edit a product integration tests", () => {
   });
 
   it("Should respond with 400 status code when I send property that doesn't exist", async () => {
-    const product = await Product.findOne();
-
     if (product) {
       const newData = {
         invalidProperty: "hola",

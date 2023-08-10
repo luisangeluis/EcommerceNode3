@@ -65,14 +65,10 @@ export const generateData = async (): Promise<void> => {
   ]);
 
   await Category.bulkCreate([
-    { name: "sport", id: uuidv4() },
-    { name: "home", id: uuidv4() },
-    { name: "toys", id: uuidv4() },
+    { name: "sport", id: "58c21712-0dc4-4f98-af84-2ba868fcd2cd" },
+    { name: "home", id: "c7a96caa-719c-4097-ab3b-77139d4644dd" },
+    { name: "toys", id: "7c4b8522-bffa-4b1c-b82d-0c906366ec25" },
   ]);
-
-  const sport = await Category.findOne({ where: { name: "sport" } });
-  const home = await Category.findOne({ where: { name: "home" } });
-  const toys = await Category.findOne({ where: { name: "toys" } });
 
   await Product.bulkCreate([
     {
@@ -80,7 +76,7 @@ export const generateData = async (): Promise<void> => {
       title: "car",
       description: "a car",
       price: "100",
-      categoryId: home?.id,
+      categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -88,7 +84,7 @@ export const generateData = async (): Promise<void> => {
       title: "dog",
       description: "a dog",
       price: "200",
-      categoryId: home?.id,
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -96,7 +92,7 @@ export const generateData = async (): Promise<void> => {
       title: "refrigerator",
       description: "a refrigerator",
       price: "300",
-      categoryId: home?.id,
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -104,7 +100,7 @@ export const generateData = async (): Promise<void> => {
       title: "ball",
       description: "a ball",
       price: "50",
-      categoryId: sport?.id,
+      categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -112,7 +108,7 @@ export const generateData = async (): Promise<void> => {
       title: "xbox",
       description: "a xbox",
       price: "400",
-      categoryId: toys?.id,
+      categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -120,7 +116,7 @@ export const generateData = async (): Promise<void> => {
       title: "play station",
       description: "a play station",
       price: "400",
-      categoryId: toys?.id,
+      categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -128,7 +124,7 @@ export const generateData = async (): Promise<void> => {
       title: "cell phone",
       description: "a cell phone",
       price: "300",
-      categoryId: home?.id,
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -136,7 +132,7 @@ export const generateData = async (): Promise<void> => {
       title: "tablet",
       description: "a tablet",
       price: "300",
-      categoryId: home?.id,
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -144,7 +140,7 @@ export const generateData = async (): Promise<void> => {
       title: "nintendo switch",
       description: "a nintendo switch",
       price: "300",
-      categoryId: toys?.id,
+      categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -152,7 +148,7 @@ export const generateData = async (): Promise<void> => {
       title: "laptop",
       description: "a laptop",
       price: "500",
-      categoryId: home?.id,
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
     },
     {
@@ -160,7 +156,7 @@ export const generateData = async (): Promise<void> => {
       title: "earphones",
       description: "a earphone",
       price: "100",
-      categoryId: home?.id,
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
       sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
     {
@@ -168,7 +164,7 @@ export const generateData = async (): Promise<void> => {
       title: "television",
       description: "a television",
       price: "100",
-      categoryId: toys?.id,
+      categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
       sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
     {
@@ -176,7 +172,7 @@ export const generateData = async (): Promise<void> => {
       title: "backpack",
       description: "a backpack",
       price: "250",
-      categoryId: sport?.id,
+      categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
       sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
     {
@@ -184,7 +180,7 @@ export const generateData = async (): Promise<void> => {
       title: "washing machine",
       description: "a washing machine",
       price: "450",
-      categoryId: home?.id,
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
       sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
     {
@@ -192,7 +188,7 @@ export const generateData = async (): Promise<void> => {
       title: "volleyball ball",
       description: "a volleyball ball",
       price: "150",
-      categoryId: sport?.id,
+      categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
       sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
     },
   ]);

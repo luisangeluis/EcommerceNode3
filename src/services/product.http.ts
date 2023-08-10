@@ -6,6 +6,7 @@ import {
   updateProduct,
 } from "../controllers/product.controller";
 import { Request, Response } from "express";
+import type { UserAttributes } from "../types";
 
 export const getAll = async (_req: Request, res: Response): Promise<void> => {
   try {
@@ -31,7 +32,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
 
 export const post = async (req: Request, res: Response) => {
   try {
-    // const data = req.body;
+    const sellerId = (req.user as Partial<UserAttributes>)?.id;
     const { title, description, price, categoryId } = req.body;
 
     if (!title || !description || !price || !categoryId) {
@@ -51,16 +52,20 @@ export const post = async (req: Request, res: Response) => {
       description,
       price,
       categoryId,
+      sellerId,
     });
 
     return res.status(201).json({ response });
   } catch (error: any) {
     if (error.name === "SequelizeForeignKeyConstraintError") {
+      console.log("SequelizeForeignKeyConstraintError");
       return res.status(400).json({ error: error.message });
     } else if (error.name === "SequelizeValidationError") {
+      console.log("SequelizeValidationError");
       const errors = error.errors.map((e: any) => e.message);
       return res.status(400).json({ error: errors });
     }
+
     return res.status(500).json({ message: error.message });
   }
 };

@@ -1,11 +1,20 @@
 import { Router } from "express";
+import passport from "../middleware/passport.middleware";
+import isAseller from "../middleware/isAseller.middleware";
 import * as productServices from "../services/product.http";
 import * as cartServices from "../services/cart.http";
-import passport from "../middleware/passport.middleware";
 
 const router = Router();
 
-router.route("/").get(productServices.getAll).post(productServices.post);
+router
+  .route("/")
+  .get(productServices.getAll)
+  //Post a product as seller
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    isAseller,
+    productServices.post
+  );
 
 router
   .route("/:id/add-to-cart")
@@ -13,8 +22,6 @@ router
     passport.authenticate("jwt", { session: false }),
     cartServices.addToCart
   );
-
-// router.router("/my-products_as-seller").get()
 
 router
   .route("/:id")
