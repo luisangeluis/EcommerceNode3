@@ -58,10 +58,10 @@ export const post = async (req: Request, res: Response) => {
     return res.status(201).json({ response });
   } catch (error: any) {
     if (error.name === "SequelizeForeignKeyConstraintError") {
-      console.log("SequelizeForeignKeyConstraintError");
+      // console.log(error.message);
       return res.status(400).json({ error: error.message });
     } else if (error.name === "SequelizeValidationError") {
-      console.log("SequelizeValidationError");
+      // console.log(error.message);
       const errors = error.errors.map((e: any) => e.message);
       return res.status(400).json({ error: errors });
     }

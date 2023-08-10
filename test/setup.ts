@@ -1,3 +1,5 @@
 import { initDb } from "../src/db/connection";
 
-before(async () => await initDb());
+before(async () => {
+  await initDb();
+});

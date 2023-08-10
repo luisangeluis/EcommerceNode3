@@ -3,10 +3,29 @@ import chaiHttp from "chai-http";
 import app from "../../src/app";
 import Product from "../../src/models/Product.model";
 import Category from "../../src/models/Category.model";
-import jwt from "jsonwebtoken";
+import generateToken from "../../src/utils/generateToken";
 
 chai.use(chaiHttp);
+
 const expect = chai.expect;
+let token: string;
+let category: Category | null;
+
+before(async () => {
+  try {
+    category = await Category.findOne();
+
+    const user = {
+      id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+      email: "juan.perez@correo.com",
+      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+    };
+
+    token = await generateToken(user);
+  } catch (error: any) {
+    console.log(error.message);
+  }
+});
 
 describe("GET - products - integration tests", () => {
   it("Should respond with 200 status code", (done) => {
@@ -45,19 +64,7 @@ describe("GET - product by id - integration tests", () => {
 });
 
 //POST CREATE A PRODUCT
-describe("POST - Create a product - integration tests", async () => {
-  const category = await Category.findOne();
-  const jwtKey = process.env.JWT_KEY as string;
-
-  const token = jwt.sign(
-    {
-      id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
-      email: "juan.perez@correo.com",
-      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
-    },
-    jwtKey
-  );
-
+describe("POST - Create a product - integration tests", () => {
   it("Should respond with 201 status code when I send all necesary", async () => {
     if (category) {
       const product = {
@@ -84,6 +91,7 @@ describe("POST - Create a product - integration tests", async () => {
         title: "a product",
         price: 5,
         categoryId: category.id,
+        sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
       };
 
       const response = await chai
@@ -103,6 +111,7 @@ describe("POST - Create a product - integration tests", async () => {
         description: "A pruduct",
         price: "aaa",
         categoryId: category.id,
+        sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
       };
 
       const response = await chai
@@ -122,6 +131,7 @@ describe("POST - Create a product - integration tests", async () => {
         description: "A product",
         price: 2,
         categoryId: category.id,
+        sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
       };
 
       const response = await chai
@@ -136,7 +146,11 @@ describe("POST - Create a product - integration tests", async () => {
 });
 
 describe("PUT - Edit a product integration tests", async () => {
-  const product = await Product.findOne();
+  let product: Product | null;
+
+  before(async () => {
+    product = await Product.findOne();
+  });
 
   it("Should respond with 200 status code when I do a valid update ", async () => {
     if (product) {
@@ -168,14 +182,14 @@ describe("PUT - Edit a product integration tests", async () => {
 
   it("Should respond with 404 status code when I send and invalid id", (done) => {
     const id = 1;
-    const product = {
+    const aProduct = {
       price: 10,
     };
 
     chai
       .request(app)
       .put(`/api/v1/products/${id}`)
-      .send(product)
+      .send(aProduct)
       .end((_err, res) => {
         expect(res).to.have.status(404);
         done();
