@@ -1,14 +1,20 @@
-import Product from "../models/Product.model";
-import {
+import { v4 as uuidv4 } from "uuid";
+import type {
   ProductAttributes,
   ProductCreationAttributes,
   ProductUpdateAttributes,
 } from "../types";
-import { v4 as uuidv4 } from "uuid";
+import type { ProductsQuery } from "../types/request/types.request";
+import Product from "../models/Product.model";
 
 //Geat all products
-export const readAllProducts = async (): Promise<ProductAttributes[]> =>
-  await Product.findAll();
+export const readAllProducts = async (
+  query?: ProductsQuery
+): Promise<ProductAttributes[]> => {
+  const filters: any = query;
+
+  return await Product.findAll({ where: filters });
+};
 
 //Get a product by id
 export const readProductById = async (
