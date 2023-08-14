@@ -39,7 +39,7 @@ export const post = async (req: Request, res: Response) => {
       return res.status(400).json({
         message: "At least these  fields must be completed",
         fields: {
-          name: "string",
+          title: "string",
           description: "string",
           price: "number",
           categoryId: "string",

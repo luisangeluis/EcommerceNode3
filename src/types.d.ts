@@ -7,6 +7,7 @@ export interface ProductAttributes {
   description: string;
   price: number;
   categoryId: string;
+  sellerId: string;
 }
 
 export interface ProductCreationAttributes

@@ -8,6 +8,7 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  Length,
 } from "sequelize-typescript";
 import type { ProductAttributes, ProductCreationAttributes } from "../types";
 import Category from "./Category.model";
@@ -39,6 +40,12 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
     type: DataType.DECIMAL(10, 2),
   })
   price!: number;
+
+  @Length({ max: 15 })
+  @Column({
+    allowNull: false,
+  })
+  status!: string;
 
   @ForeignKey(() => Category)
   @Column({ allowNull: false, type: DataType.UUID })
