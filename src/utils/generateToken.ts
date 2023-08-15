@@ -11,14 +11,7 @@ const generateToken = async ({
   email,
   roleId,
 }: Partial<UserAttributes>) => {
-  const token = await jwt.sign(
-    {
-      id,
-      email,
-      roleId,
-    },
-    jwtKey
-  );
+  const token = await jwt.sign({ id, email, roleId }, jwtKey);
 
   return token;
 };

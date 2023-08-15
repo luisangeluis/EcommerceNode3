@@ -9,6 +9,7 @@ import {
   BelongsTo,
   HasMany,
   Length,
+  Default,
 } from "sequelize-typescript";
 import type { ProductAttributes, ProductCreationAttributes } from "../types";
 import Category from "./Category.model";
@@ -42,9 +43,8 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   price!: number;
 
   @Length({ max: 15 })
-  @Column({
-    allowNull: false,
-  })
+  @Default("active")
+  @Column({ allowNull: false })
   status!: string;
 
   @ForeignKey(() => Category)

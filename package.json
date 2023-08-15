@@ -7,6 +7,7 @@
     "test:product:integration": "mocha --timeout 10000 --require ts-node/register  test/setup.ts 'test/product/product.integration.spec.ts'",
     "test:product:unit": "mocha --timeout 10000 --require ts-node/register  test/setup.ts 'test/product/product.unit.spec.ts'",
     "test:user": "mocha --timeout 10000 --require ts-node/register  test/setup.ts 'test/user/**/*.ts'",
+    "test:seller:integration": "mocha --timeout 10000 -require ts-node/register test/setup.ts 'test/seller/seller.integration.spec.ts'",
     "dev": "ts-node-dev src/index.ts",
     "build": "npx tsc"
   },

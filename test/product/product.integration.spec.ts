@@ -1,19 +1,24 @@
 import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../../src/app";
+import generateToken from "../../src/utils/generateToken";
 import Product from "../../src/models/Product.model";
 import Category from "../../src/models/Category.model";
-import generateToken from "../../src/utils/generateToken";
 
 chai.use(chaiHttp);
 
 const expect = chai.expect;
 let token: string;
 let category: Category | null;
+let product: Product | null;
 
 before(async () => {
   try {
     category = await Category.findOne();
+
+    product = await Product.findOne({
+      where: { sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e" },
+    });
 
     const user = {
       id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
@@ -45,7 +50,6 @@ describe("GET - product by id - integration tests", () => {
     const product = await Product.findOne();
     if (product) {
       const id = product.id;
-      // console.log(id);
       const response = await chai.request(app).get(`/api/v1/products/${id}`);
       expect(response).to.have.status(200);
     }
@@ -71,6 +75,7 @@ describe("POST - Create a product - integration tests", () => {
         title: "a product",
         description: "a pruduct",
         price: 1,
+        status: "active",
         categoryId: category.id,
         sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
       };
@@ -146,20 +151,23 @@ describe("POST - Create a product - integration tests", () => {
 });
 
 describe("PUT - Edit a product integration tests", async () => {
-  let product: Product | null;
+  // let product: Product | null;
 
-  before(async () => {
-    product = await Product.findOne();
-  });
+  // before(async () => {
+  //   product = await Product.findOne({
+  //     where: { sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e" },
+  //   });
+  // });
 
   it("Should respond with 200 status code when I do a valid update ", async () => {
     if (product) {
       const newData = {
-        price: 10,
+        price: "10",
       };
       const response = await chai
         .request(app)
         .put(`/api/v1/products/${product.id}`)
+        .set("Authorization", `Bearer ${token}`)
         .send(newData);
 
       expect(response).to.have.status(200);
@@ -174,6 +182,7 @@ describe("PUT - Edit a product integration tests", async () => {
       const response = await chai
         .request(app)
         .put(`/api/v1/products/${product.id}`)
+        .set("Authorization", `Bearer ${token}`)
         .send(newData);
 
       expect(response).to.have.status(400);
@@ -189,6 +198,7 @@ describe("PUT - Edit a product integration tests", async () => {
     chai
       .request(app)
       .put(`/api/v1/products/${id}`)
+      .set("Authorization", `Bearer ${token}`)
       .send(aProduct)
       .end((_err, res) => {
         expect(res).to.have.status(404);
@@ -204,6 +214,7 @@ describe("PUT - Edit a product integration tests", async () => {
       const response = await chai
         .request(app)
         .put(`/api/v1/products/${product.id}`)
+        .set("Authorization", `Bearer ${token}`)
         .send(newData);
 
       expect(response).to.have.status(400);
@@ -218,6 +229,7 @@ describe("PUT - Edit a product integration tests", async () => {
       const response = await chai
         .request(app)
         .put(`/api/v1/products/${product.id}`)
+        .set("Authorization", `Bearer ${token}`)
         .send(newData);
 
       expect(response).to.have.status(400);
@@ -225,17 +237,30 @@ describe("PUT - Edit a product integration tests", async () => {
   });
 });
 
-// describe("Delete - Delete a product", () => {
-//   it("Should respond with 404 status code", (done) => {
-//     const id = 1;
+describe("Delete - Delete a product as seller", () => {
+  it("Should respond with 204 status code", (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/products/${product?.id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send()
+      .end((_err, res) => {
+        expect(res).to.have.status(204);
+        done();
+      });
+  });
 
-//     chai
-//       .request(app)
-//       .put(`/api/v1/products/${id}`)
-//       .send()
-//       .end((_err, res) => {
-//         expect(res).to.have.status(404);
-//         done();
-//       });
-//   });
-// });
+  it("Should respond with 404 status code", (done) => {
+    const id = 1;
+
+    chai
+      .request(app)
+      .delete(`/api/v1/products/${id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send()
+      .end((_err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+});
