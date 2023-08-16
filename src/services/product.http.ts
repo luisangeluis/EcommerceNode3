@@ -99,15 +99,14 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 
     const response = await updateProduct(productId, data);
 
-    if (response[0] > 0) {
+    if (response[0] <= 0) {
       return res
-        .status(200)
-        .json({ message: `Product with id:${id} edited successfully` });
+        .status(404)
+        .json({ message: `Product with id: ${id} doesn't exist` });
     }
-
     return res
-      .status(404)
-      .json({ message: `Product with id: ${id} doesn't exist` });
+      .status(200)
+      .json({ message: `Product with id:${id} edited successfully` });
   } catch (error: any) {
     if (error.name === "SequelizeForeignKeyConstraintError") {
       return res.status(400).json({ error: error.message });

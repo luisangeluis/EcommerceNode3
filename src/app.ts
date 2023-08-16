@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.router";
 import cartRoutes from "./routes/cart.router";
 import orderRoutes from "./routes/order.router";
 import sellerRouter from "./routes/seller.router";
+import cartItemRouter from "./routes/cartItem.router";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/seller", sellerRouter);
+app.use("/api/v1/cartItem", cartItemRouter);
 // app.get('/', (_req, res) => res.send('hola'));
 
 export default app;

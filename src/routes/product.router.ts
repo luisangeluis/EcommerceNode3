@@ -2,7 +2,7 @@ import { Router } from "express";
 import passport from "../middleware/passport.middleware";
 import isAseller from "../middleware/isAseller.middleware";
 import * as productServices from "../services/product.http";
-import * as cartServices from "../services/cart.http";
+import * as cartItemServices from "../services/cartItem.http";
 
 const router = Router();
 
@@ -19,7 +19,7 @@ router
   .route("/:id/add-to-cart")
   .post(
     passport.authenticate("jwt", { session: false }),
-    cartServices.addToCart
+    cartItemServices.addToCart
   );
 
 router

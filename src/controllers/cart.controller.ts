@@ -33,6 +33,18 @@ export const readOrCreateCart = async (
     defaults: {
       id: uuidv4(),
     },
+    include: [
+      {
+        model: CartItem,
+        attributes: ["id", "quantity", "price"],
+        include: [
+          {
+            model: Product,
+            attributes: ["id", "title", "description", "categoryId"],
+          },
+        ],
+      },
+    ],
   });
 
   return response;
