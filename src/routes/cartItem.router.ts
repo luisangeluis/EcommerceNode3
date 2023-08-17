@@ -10,6 +10,9 @@ router
     passport.authenticate("jwt", { session: false }),
     cartItemServices.getCartItem
   )
-  .patch();
+  .patch(
+    passport.authenticate("jwt", { session: false }),
+    cartItemServices.removeCartItem
+  );
 
 export default router;

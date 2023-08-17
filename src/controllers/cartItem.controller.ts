@@ -55,8 +55,29 @@ export const updateQuantity = async (
   });
 
   if (!cartItem) return null;
-  
+
   cartItem.quantity = quantity;
+  await cartItem.save();
 
   return cartItem;
+};
+
+export const deleteCartItem = async (
+  cartItemId: string,
+  userId: string
+): Promise<number> => {
+  const response = await CartItem.findOne({
+    where: { id: cartItemId },
+    include: {
+      model: Cart,
+      where: {
+        userId,
+      },
+    },
+  });
+
+  if (!response) return 0;
+
+  await response.destroy();
+  return 1;
 };

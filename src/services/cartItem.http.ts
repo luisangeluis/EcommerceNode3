@@ -89,3 +89,27 @@ export const updateQuantityFromCartItem = async (
     .status(200)
     .json({ message: `Cart item with id: ${cartItemId} successfully edited` });
 };
+
+export const removeCartItem = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const userId = (req.user as UserTokenAttributes)?.id;
+  const cartItemId = req.params.cartItemId;
+
+  try {
+    const response = await cartItemControllers.deleteCartItem(
+      cartItemId,
+      userId
+    );
+
+    if (!response)
+      return res
+        .status(404)
+        .json({ message: `The item with id: ${cartItemId} doesn´t exists` });
+
+    return res.status(204).json();
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};

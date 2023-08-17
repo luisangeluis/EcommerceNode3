@@ -1,9 +1,40 @@
 import { Request, Response } from "express";
+import db from "../db/connection";
 import type { UserTokenAttributes } from "../types";
 import * as orderControllers from "../controllers/order.controller";
 import * as orderDetailControllers from "../controllers/orderDetail.controller";
 import { readCartByUserId } from "../controllers/cart.controller";
-import db from "../db/connection";
+
+export const getOrdersByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const userId = (req.user as UserTokenAttributes)?.id;
+  const response = await orderControllers.readAllOrders(userId);
+
+  return res.status(200).json({ response });
+};
+
+export const getOrderById = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const userId = (req.user as UserTokenAttributes)?.id;
+  const orderId = req.params.orderId;
+
+  try {
+    const response = await orderControllers.readOrderById(userId, orderId);
+
+    if (!response)
+      return res
+        .status(404)
+        .json({ message: `Order with id: ${orderId} doesn´t exists` });
+
+    return res.status(200).json({ response });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 export const post = async (req: Request, res: Response) => {
   const transaction = await db.transaction();
@@ -52,3 +83,7 @@ export const post = async (req: Request, res: Response) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+// const cancelAnOrder = (req: Request, res: Response) => {};
+
+// const finishAnOrder = (req: Request, res: Response) => {};
