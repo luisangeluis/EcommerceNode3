@@ -10,7 +10,7 @@ import {
   Validate,
 } from "sequelize-typescript";
 import { OrderDetailAttributes, OrderDetailCreationAttributes } from "../types";
-import { Order } from "./Order.model";
+import Order from "./Order.model";
 import Product from "./Product.model";
 
 @Table

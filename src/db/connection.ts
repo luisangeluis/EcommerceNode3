@@ -8,7 +8,7 @@ import User from "../models/User.model";
 import Role from "../models/Role.model";
 import Cart from "../models/Cart.model";
 import CartItem from "../models/CartItem.model";
-import { Order } from "../models/Order.model";
+import Order from "../models/Order.model";
 import OrderDetail from "../models/OrderDetail.model";
 
 dotenv.config();

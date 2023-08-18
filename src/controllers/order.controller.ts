@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import type { OrderAttributes, OrderCreationAttributes } from "../types";
+import type { OrderCreationAttributes } from "../types";
 import Order from "../models/Order.model";
 import { Transaction } from "sequelize";
 import Cart from "../models/Cart.model";

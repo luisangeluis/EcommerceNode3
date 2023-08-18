@@ -7,6 +7,7 @@ import User from "../models/User.model";
 export const generateData = async (): Promise<void> => {
   await Role.bulkCreate([
     { title: "admin", id: "bfff93c9-f81b-4c01-aaa9-df9167611595" },
+    { title: "superUser", id: "6c00b89a-d293-40ec-8bf7-abdd161ad94a" },
     { title: "seller", id: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7" },
     { title: "customer", id: "536e9745-8769-45e1-bca4-1e9b3054fac8" },
   ]);
