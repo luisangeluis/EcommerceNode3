@@ -7,44 +7,40 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe("CREATE - USER - unit tests", () => {
-  it("Should create an user when I send all necesary data", async () => {
-    const role = await Role.findOne({ where: { title: "customer" } });
+  it("Should create a customer when I send all necesary data", async () => {
+    const roleId = "536e9745-8769-45e1-bca4-1e9b3054fac8";
 
-    if (role) {
-      const newUser = {
-        firstName: "juan",
-        lastName: "perez",
-        email: "juan.perez@correo.com",
-        password: "12345",
-        roleId: role.id,
-      };
+    const newUser = {
+      firstName: "angel",
+      lastName: "zepeda",
+      email: "angel.zepeda@correo.com",
+      password: "12345",
+      roleId,
+    };
 
-      const response = await userControllers.createUser(newUser);
-      expect(response.firstName).to.equal("juan");
-      expect(response.lastName).to.equal("perez");
-      expect(response.email).to.equal("juan.perez@correo.com");
-      expect(response.roleId).to.equal(role.id);
-    }
+    const response = await userControllers.createUser(newUser);
+    expect(response.firstName).to.equal("juan");
+    expect(response.lastName).to.equal("perez");
+    expect(response.email).to.equal("juan.perez@correo.com");
+    expect(response.roleId).to.equal(roleId);
   });
 
   it("Should throw an error when I send an empty string on firstName property", async () => {
-    const role = await Role.findOne({ where: { title: "customer" } });
+    const roleId = "536e9745-8769-45e1-bca4-1e9b3054fac8";
 
-    if (role) {
-      const newUser = {
-        firstName: "",
-        lastName: "perez",
-        email: "juan.perez@correo.com",
-        password: "12345",
-        roleId: role.id,
-      };
+    const newUser = {
+      firstName: "",
+      lastName: "perez",
+      email: "juan.perez@correo.com",
+      password: "12345",
+      roleId,
+    };
 
-      try {
-        await userControllers.createUser(newUser);
-        expect.fail("Expected an error to be thrown");
-      } catch (error: any) {
-        expect(error.message).to.be.an("string");
-      }
+    try {
+      await userControllers.createUser(newUser);
+      expect.fail("Expected an error to be thrown");
+    } catch (error: any) {
+      expect(error.message).to.be.an("string");
     }
   });
 
