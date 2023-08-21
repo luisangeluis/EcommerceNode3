@@ -3,6 +3,6 @@
 
 // const router = Router();
 
-// // router.route("/").post(userServices.post);
+// router.route("/").post(userServices.post);
 
 // export default router;

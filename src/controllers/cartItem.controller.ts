@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import CartItem from "../models/CartItem.model";
-import { CartItemAttributes, CartItemCreationAttributes } from "../types";
+import type { CartItemAttributes, CartItemCreationAttributes } from "../types";
 import Cart from "../models/Cart.model";
 
 export const readCartItemById = async (

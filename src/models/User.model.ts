@@ -9,6 +9,7 @@ import {
   Model,
   PrimaryKey,
   Table,
+  Unique,
 } from "sequelize-typescript";
 import { UserAttributes, UserCreationAttributes } from "../types";
 import Role from "./Role.model";
@@ -36,6 +37,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
   })
   lastName!: string;
 
+  @Unique
   @IsEmail
   @Column({
     type: DataType.STRING(250),

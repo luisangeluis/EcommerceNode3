@@ -36,6 +36,10 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
       },
     });
   } catch (error: any) {
+    console.log(error.message);
+    console.log(error.name);
+    console.log(error);
+
     return res.status(500).send(`error ${error.message}`);
   }
 };
