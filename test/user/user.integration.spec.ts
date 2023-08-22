@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe("POST - USER - integration tests", () => {
-  it("Should respond with 201 status code when I send all the data of a client", async () => {
+  it("Should respond with 201 status code when I send all the data of an user", async () => {
     const roleId = "536e9745-8769-45e1-bca4-1e9b3054fac8";
 
     const newUser = {
@@ -25,7 +25,7 @@ describe("POST - USER - integration tests", () => {
     expect(response).to.have.status(201);
   });
 
-  it("Should respond with 400 status code when I try to create an user with a missing property",async()=>{
+  it("Should respond with 400 status code when I try to create an user with a missing property", async () => {
     const roleId = "536e9745-8769-45e1-bca4-1e9b3054fac8";
 
     const newUser = {
@@ -36,15 +36,15 @@ describe("POST - USER - integration tests", () => {
       roleId,
     };
 
-    const response = await chai.request(app)
-    .post("/api/v1/auth/register")
-    .send(newUser);
+    const response = await chai
+      .request(app)
+      .post("/api/v1/auth/register")
+      .send(newUser);
 
     expect(response).to.have.status(400);
+  });
 
-  })
-
-  it("Should respond with 400 status code when I send an existing email address ",async()=>{
+  it("Should respond with 400 status code when I send an existing email address ", async () => {
     const roleId = "536e9745-8769-45e1-bca4-1e9b3054fac8";
 
     const newUser = {
@@ -55,14 +55,15 @@ describe("POST - USER - integration tests", () => {
       roleId,
     };
 
-    const response = await chai.request(app)
-    .post("/api/v1/auth/register")
-    .send(newUser);
+    const response = await chai
+      .request(app)
+      .post("/api/v1/auth/register")
+      .send(newUser);
 
     expect(response).to.have.status(400);
-   })
+  });
 
-   it("Should respond with 400 status code when I send an invalid password",async()=>{
+  it("Should respond with 400 status code when I send an invalid password", async () => {
     const roleId = "536e9745-8769-45e1-bca4-1e9b3054fac8";
 
     const newUser = {
@@ -73,10 +74,28 @@ describe("POST - USER - integration tests", () => {
       roleId,
     };
 
-    const response = await chai.request(app)
-    .post("/api/v1/auth/register")
-    .send(newUser);
+    const response = await chai
+      .request(app)
+      .post("/api/v1/auth/register")
+      .send(newUser);
 
     expect(response).to.have.status(400);
-   })
+  });
+
+  it("Should respond with 400 status code when I send an invalid roleId", async () => {
+    const newUser = {
+      firstName: "pancho",
+      lastName: "barraza",
+      email: "pancho.barraza@correo.com",
+      password: "SecurePassword1@",
+      roleId: 1,
+    };
+
+    const response = await chai
+      .request(app)
+      .post("/api/v1/auth/register")
+      .send(newUser);
+
+    expect(response).to.have.status(400);
+  });
 });

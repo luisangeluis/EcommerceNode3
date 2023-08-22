@@ -1,19 +1,11 @@
 import { Router } from "express";
 import passport from "../middleware/passport.middleware";
-import isAseller from "../middleware/isAseller.middleware";
 import * as productServices from "../services/product.http";
 import * as cartItemServices from "../services/cartItem.http";
 
 const router = Router();
 
-router
-  .route("/")
-  .get(productServices.getAll)
-  .post(
-    passport.authenticate("jwt", { session: false }),
-    isAseller,
-    productServices.post
-  );
+router.route("/").get(productServices.getAll);
 
 router
   .route("/:id/add-to-cart")
@@ -22,18 +14,6 @@ router
     cartItemServices.addToCart
   );
 
-router
-  .route("/:id")
-  .get(productServices.getById)
-  .put(
-    passport.authenticate("jwt", { session: false }),
-    isAseller,
-    productServices.edit
-  )
-  .delete(
-    passport.authenticate("jwt", { session: false }),
-    isAseller,
-    productServices.remove
-  );
+router.route("/:id").get(productServices.getById);
 
 export default router;

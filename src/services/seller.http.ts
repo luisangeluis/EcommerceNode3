@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import type { UserAttributes } from "../types";
 import * as productControllers from "../controllers/product.controller";
 import type { ProductsQuery } from "../types/request/types.request";
+import catchErrors from "../utils/catchErrors";
 
 export const getProductsBySellerId = async (
   req: Request,
@@ -23,50 +24,43 @@ export const getProductsBySellerId = async (
   }
 };
 
-export const postAProduct = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const sellerId = (req.user as Partial<UserAttributes>)?.id;
-  const { title, description, price, categoryId } = req.body;
-
-  if (!title || !description || !price || !categoryId) {
-    return res.status(400).json({
-      message: "At least these  fields must be completed",
-      fields: {
-        title: "string",
-        description: "string",
-        price: "number",
-        categoryId: "string",
-      },
-    });
-  }
-  const newProduct = {
-    title,
-    description,
-    price,
-    categoryId,
-    sellerId,
-  };
-
+export const postProductAsSeller = async (req: Request, res: Response) => {
   try {
-    const response = await productControllers.createProduct(newProduct);
-    return res.status(201).json({ response });
-  } catch (error: any) {
-    if (error.name === "SequelizeForeignKeyConstraintError") {
-      console.log(error.message);
-      return res.status(400).json({ error: error.message });
-    } else if (error.name === "SequelizeValidationError") {
-      console.log(error.message);
-      const errors = error.errors.map((e: any) => e.message);
-      return res.status(400).json({ error: errors });
+    const sellerId = (req.user as Partial<UserAttributes>)?.id;
+    const { title, description, price, categoryId } = req.body;
+
+    if (!title || !description || !price || !categoryId || !sellerId) {
+      return res.status(400).json({
+        message: "At least these  fields must be completed",
+        fields: {
+          title: "string",
+          description: "string",
+          price: "number",
+          categoryId: "string",
+          sellerId: "string",
+        },
+      });
     }
 
-    return res.status(500).json({ message: error.message });
+    const response = await createProduct({
+      title,
+      description,
+      price,
+      categoryId,
+      sellerId,
+    });
+
+    return res.status(201).json({ response });
+  } catch (error: any) {
+    const errorResponse = catchErrors(error);
+
+    return res
+      .status(errorResponse.status)
+      .json({ message: errorResponse.error });
   }
 };
 
-export const updateProductBySellerId = async (
+export const updateProductAsSeller = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -97,7 +91,7 @@ export const updateProductBySellerId = async (
   }
 };
 
-export const deleteProductBySellerId = async (
+export const removeProductAsSeller = async (
   req: Request,
   res: Response
 ): Promise<Response> => {

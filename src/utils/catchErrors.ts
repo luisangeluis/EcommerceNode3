@@ -1,12 +1,24 @@
-// const catchErrors = (error) => {
-//   if (error.name === "SequelizeForeignKeyConstraintError") {
-//     // console.log(error.message);
-//     return res.status(400).json({ error: error.message });
-//   } else if (error.name === "SequelizeValidationError") {
-//     // console.log(error.message);
-//     const errors = error.errors.map((e: any) => e.message);
-//     return res.status(400).json({ error: errors });
-//   }
+import type { ErrorResponse } from "../types/response/types.response";
 
-//   return res.status(500).json({ message: error.message });
-// };
+const catchErrors = (error: any): ErrorResponse => {
+  let customError: ErrorResponse;
+
+  if (error.name === "SequelizeForeignKeyConstraintError") {
+    // console.log(error.message);
+    customError = { status: 400, error: error.message };
+
+    return customError;
+    // return res.status(400).json({ error: error.message });
+  } else if (error.name === "SequelizeValidationError") {
+    const errors = error.errors.map((e: any) => e.message);
+
+    customError = { status: 400, error: errors };
+
+    return customError;
+  }
+
+  customError = { status: 500, error: error.message };
+  return customError;
+};
+
+export default catchErrors;
