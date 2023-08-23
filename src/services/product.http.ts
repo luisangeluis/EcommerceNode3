@@ -1,28 +1,34 @@
-import {
-  readAllProducts,
-  readProductById,
-} from "../controllers/product.controller";
 import { Request, Response } from "express";
+import * as productControllers from "../controllers/product.controller";
 
-export const getAll = async (_req: Request, res: Response): Promise<void> => {
+export const getAllProducts = async (
+  _req: Request,
+  res: Response
+): Promise<Response> => {
   try {
-    const response = await readAllProducts();
+    const response = await productControllers.readAllProducts();
 
-    res.status(200).json(response);
+    return res.status(200).json(response);
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
-export const getById = async (req: Request, res: Response): Promise<void> => {
+export const getProductById = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const productId = req.params.id;
   try {
-    const id = req.params.id;
-    const response = await readProductById(id);
+    const response = await productControllers.readProductById(productId);
 
-    response
-      ? res.status(200).json(response)
-      : res.status(404).send(`Product with id:${id} doesn't exist`);
+    if (!response)
+      return res
+        .status(404)
+        .json({ message: `Product with id: ${productId} doesn't exists` });
+
+    return res.status(200).json({ response });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };

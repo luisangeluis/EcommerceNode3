@@ -18,9 +18,10 @@ export const readAllProducts = async (
 
 //Get a product by id
 export const readProductById = async (
-  id: string
+  id: string,
+  query?: ProductsQuery
 ): Promise<ProductAttributes | null> =>
-  await Product.findOne({ where: { id } });
+  await Product.findOne({ where: { ...query, id } });
 
 //Create a product
 export const createProduct = async (

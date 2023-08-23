@@ -5,7 +5,7 @@ import * as cartItemServices from "../services/cartItem.http";
 
 const router = Router();
 
-router.route("/").get(productServices.getAll);
+router.route("/").get(productServices.getAllProducts);
 
 router
   .route("/:id/add-to-cart")
@@ -14,6 +14,6 @@ router
     cartItemServices.addToCart
   );
 
-router.route("/:id").get(productServices.getById);
+router.route("/:id").get(productServices.getProductById);
 
 export default router;

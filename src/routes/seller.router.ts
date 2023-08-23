@@ -2,7 +2,6 @@ import { Router } from "express";
 import passport from "../middleware/passport.middleware";
 import isAseller from "../middleware/isAseller.middleware";
 import * as sellerServices from "../services/seller.http";
-import * as productServices from "../services/product.http";
 
 const router = Router();
 
@@ -12,14 +11,11 @@ router
     passport.authenticate("jwt", { session: false }),
     isAseller,
     sellerServices.getProductsBySellerId
-  );
-
-router
-  .route("/my_products/create")
+  )
   .post(
     passport.authenticate("jwt", { session: false }),
     isAseller,
-    productServices.post
+    sellerServices.postProductAsSeller
   );
 
 router
@@ -27,17 +23,17 @@ router
   .get(
     passport.authenticate("jwt", { session: false }),
     isAseller,
-    productServices.getById
+    sellerServices.getProductAsSellerById
   )
   .put(
     passport.authenticate("jwt", { session: false }),
     isAseller,
-    productServices.edit
+    sellerServices.updateProductAsSeller
   )
   .delete(
     passport.authenticate("jwt", { session: false }),
     isAseller,
-    productServices.remove
+    sellerServices.removeProductAsSeller
   );
 
 export default router;
