@@ -3,10 +3,14 @@ import type { OrderCreationAttributes } from "../types";
 import Order from "../models/Order.model";
 import { Transaction } from "sequelize";
 import Cart from "../models/Cart.model";
+import OrderDetail from "../models/OrderDetail.model";
 
 export const readAllOrders = async (userId: string): Promise<Order[]> => {
   const response = await Order.findAll({
-    include: { model: Cart, where: { userId } },
+    include: [
+      { model: Cart, where: { userId }, attributes: [] },
+      { model: OrderDetail, required: true },
+    ],
   });
 
   return response;
@@ -36,7 +40,13 @@ export const updateOrder = async (
 ) => {
   const response = await Order.findOne({
     where: { id: orderId },
-    include: { model: Cart, where: { userId } },
+    include: [
+      {
+        model: Cart,
+        where: { userId },
+        required: true,
+      },
+    ],
   });
 
   if (!response) return null;
