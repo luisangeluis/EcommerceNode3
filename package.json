@@ -8,6 +8,8 @@
     "test:product:unit": "mocha --timeout 10000 --require ts-node/register  test/setup.ts 'test/product/product.unit.spec.ts'",
     "test:user:integration": "mocha --timeout 10000 --require ts-node/register  test/setup.ts 'test/user/user.integration.spec.ts'",
     "test:seller:integration": "mocha --timeout 10000 -require ts-node/register test/setup.ts 'test/seller/seller.integration.spec.ts'",
+    "test:cart:integration": "mocha --timeout 10000 -require ts-node/register test/setup.ts 'test/cart/cart.integration.spect.ts'",
+    "test:cartItem:integration": "mocha --timeout 10000 -require ts-node/register test/setup.ts 'test/cartItem/cartItem.integration.spect.ts'",
     "dev": "ts-node-dev src/index.ts",
     "build": "npx tsc"
   },

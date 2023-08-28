@@ -10,6 +10,7 @@ router
   .route("/")
   .get(
     passport.authenticate("jwt", { session: false }),
+    IsACustomer,
     cartServices.getCartByUserId
   );
 

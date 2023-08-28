@@ -1,10 +1,12 @@
-# EcommerceNode3
+# ECOMERCE
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/stackblitz-starters-qmwfcz)
 
-## Routes
-### MAIN ROUTE /api/v1/products 
-- /api/v1/products 
-- - GET: **Get all products**
-- - POST: **Create a product**
+## CART Routes
+/api/v1/cart
+- GET "Get cart as customer"
+
+## CARTITEM Routes
+/api/v1/products/:id/add-to-cart
+- POST "Add product to cart as customer"
 
 

@@ -30,9 +30,7 @@ export const readOrCreateCart = async (
 ): Promise<[CartAttributes, boolean]> => {
   const response = await Cart.findOrCreate({
     where: { userId },
-    defaults: {
-      id: uuidv4(),
-    },
+    defaults: { id: uuidv4() },
     include: [
       {
         model: CartItem,
@@ -40,7 +38,7 @@ export const readOrCreateCart = async (
         include: [
           {
             model: Product,
-            attributes: ["id", "title", "description", "categoryId"],
+            attributes: ["title", "description", "categoryId"],
           },
         ],
       },

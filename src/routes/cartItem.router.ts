@@ -10,7 +10,7 @@ router
     passport.authenticate("jwt", { session: false }),
     cartItemServices.getCartItem
   )
-  .patch(
+  .delete(
     passport.authenticate("jwt", { session: false }),
     cartItemServices.removeCartItem
   );
