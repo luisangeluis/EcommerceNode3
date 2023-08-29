@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "../middleware/passport.middleware";
 import * as cartItemServices from "../services/cartItem.http";
+import IsACustomer from "../middleware/isACustomer.middleware";
 
 const router = Router();
 
@@ -9,6 +10,11 @@ router
   .get(
     passport.authenticate("jwt", { session: false }),
     cartItemServices.getCartItem
+  )
+  .patch(
+    passport.authenticate("jwt", { session: false }),
+    IsACustomer,
+    cartItemServices.updateQuantityFromCartItem
   )
   .delete(
     passport.authenticate("jwt", { session: false }),

@@ -45,16 +45,20 @@ export const addToCart = async (
         .status(404)
         .json({ message: `Product with id: ${productId} doesn't exist` });
 
-    const [cartItem, created] = await cartItemControllers.readOrCreateCartItem({
-      productId: product.id,
-      cartId: cart.id,
-      quantity: 1,
-      price: product.price,
-    });
-
-    if (!created) cartItem.quantity += 1;
-
-    await cartItem.save();
+    const [_cartItem, created] = await cartItemControllers.readOrCreateCartItem(
+      {
+        productId: product.id,
+        cartId: cart.id,
+        quantity: 1,
+        price: product.price,
+      }
+    );
+    // if (!created) cartItem.quantity += 1;
+    // await cartItem.save();
+    if (!created)
+      return res.status(409).json({
+        message: `Product with id: ${productId} already exists in the cart`,
+      });
 
     return res
       .status(201)

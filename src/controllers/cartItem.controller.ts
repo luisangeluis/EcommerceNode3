@@ -9,6 +9,9 @@ export const readCartItemById = async (
 ): Promise<CartItem | null> => {
   const response = await CartItem.findOne({
     where: { id: cartItemId },
+    attributes:{
+      exclude:["cartId"],
+    },
     include: {
       model: Cart,
       where: {

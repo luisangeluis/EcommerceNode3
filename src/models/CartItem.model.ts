@@ -13,7 +13,9 @@ import { CartItemAttributes, CartItemCreationAttributes } from "../types";
 import Product from "./Product.model";
 import Cart from "./Cart.model";
 
-@Table
+@Table({
+  timestamps: false,
+})
 class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
   @PrimaryKey
   @Column({
@@ -36,16 +38,10 @@ class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
   })
   cartId!: string;
 
-  @BelongsTo(() => Product)
-  product!: Product;
-
-  @BelongsTo(() => Cart)
-  cart!: Cart;
-
   @Default(1)
   @Column({
-    type: DataType.INTEGER,
     allowNull: false,
+    type: DataType.INTEGER,
   })
   quantity!: number;
 
@@ -55,6 +51,12 @@ class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
     type: DataType.DECIMAL(10, 2),
   })
   price!: number;
+
+  @BelongsTo(() => Product)
+  product!: Product;
+
+  @BelongsTo(() => Cart)
+  cart!: Cart;
 }
 
 export default CartItem;

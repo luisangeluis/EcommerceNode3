@@ -3,6 +3,8 @@ import Product from "../models/Product.model";
 import Role from "../models/Role.model";
 import { v4 as uuidv4 } from "uuid";
 import User from "../models/User.model";
+import Cart from "../models/Cart.model";
+import CartItem from "../models/CartItem.model";
 
 export const generateData = async (): Promise<void> => {
   await Role.bulkCreate([
@@ -11,9 +13,7 @@ export const generateData = async (): Promise<void> => {
     { title: "seller", id: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7" },
     { title: "customer", id: "536e9745-8769-45e1-bca4-1e9b3054fac8" },
   ]);
-
   // const customeRole = await Role.findOne({ where: { title: "customer" } });
-
   await User.bulkCreate([
     {
       id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
@@ -33,11 +33,11 @@ export const generateData = async (): Promise<void> => {
     },
     {
       id: "2940915c-071e-423e-827c-a04d1ead2ce7",
-      firstName: "Rufus",
-      lastName: "Pinnocke",
-      email: "rpinnocke1@slashdot.org",
-      password: "uN8/!kH",
-      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+      firstName: "angel",
+      lastName: "zepeda",
+      email: "angel.zepeda@correo.com",
+      password: "12345",
+      roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
     },
     {
       id: uuidv4(),
@@ -211,4 +211,21 @@ export const generateData = async (): Promise<void> => {
     ],
     { validate: true }
   );
+
+  await Cart.bulkCreate([
+    {
+      id: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
+      userId: "2940915c-071e-423e-827c-a04d1ead2ce7",
+    },
+  ]);
+
+  await CartItem.bulkCreate([
+    {
+      id: "a4a56f72-1745-4297-9249-b41b28551f7c",
+      productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+      cartId: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
+      quantity: 2,
+      price: 100,
+    },
+  ]);
 };

@@ -151,14 +151,6 @@ describe("POST - Create a product - integration tests", () => {
 });
 
 describe("PUT - Edit a product integration tests", async () => {
-  // let product: Product | null;
-
-  // before(async () => {
-  //   product = await Product.findOne({
-  //     where: { sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e" },
-  //   });
-  // });
-
   it("Should respond with 200 status code when I do a valid update ", async () => {
     if (product) {
       const newData = {
