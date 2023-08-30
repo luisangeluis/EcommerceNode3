@@ -14,5 +14,15 @@
 - - PATCH "Update quantity in cart item"
 - - DELETE "Remo a cart item"
 
+## ORDER Routes
+
+- /api/v1/cart/:cartId/make-order
+- - POST "Create an order by cartId"
+
+- /api/v1/orders/
+- - GET "Get all user orders"
+
+- /api/v1/orders/:orderId
+- - GET "Get user order by orderId"
 
 

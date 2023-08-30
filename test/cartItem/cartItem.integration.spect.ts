@@ -77,5 +77,7 @@ describe("DELETE - Remove a cart item - Integration test", () => {
       .request(app)
       .delete(`/api/v1/cartItem/${cartItemId}`)
       .set("Authorization", `Bearer ${token}`);
+
+    expect(response).to.have.status(204);
   });
 });

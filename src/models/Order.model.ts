@@ -29,12 +29,12 @@ class Order extends Model<OrderAttributes, OrderCreationAttributes> {
   })
   cartId!: string;
 
-  @Default("creada")
+  @Default("created")
   @Column({
     type: DataType.STRING(20),
     allowNull: false,
   })
-  status!: string;
+  status!: string; //finished, created, canceled
 
   @BelongsTo(() => Cart)
   cart!: Cart;
