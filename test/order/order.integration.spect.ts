@@ -53,11 +53,32 @@ describe("GET - Read user order by orderId - Integration test", () => {
         },
       ],
     });
-    console.log(order);
+    // console.log(order);
 
     const response = await chai
       .request(app)
       .get(`/api/v1/orders/${order?.id}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response).to.have.status(200);
+  });
+});
+
+describe("PATCH - Cancel an order by id as customer", () => {
+  it("Should respond with a status 200 when the user is a customer", async () => {
+    const order = await Order.findOne({
+      include: [
+        {
+          model: Cart,
+          where: { userId: "2940915c-071e-423e-827c-a04d1ead2ce7" },
+          attributes: [],
+        },
+      ],
+    });
+
+    const response = await chai
+      .request(app)
+      .patch(`/api/v1/oders${order?.id}/cancel`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response).to.have.status(200);

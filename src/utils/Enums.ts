@@ -9,3 +9,5 @@ export const enum ProductCategoryEnum {
   HOME = "home",
   TOYS = "toys",
 }
+
+export type orderStatus = "created" | "canceled" | "finished";

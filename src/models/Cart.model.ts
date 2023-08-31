@@ -14,7 +14,9 @@ import User from "./User.model";
 import CartItem from "./CartItem.model";
 import Order from "./Order.model";
 
-@Table
+@Table({
+  timestamps: false,
+})
 class Cart extends Model<CartAttributes, CartCreationAttributes> {
   @PrimaryKey
   @Column({
@@ -30,11 +32,14 @@ class Cart extends Model<CartAttributes, CartCreationAttributes> {
   })
   userId!: string;
 
+  @Column({
+    allowNull: false,
+    type: DataType.BOOLEAN,
+  })
+  isActive!: boolean;
+
   @BelongsTo(() => User)
   user!: User;
-
-  // @BelongsToMany(() => Product, () => CartItem)
-  // products?: Product[];
 
   @HasMany(() => CartItem)
   cartItems!: CartItem[];

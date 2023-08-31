@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import db from "../db/connection";
 import type { UserTokenAttributes } from "../types";
+import type { orderStatus } from "../utils/Enums";
 import * as orderControllers from "../controllers/order.controller";
 import * as orderDetailControllers from "../controllers/orderDetail.controller";
 import { readCartByUserId } from "../controllers/cart.controller";
@@ -50,6 +51,11 @@ export const post = async (req: Request, res: Response) => {
         .status(400)
         .json({ message: "Please to add products to cart" });
 
+    if (!cart.isActive)
+      return res
+        .status(400)
+        .json({ message: "Unavailable cart to make an order" });
+
     const total = cart?.cartItems.reduce(
       (accum, current) => accum + current.price * current.quantity,
       0
@@ -90,7 +96,7 @@ export const cancelAnOrder = async (
 ): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
   const orderId = req.params.orderId;
-  const status = "canceled";
+  const status: orderStatus = "canceled";
 
   try {
     const response = await orderControllers.updateOrder(
