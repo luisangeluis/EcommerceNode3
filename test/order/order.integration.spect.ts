@@ -9,6 +9,9 @@ chai.use(chaiHttp);
 
 const expect = chai.expect;
 let token: string;
+let tokenPedro:string
+// let superToken:string
+
 
 before(async () => {
   const user = {
@@ -18,13 +21,30 @@ before(async () => {
   };
 
   token = await generateToken(user);
+
+  const userPedro={
+    id:"024c33d3-2033-4baf-a1c2-c383d0765d03",
+    email:"pedro.lopez@correo.com",
+    roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+    }
+
+    tokenPedro = await generateToken(userPedro);
+
+  // const superUser = {
+  //   id:"187378bb-df40-4372-9558-cf3d0923c80c",
+  //   email:"rafa.marquez@correo.com",
+  //   roleId:"6c00b89a-d293-40ec-8bf7-abdd161ad94a"
+  // }
+
+  // superToken = await generateToken(superUser);
+
 });
 
 describe("POST - Create an order - Integration test", () => {
   it("Should respond with an status 201 when I send un valid cartId", async () => {
     const response = await chai
       .request(app)
-      .post(`/api/v1/cart/4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8/make-order`)
+      .post(`/api/v1/cart/daf37a51-3da3-42a9-81e5-a0426bd6ae3f/make-order`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response).to.have.status(201);
@@ -70,17 +90,36 @@ describe("PATCH - Cancel an order by id as customer", () => {
       include: [
         {
           model: Cart,
-          where: { userId: "2940915c-071e-423e-827c-a04d1ead2ce7" },
+          where: { userId: "024c33d3-2033-4baf-a1c2-c383d0765d03" },
           attributes: [],
         },
       ],
     });
-
+    // console.log(order);
     const response = await chai
       .request(app)
-      .patch(`/api/v1/oders${order?.id}/cancel`)
-      .set("Authorization", `Bearer ${token}`);
+      .patch(`/api/v1/orders/${order?.id}/cancel`)
+      .set("Authorization", `Bearer ${tokenPedro}`);
 
-    expect(response).to.have.status(200);
+      expect(response).to.have.status(200);
   });
 });
+
+// describe("PATCH - Finished an order as superUser",()=>{
+//   it("Should respond with a status 200 when the user is superUser",async ()=>{
+//     const order = await Order.findOne({
+//       include: [
+//         {
+//           model: Cart,
+//           where: { userId: "2940915c-071e-423e-827c-a04d1ead2ce7" },
+//           attributes: [],
+//         },
+//       ],
+//     });
+
+//     const response = await chai.request(app).patch(`/api/v1/oders${order?.id}/finish`).set("Authorization", `Bearer ${superToken}`);
+    
+//     expect(response).to.have.status(200);
+
+//   })
+// })

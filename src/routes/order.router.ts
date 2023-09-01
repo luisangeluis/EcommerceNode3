@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "../middleware/passport.middleware";
 import IsACustomer from "../middleware/isACustomer.middleware";
+import isASuperUser from "../middleware/isASuperUser.middleware";
 import * as orderServices from "../services/order.http";
 
 const router = Router();
@@ -26,7 +27,7 @@ router
   .route("/:orderId/finish")
   .patch(
     passport.authenticate("jwt", { session: false }),
-    IsACustomer,
+    isASuperUser,
     orderServices.finishAnOrder
   );
 

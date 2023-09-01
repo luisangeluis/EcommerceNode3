@@ -35,20 +35,21 @@ export const createOrder = async (
 
 export const updateOrder = async (
   orderId: string,
-  userId: string,
-  status: string
+  status: string,
+  userId?: string,
 ) => {
   const response = await Order.findOne({
-    where: { id: orderId },
+    where: { id: orderId,status:"created" },
     include: [
       {
         model: Cart,
-        where: { userId },
-        required: true,
+        where: { userId:userId || null },
+        required:true
       },
     ],
   });
-
+  // console.log(response);
+  
   if (!response) return null;
 
   response.status = status;

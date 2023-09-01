@@ -83,7 +83,7 @@ export const post = async (req: Request, res: Response) => {
 
     await Promise.all(orderDetails);
     await transaction.commit();
-    return res.status(201).json({ message: "Post order" });
+    return res.status(201).json({ message: "Order sucessfully created" });
   } catch (error: any) {
     await transaction.rollback();
     return res.status(500).json({ message: error.message });
@@ -101,13 +101,15 @@ export const cancelAnOrder = async (
   try {
     const response = await orderControllers.updateOrder(
       orderId,
+      status,
       userId,
-      status
     );
 
+    // console.log({hola:response});
+    
+
     if (!response)
-      return res
-        .status(404)
+      return res.status(404)
         .json({ message: `Order with id:${orderId} doesn't exists` });
 
     return res
@@ -120,13 +122,12 @@ export const cancelAnOrder = async (
 
 export const finishAnOrder = async (req: Request, res: Response) => {
   const orderId = req.params.orderId;
-  const userId = req.body.userId;
+  // const userId = req.body.userId;
   const status = "finished";
 
   try {
     const response = await orderControllers.updateOrder(
       orderId,
-      userId,
       status
     );
 

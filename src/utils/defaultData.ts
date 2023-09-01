@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import User from "../models/User.model";
 import Cart from "../models/Cart.model";
 import CartItem from "../models/CartItem.model";
+import Order from "../models/Order.model";
+import OrderDetail from "../models/OrderDetail.model";
 // import Cart from "../models/Cart.model";
 // import CartItem from "../models/CartItem.model";
 
@@ -51,12 +53,12 @@ export const generateData = async (): Promise<void> => {
         roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
       },
       {
-        id: uuidv4(),
-        firstName: "Theressa",
-        lastName: "Kadd",
-        email: "tkadd3@cdbaby.com",
-        password: "uM8~&",
-        roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+        id: "187378bb-df40-4372-9558-cf3d0923c80c",
+        firstName: "rafa",
+        lastName: "marquez",
+        email: "rafa.marquez@correo.com",
+        password: "12345",
+        roleId: "6c00b89a-d293-40ec-8bf7-abdd161ad94a",
       },
       {
         id: uuidv4(),
@@ -66,7 +68,7 @@ export const generateData = async (): Promise<void> => {
         password: "bE1<6YMRjw",
         roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
       },
-    ]);
+    ],{validate:true});
 
     await Category.bulkCreate([
       { name: "sport", id: "58c21712-0dc4-4f98-af84-2ba868fcd2cd" },
@@ -233,6 +235,13 @@ export const generateData = async (): Promise<void> => {
 
     await CartItem.bulkCreate([
       {
+        id: "d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6",
+        productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+        cartId: "daf37a51-3da3-42a9-81e5-a0426bd6ae3f",
+        quantity: 2,
+        price: 100,
+      },
+      {
         id: "a4a56f72-1745-4297-9249-b41b28551f7c",
         productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
         cartId: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
@@ -240,6 +249,30 @@ export const generateData = async (): Promise<void> => {
         price: 100,
       },
     ]);
+
+    await Order.bulkCreate(
+      [
+        {
+          id:"7a21eedf-048b-45d4-90bd-7491e31df4e4",
+          cartId:"4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
+          total:200,
+          status:"created"
+        }
+      ],
+      {validate:true}
+      )
+
+    await OrderDetail.bulkCreate(
+      [{
+        id:"c0dde3c2-4368-434c-a84c-3e1661d4b5fa",
+        orderId:"7a21eedf-048b-45d4-90bd-7491e31df4e4",
+        productId:"dc29ea92-d7c3-48de-a389-76af84a470da",
+        quantity:2,
+        price:100,
+        subtotal:200
+      }],
+      {validate:true}
+    )
   } catch (error: any) {
     console.log(error);
   }

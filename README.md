@@ -25,4 +25,10 @@
 - /api/v1/orders/:orderId
 - - GET "Get user order by orderId"
 
+- /api/v1/orders/:orderId/cancel
+- - Patch "Cancel an order as customer"
+
+- /api/v1/orders/:orderId/finish
+- - Patch "Cancel an order as superUser"
+
 

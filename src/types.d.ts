@@ -1,4 +1,8 @@
-import { UserRoleEnum, ProductCategoryEnum } from "./utils/Enums";
+import type {
+  UserRoleEnum,
+  ProductCategoryEnum,
+  orderStatus,
+} from "./utils/Enums";
 
 //PRODUCT
 export interface ProductAttributes {
@@ -74,6 +78,7 @@ export interface OrderAttributes {
   readonly id: string;
   cartId: string;
   total: number;
+  status: orderStatus;
 }
 
 export interface OrderCreationAttributes
