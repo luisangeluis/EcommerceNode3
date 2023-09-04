@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 let token: string;
 let tokenPedro:string
-// let superToken:string
+let superToken:string
 
 
 before(async () => {
@@ -30,13 +30,13 @@ before(async () => {
 
     tokenPedro = await generateToken(userPedro);
 
-  // const superUser = {
-  //   id:"187378bb-df40-4372-9558-cf3d0923c80c",
-  //   email:"rafa.marquez@correo.com",
-  //   roleId:"6c00b89a-d293-40ec-8bf7-abdd161ad94a"
-  // }
+  const superUser = {
+    id:"187378bb-df40-4372-9558-cf3d0923c80c",
+    email:"rafa.marquez@correo.com",
+    roleId:"6c00b89a-d293-40ec-8bf7-abdd161ad94a"
+  }
 
-  // superToken = await generateToken(superUser);
+  superToken = await generateToken(superUser);
 
 });
 
@@ -105,21 +105,20 @@ describe("PATCH - Cancel an order by id as customer", () => {
   });
 });
 
-// describe("PATCH - Finished an order as superUser",()=>{
-//   it("Should respond with a status 200 when the user is superUser",async ()=>{
-//     const order = await Order.findOne({
-//       include: [
-//         {
-//           model: Cart,
-//           where: { userId: "2940915c-071e-423e-827c-a04d1ead2ce7" },
-//           attributes: [],
-//         },
-//       ],
-//     });
+describe("PATCH - Finished an order as superUser",()=>{
+  it("Should respond with a status 200 when the user is superUser",async ()=>{
+    const order = await Order.findOne({
+      include: [
+        {
+          model: Cart,
+          where: { userId: "2940915c-071e-423e-827c-a04d1ead2ce7" },
+          attributes: [],
+        },
+      ],
+    });
 
-//     const response = await chai.request(app).patch(`/api/v1/oders${order?.id}/finish`).set("Authorization", `Bearer ${superToken}`);
+    const response = await chai.request(app).patch(`/api/v1/orders/${order?.id}/finish`).set("Authorization", `Bearer ${superToken}`);
     
-//     expect(response).to.have.status(200);
-
-//   })
-// })
+    expect(response).to.have.status(200);
+  })
+})

@@ -4,6 +4,7 @@ import Order from "../models/Order.model";
 import { Transaction } from "sequelize";
 import Cart from "../models/Cart.model";
 import OrderDetail from "../models/OrderDetail.model";
+import { orderStatus } from "../utils/Enums";
 
 export const readAllOrders = async (userId: string): Promise<Order[]> => {
   const response = await Order.findAll({
@@ -33,17 +34,24 @@ export const createOrder = async (
   transaction: Transaction
 ) => await Order.create({ ...order, id: uuidv4() }, { transaction });
 
-export const updateOrder = async (
+export const updateOrderStatus=async(id:string,status:orderStatus)=>{
+  const response = await Order.update({status},{where:{id}});
+  
+  return response;
+}
+
+
+export const updateOrderStatusAsCustomer = async (
   orderId: string,
   status: string,
-  userId?: string,
+  userId:string,
 ) => {
   const response = await Order.findOne({
     where: { id: orderId,status:"created" },
     include: [
       {
         model: Cart,
-        where: { userId:userId || null },
+        where: {userId:userId},
         required:true
       },
     ],

@@ -99,7 +99,7 @@ export const cancelAnOrder = async (
   const status: orderStatus = "canceled";
 
   try {
-    const response = await orderControllers.updateOrder(
+    const response = await orderControllers.updateOrderStatusAsCustomer(
       orderId,
       status,
       userId,
@@ -126,12 +126,12 @@ export const finishAnOrder = async (req: Request, res: Response) => {
   const status = "finished";
 
   try {
-    const response = await orderControllers.updateOrder(
+    const response = await orderControllers.updateOrderStatus(
       orderId,
       status
     );
 
-    if (!response)
+    if (!response[0])
       return res
         .status(404)
         .json({ message: `Order with id: ${orderId} doesn´t exists` });
