@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 
 import * as userControllers from "../controllers/user.controller";
 import validateUserPassword from "../utils/validateUserPassword";
+import catchErrors from "../utils/catchErrors";
+import { UserAttributes, UserTokenAttributes } from "../types";
 
 export const post = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -52,11 +54,45 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
       },
     });
   } catch (error: any) {
-    if (error.name === "SequelizeUniqueConstraintError") {
-      const errors = error.errors.map((error: any) => error.message);
-      return res.status(400).json({ message: error.message, errors });
-    }
-
-    return res.status(500).send(`error ${error.message}`);
+    // if (error.name === "SequelizeUniqueConstraintError") {
+    //   const errors = error.errors.map((error: any) => error.message);
+    //   return res.status(400).json({ message: error.message, errors });
+    // }
+    // return res.status(500).send(`error ${error.message}`);
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({message:customError.error});
   }
 };
+
+export const getMyUser=async (req:Request,res:Response):Promise<Response>=>{
+  try{
+    const userId = (req.user as UserTokenAttributes)?.id;
+    const response = await userControllers.getUserById(userId);
+  
+    if(!response) return res.status(404).json({message:`User with id: ${userId} doesn't exists`});
+  
+    return res.status(200).json({response});
+  }catch(error:any){
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({message:customError.error});
+  }
+}
+
+export const updateMyUser=async(req:Request,res:Response)=>{
+  try{
+    const userId = (req.user as UserTokenAttributes)?.id;
+    const data = (req.body as Partial<UserAttributes>);
+    const {id,email,password,roleId,...restOfData} = data;
+    
+    if (!Object.keys(restOfData)) return res.status(400).send("Missing data");
+
+    const response = await userControllers.updateUserById(userId,restOfData);
+
+    if(!response[0]) return res.status(400).json({message:"Please enter valid data"});
+    
+    
+  }catch(error:any){
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({message:customError.error});
+  }
+}
