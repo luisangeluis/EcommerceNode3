@@ -6,6 +6,7 @@ import generateToken from "../../src/utils/generateToken";
 chai.use(chaiHttp);
 const expect = chai.expect;
 let token:string;
+const statusId:string = "8efdc23f-922b-4acc-a548-74444ba689ce";
 
 before(async()=>{
   try{
@@ -31,6 +32,7 @@ describe("POST - USER - integration tests", () => {
       email: "javier.mina@correo.com",
       password: "SecurePassword1@",
       roleId,
+      statusId
     };
 
     const response = await chai
@@ -50,6 +52,7 @@ describe("POST - USER - integration tests", () => {
       email: "luis.gonzalez@correo.com",
       password: "12345",
       roleId,
+      statusId
     };
 
     const response = await chai
@@ -69,6 +72,7 @@ describe("POST - USER - integration tests", () => {
       email: "juan.perez@correo.com",
       password: "12345",
       roleId,
+      statusId
     };
 
     const response = await chai
@@ -88,6 +92,7 @@ describe("POST - USER - integration tests", () => {
       email: "francisco.lopez@correo.com",
       password: "12345",
       roleId,
+      statusId
     };
 
     const response = await chai
@@ -105,6 +110,7 @@ describe("POST - USER - integration tests", () => {
       email: "pancho.barraza@correo.com",
       password: "SecurePassword1@",
       roleId: 1,
+      statusId
     };
 
     const response = await chai
@@ -140,5 +146,15 @@ describe("PATCH - User - Integration test",()=>{
     const response = await chai.request(app).patch("/api/v1/users/my-user").set("Authorization", `Bearer ${token}`).send(newData2);
     expect(response).to.have.status(200);
 
+  })
+})
+
+describe("DELETE - User - Integration test",()=>{
+  it("Should respond with a 204 code status when I want to delete my user",async()=>{
+    const response = await chai.request(app)
+                    .delete("/api/v1/users/my-user")
+                    .set("Authorization", `Bearer ${token}`);
+
+    expect(response).to.have.status(204); 
   })
 })

@@ -54,12 +54,7 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
       },
     });
   } catch (error: any) {
-    // if (error.name === "SequelizeUniqueConstraintError") {
-    //   const errors = error.errors.map((error: any) => error.message);
-    //   return res.status(400).json({ message: error.message, errors });
-    // }
-    // return res.status(500).send(`error ${error.message}`);
-    const customError = catchErrors(error);
+       const customError = catchErrors(error);
     return res.status(customError.status).json({message:customError.error});
   }
 };
@@ -92,6 +87,20 @@ export const updateMyUser=async(req:Request,res:Response):Promise<Response>=>{
     
     return res.status(200).json({message:`User with id: ${userId} succesfully edited`});
     
+  }catch(error:any){
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({message:customError.error});
+  }
+}
+
+export const removeMyUser=async(req:Request,res:Response)=>{
+  try{
+    const userId = (req.user as UserTokenAttributes)?.id;
+    const response = await userControllers.deleteUserById(userId);
+  
+    if(!response[0]) return res.status(404).json({message:`User with id: ${userId} doesn't exists`});
+  
+    return res.status(204).json();
   }catch(error:any){
     const customError = catchErrors(error);
     return res.status(customError.status).json({message:customError.error});

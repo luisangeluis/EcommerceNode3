@@ -37,6 +37,7 @@ export interface UserAttributes {
   email: string;
   password: string;
   roleId: string;
+  statusId:string;
 }
 
 export interface UserCreationAttributes
@@ -95,3 +96,11 @@ export interface OrderDetailAttributes {
 
 export interface OrderDetailCreationAttributes
   extends Optional<OrderDetailAttributes, "id"> {}
+
+
+export interface StatusAttributes{
+  readonly id: string;
+  title: string;
+}
+
+export interface StatusCreationAttributes extends Optional<StatusAttributes, "id">{}
