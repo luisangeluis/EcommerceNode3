@@ -78,7 +78,7 @@ export const getMyUser=async (req:Request,res:Response):Promise<Response>=>{
   }
 }
 
-export const updateMyUser=async(req:Request,res:Response)=>{
+export const updateMyUser=async(req:Request,res:Response):Promise<Response>=>{
   try{
     const userId = (req.user as UserTokenAttributes)?.id;
     const data = (req.body as Partial<UserAttributes>);
@@ -90,6 +90,7 @@ export const updateMyUser=async(req:Request,res:Response)=>{
 
     if(!response[0]) return res.status(400).json({message:"Please enter valid data"});
     
+    return res.status(200).json({message:`User with id: ${userId} succesfully edited`});
     
   }catch(error:any){
     const customError = catchErrors(error);

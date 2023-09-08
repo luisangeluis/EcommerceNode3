@@ -124,3 +124,21 @@ describe("GET - User - Integration test",()=>{
     expect(response).to.have.status(200);
   })
 })
+
+describe("PATCH - User - Integration test",()=>{
+  const newData = {firstName:"juanito"};
+  const newData2 = {lastName:"rivera"};
+  it("Should respond with 200 status code when I want to update my user's firstName",async()=>{
+    
+    const response = await chai.request(app).patch("/api/v1/users/my-user").set("Authorization", `Bearer ${token}`).send(newData);
+    expect(response).to.have.status(200);
+
+  })
+
+  it("Should respond with 200 status code when I want to update my user's lastName",async()=>{
+    
+    const response = await chai.request(app).patch("/api/v1/users/my-user").set("Authorization", `Bearer ${token}`).send(newData2);
+    expect(response).to.have.status(200);
+
+  })
+})

@@ -39,4 +39,6 @@
 
 - /api/v1/users/my-user
 - - GET "Get my own user"
+- - PUT "Update my own user"
+
 
