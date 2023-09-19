@@ -11,6 +11,7 @@ import CartItem from "../models/CartItem.model";
 import Order from "../models/Order.model";
 import OrderDetail from "../models/OrderDetail.model";
 import Status from "../models/Status.model";
+import ProductImage from "../models/ProductImage.model";
 
 dotenv.config();
 
@@ -25,7 +26,18 @@ const isTesting = process.env.NODE_ENV === "test";
 const db = new Sequelize(database, username, password, {
   dialect,
   host,
-  models: [Product, Category, User, Role, Cart, CartItem, Order, OrderDetail,Status],
+  models: [
+    Product,
+    Category,
+    User,
+    Role,
+    Cart,
+    CartItem,
+    Order,
+    OrderDetail,
+    Status,
+    ProductImage,
+  ],
   logging: isTesting,
 });
 
