@@ -6,10 +6,16 @@ import {
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import { ProductImageAttributes } from "../types";
+import {
+  ProductImageAttributes,
+  ProductImageCreationAttributes,
+} from "../types";
 
 @Table
-class ProductImage extends Model<ProductImageAttributes> {
+class ProductImage extends Model<
+  ProductImageAttributes,
+  ProductImageCreationAttributes
+> {
   @PrimaryKey
   @Column({
     type: DataType.UUID,

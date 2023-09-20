@@ -16,6 +16,7 @@ import Category from "./Category.model";
 import CartItem from "./CartItem.model";
 import OrderDetail from "./OrderDetail.model";
 import User from "./User.model";
+import { ProductStatusEnum } from "../utils/Enums";
 
 @Table
 class Product extends Model<ProductAttributes, ProductCreationAttributes> {
@@ -45,7 +46,7 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   @Length({ max: 15 })
   @Default("active")
   @Column({ allowNull: false })
-  status!: string;
+  status!: ProductStatusEnum;
 
   @ForeignKey(() => Category)
   @Column({ allowNull: false, type: DataType.UUID })

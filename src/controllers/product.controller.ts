@@ -9,7 +9,7 @@ import Product from "../models/Product.model";
 
 //Geat all products
 export const readAllProducts = async (
-  query?: ProductsQuery
+  query?: ProductsQuery,
 ): Promise<ProductAttributes[]> => {
   const filters: any = query;
 
@@ -19,13 +19,13 @@ export const readAllProducts = async (
 //Get a product by id
 export const readProductById = async (
   id: string,
-  query?: ProductsQuery
+  query?: ProductsQuery,
 ): Promise<ProductAttributes | null> =>
   await Product.findOne({ where: { ...query, id } });
 
 //Create a product
-export const createProduct = async (
-  product: ProductCreationAttributes
+export const create = async (
+  product: ProductCreationAttributes,
 ): Promise<ProductAttributes> => {
   return await Product.create({ ...product, id: uuidv4() });
 };
@@ -33,12 +33,12 @@ export const createProduct = async (
 //Update a product
 export const updateProduct = async (
   id: string,
-  data: ProductUpdateAttributes
+  data: ProductUpdateAttributes,
 ): Promise<number[]> => await Product.update(data, { where: { id } });
 
 export const updateProductAsSeller = async (
   { id, sellerId }: Partial<ProductAttributes>,
-  data: ProductUpdateAttributes
+  data: ProductUpdateAttributes,
 ): Promise<number[]> => await Product.update(data, { where: { id, sellerId } });
 
 //Delete a product

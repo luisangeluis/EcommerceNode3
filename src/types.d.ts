@@ -2,6 +2,7 @@ import type {
   UserRoleEnum,
   ProductCategoryEnum,
   orderStatus,
+  ProductStatusEnum,
 } from "./utils/Enums";
 
 //PRODUCT
@@ -10,6 +11,7 @@ export interface ProductAttributes {
   title: string;
   description: string;
   price: number;
+  status: ProductStatusEnum;
   categoryId: string;
   sellerId: string;
 }
@@ -25,6 +27,9 @@ export interface ProductImageAttributes {
   productId: string;
   url: string;
 }
+
+export interface ProductImageCreationAttributes
+  extends Optional<ProductImageAttributes, "id"> {}
 
 //CATEGORY
 export interface CategoryAttributes {

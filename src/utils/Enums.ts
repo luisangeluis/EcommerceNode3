@@ -10,4 +10,10 @@ export const enum ProductCategoryEnum {
   TOYS = "toys",
 }
 
+export const enum ProductStatusEnum {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  DELETED = "deleted",
+}
+
 export type orderStatus = "created" | "canceled" | "finished";
