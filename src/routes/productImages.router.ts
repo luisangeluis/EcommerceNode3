@@ -4,21 +4,22 @@ import productExistsMiddleware from "../middleware/productExists.middleware";
 
 import * as productImages from "../services/productImages.http";
 import uploadImage from "../utils/uploadImage";
+import isAseller from "../middleware/isAseller.middleware";
 
 const router = Router();
 
 router
-  .route("/:productImageId/product/:id")
-  .get(productExistsMiddleware, productImages.getAnImageByProductId);
-
-router
-  .route("/product/:id")
+  .route("/product-id/:id")
   .get(productExistsMiddleware, productImages.getAllProductImages)
   .post(
     passport.authenticate("jwt", { session: false }),
-    productExistsMiddleware,
+    isAseller,
     uploadImage,
     productImages.postImageByProductId,
   );
+
+router
+  .route("/product/:id/product-image-id/:productImageId")
+  .get(productExistsMiddleware, productImages.getAnImageByProductId);
 
 export default router;

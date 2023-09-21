@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import type { UserAttributes, UserTokenAttributes } from "../types";
 import type { ProductsQuery } from "../types/request/types.request";
-import catchErrors from "../utils/catchErrors";
+// import catchErrors from "../utils/catchErrors";
 import * as productControllers from "../controllers/product.controller";
 
 export const getProductsBySellerId = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   const sellerId = (req.user as Partial<UserAttributes>)?.id;
   const query = req.query as ProductsQuery;
@@ -26,7 +26,7 @@ export const getProductsBySellerId = async (
 
 export const getProductAsSellerById = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   try {
     const id = req.params.id;
@@ -43,45 +43,45 @@ export const getProductAsSellerById = async (
   }
 };
 
-export const postProductAsSeller = async (req: Request, res: Response) => {
-  try {
-    const sellerId = (req.user as Partial<UserAttributes>)?.id;
-    const { title, description, price, categoryId } = req.body;
+// export const postProductAsSeller = async (req: Request, res: Response) => {
+//   try {
+//     const sellerId = (req.user as Partial<UserAttributes>)?.id;
+//     const { title, description, price, categoryId } = req.body;
 
-    if (!title || !description || !price || !categoryId || !sellerId) {
-      return res.status(400).json({
-        message: "At least these  fields must be completed",
-        fields: {
-          title: "string",
-          description: "string",
-          price: "number",
-          categoryId: "string",
-          sellerId: "string",
-        },
-      });
-    }
+//     if (!title || !description || !price || !categoryId || !sellerId) {
+//       return res.status(400).json({
+//         message: "At least these  fields must be completed",
+//         fields: {
+//           title: "string",
+//           description: "string",
+//           price: "number",
+//           categoryId: "string",
+//           sellerId: "string",
+//         },
+//       });
+//     }
 
-    const response = await productControllers.createProduct({
-      title,
-      description,
-      price,
-      categoryId,
-      sellerId,
-    });
+//     const response = await productControllers.createProduct({
+//       title,
+//       description,
+//       price,
+//       categoryId,
+//       sellerId,
+//     });
 
-    return res.status(201).json({ response });
-  } catch (error: any) {
-    const errorResponse = catchErrors(error);
+//     return res.status(201).json({ response });
+//   } catch (error: any) {
+//     const errorResponse = catchErrors(error);
 
-    return res
-      .status(errorResponse.status)
-      .json({ message: errorResponse.error });
-  }
-};
+//     return res
+//       .status(errorResponse.status)
+//       .json({ message: errorResponse.error });
+//   }
+// };
 
 export const updateProductAsSeller = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   const userId = (req.user as Partial<UserAttributes>)?.id;
   const productId = req.params.productId;
@@ -94,7 +94,7 @@ export const updateProductAsSeller = async (
 
     const response = await productControllers.updateProductAsSeller(
       { id: productId, sellerId: userId },
-      restOfData
+      restOfData,
     );
 
     if (!response[0])
@@ -112,7 +112,7 @@ export const updateProductAsSeller = async (
 
 export const removeProductAsSeller = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   try {
     const productId = req.params.productId;
@@ -123,7 +123,7 @@ export const removeProductAsSeller = async (
         id: productId,
         sellerId,
       },
-      { status: "deleted" }
+      { status: "deleted" },
     );
 
     if (!response[0])

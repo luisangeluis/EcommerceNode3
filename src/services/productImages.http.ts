@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
+import { UserTokenAttributes } from "../types";
 import * as productImagesController from "../controllers/productImage.controller";
+import * as productController from "../controllers/product.controller";
 
 export const getAllProductImages = async (
   req: Request,
@@ -23,9 +25,6 @@ export const getAnImageByProductId = async (
   try {
     const productId = req.params.id;
     const imageId = req.params.productImageId;
-    const files = await req.files?.image;
-
-    console.log(files);
 
     const response = await productImagesController.readAnImageByProductId(
       productId,
@@ -49,12 +48,27 @@ export const postImageByProductId = async (
 ): Promise<Response> => {
   try {
     const productId = req.params.id;
-    const newProductImage = { productId, url: "" };
+    const userId = (req.user as UserTokenAttributes)?.id;
 
-    const response =
-      await productImagesController.createProductImage(newProductImage);
+    // const files = await req.files?.image;
+    console.log({ files: req.files });
 
-    return res.status(201).json({ response });
+    const query = { sellerId: userId };
+    const product = await productController.readProductById(productId, query);
+
+    if (!product)
+      return res
+        .status(404)
+        .json({ message: `Product with id: ${productId} doesn't exists` });
+
+    // console.log(req.files);
+
+    // const newProductImage = { productId, url: "" };
+
+    // const response =
+    //   await productImagesController.createProductImage(newProductImage);
+
+    return res.status(201).json({ message: "product image created" });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
