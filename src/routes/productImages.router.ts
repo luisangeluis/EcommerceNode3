@@ -4,22 +4,24 @@ import productExistsMiddleware from "../middleware/productExists.middleware";
 
 import * as productImages from "../services/productImages.http";
 import uploadImage from "../utils/uploadImage";
-import isAseller from "../middleware/isAseller.middleware";
 
 const router = Router();
 
 router
-  .route("/product-id/:id")
-  .get(productExistsMiddleware, productImages.getAllProductImages)
-  .post(
+  .route("/product/:id/product-image/:productImageId")
+  .get(productExistsMiddleware, productImages.getAnImageByProductId)
+  .delete(
     passport.authenticate("jwt", { session: false }),
-    isAseller,
-    uploadImage,
-    productImages.postImageByProductId,
+    productImages.deleteImg,
   );
 
 router
-  .route("/product/:id/product-image-id/:productImageId")
-  .get(productExistsMiddleware, productImages.getAnImageByProductId);
+  .route("/product/:id")
+  .get(productExistsMiddleware, productImages.getAllProductImages)
+  .post(
+    passport.authenticate("jwt", { session: false }),
+    uploadImage,
+    productImages.postImageByProductId,
+  );
 
 export default router;

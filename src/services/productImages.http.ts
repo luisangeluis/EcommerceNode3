@@ -5,6 +5,8 @@ import fs from "fs-extra";
 
 import * as productImagesController from "../controllers/productImage.controller";
 import * as productController from "../controllers/product.controller";
+import ProductImage from "../models/ProductImage.model";
+import Product from "../models/Product.model";
 
 export const getAllProductImages = async (
   req: Request,
@@ -75,4 +77,28 @@ export const postImageByProductId = async (
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
+};
+
+export const deleteImg = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const sellerId = (req.user as UserTokenAttributes)?.id;
+  const productId = req.params.id;
+  const productImageId = req.params.productImageId;
+  const query = { productId };
+
+  const response = await Product.findOne({
+    where: { sellerId },
+    attributes: ["id"],
+    include: {
+      model: ProductImage,
+      attributes: ["id"],
+      where: { id: productImageId, productId },
+    },
+  });
+
+  if(!response) return res.status(404).json({message:`Image with id doesn't exists`})
+
+  await productImagesController.deleteImage(productId);
 };
