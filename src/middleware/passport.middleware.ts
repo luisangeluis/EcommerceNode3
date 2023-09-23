@@ -1,8 +1,12 @@
 import passport from "passport";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { getUserById } from "../controllers/user.controller";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const jwtKey = process.env.JWT_KEY;
+
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: jwtKey, // debe estar en una variable de entorno

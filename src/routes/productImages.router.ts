@@ -10,10 +10,10 @@ const router = Router();
 router
   .route("/product/:id/product-image/:productImageId")
   .get(productExistsMiddleware, productImages.getAnImageByProductId)
-  .delete(
-    passport.authenticate("jwt", { session: false }),
-    productImages.deleteImg,
-  );
+  // .delete(
+  //   passport.authenticate("jwt", { session: false }),
+  //   productImages.deleteImg,
+  // );
 
 router
   .route("/product/:id")

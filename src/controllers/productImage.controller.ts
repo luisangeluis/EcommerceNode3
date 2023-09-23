@@ -11,7 +11,7 @@ export const readAllImagesByProductId = async (productId: string) => {
 
 export const readAnImageByProductId = async (
   productId: string,
-  imageId: string,
+  imageId: string
 ) => {
   const response = await ProductImage.findOne({
     where: { productId, id: imageId },
@@ -21,9 +21,13 @@ export const readAnImageByProductId = async (
 };
 
 export const createProductImage = async (
-  productImage: ProductImageCreationAttributes,
+  productImage: ProductImageCreationAttributes
 ) => {
   const response = await ProductImage.create({ ...productImage, id: uuidv4() });
 
   return response;
 };
+
+// export const deleteImage = (imageId: string): void | undefined => {
+//   return;
+// };
