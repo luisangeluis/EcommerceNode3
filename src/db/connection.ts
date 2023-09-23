@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
-import type { Dialect } from "sequelize";
+// import type { Dialect } from "sequelize";
 import { generateData } from "../utils/defaultData";
 import Product from "../models/Product.model";
 import Category from "../models/Category.model";
@@ -15,7 +15,7 @@ import ProductImage from "../models/ProductImage.model";
 
 dotenv.config();
 
-const dialect = process.env.DB_DIALECT as Dialect;
+// const dialect = process.env.DB_DIALECT as Dialect;
 const host = process.env.DB_HOST as string;
 const username = process.env.DB_USER as string;
 const password = process.env.DB_PASSWORD;
@@ -24,7 +24,7 @@ const database = process.env.DB_NAME as string;
 const isTesting = process.env.NODE_ENV === "test";
 
 const db = new Sequelize(database, username, password, {
-  dialect,
+  dialect:"mysql",
   host,
   models: [
     Product,
