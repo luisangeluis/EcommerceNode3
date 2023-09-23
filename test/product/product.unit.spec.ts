@@ -35,12 +35,14 @@ describe("READ - Get product by id - unit tests", () => {
 describe("CREATE - product - unit tests", () => {
   it("Should respond with a product when I send all necesary", async () => {
     const category = await Category.findOne();
+
     if (category) {
       const product = {
         title: "a product",
         description: "a product",
         price: 1,
         categoryId: category.id,
+        sellerId:"28149311-26a3-4b17-8ab4-f8d9a3b9657e"
       };
 
       const response = await productControllers.createProduct(product);

@@ -17,6 +17,12 @@ export const createUser = async (
   return await User.create({ ...newUser, id: uuidv4() });
 };
 
+export const updateUserById =async (id:string,data:Partial<UserAttributes>):Promise<Number[]>=> await User.update(data,{where:{id}});
+
+export const deleteUserById = async (id:string)=>{
+  return await User.update({statusId:"4b48c2d6-0114-4b76-a80e-d795661f5c9d"},{where:{id}});
+}
+
 export const getUserByEmail = async (
   email: string
 ): Promise<UserAttributes | null> => {

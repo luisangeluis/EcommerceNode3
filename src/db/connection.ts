@@ -1,13 +1,17 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
 import type { Dialect } from "sequelize";
+import { generateData } from "../utils/defaultData";
 import Product from "../models/Product.model";
 import Category from "../models/Category.model";
 import User from "../models/User.model";
 import Role from "../models/Role.model";
 import Cart from "../models/Cart.model";
 import CartItem from "../models/CartItem.model";
-import { generateData } from "../utils/defaultData";
+import Order from "../models/Order.model";
+import OrderDetail from "../models/OrderDetail.model";
+import Status from "../models/Status.model";
+import ProductImage from "../models/ProductImage.model";
 
 dotenv.config();
 
@@ -22,7 +26,18 @@ const isTesting = process.env.NODE_ENV === "test";
 const db = new Sequelize(database, username, password, {
   dialect,
   host,
-  models: [Product, Category, User, Role, Cart, CartItem],
+  models: [
+    Product,
+    Category,
+    User,
+    Role,
+    Cart,
+    CartItem,
+    Order,
+    OrderDetail,
+    Status,
+    ProductImage,
+  ],
   logging: isTesting,
 });
 
@@ -30,8 +45,12 @@ export const initDb = async (): Promise<void> => {
   try {
     await db.authenticate();
 
-    if (process.env.NODE_ENV === "production") await db.sync();
-    else await db.sync({ force: true });
+    if (process.env.NODE_ENV === "production") {
+      await db.sync();
+    } else {
+      await db.sync({ force: true });
+    }
+
     await generateData();
     console.log("db synced");
   } catch (error: any) {

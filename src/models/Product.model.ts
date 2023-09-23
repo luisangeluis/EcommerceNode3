@@ -8,10 +8,15 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  Length,
+  Default,
 } from "sequelize-typescript";
 import type { ProductAttributes, ProductCreationAttributes } from "../types";
 import Category from "./Category.model";
 import CartItem from "./CartItem.model";
+import OrderDetail from "./OrderDetail.model";
+import User from "./User.model";
+import { ProductStatusEnum } from "../utils/Enums";
 
 @Table
 class Product extends Model<ProductAttributes, ProductCreationAttributes> {
@@ -38,18 +43,30 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   })
   price!: number;
 
+  @Length({ max: 15 })
+  @Default("active")
+  @Column({ allowNull: false })
+  status!: ProductStatusEnum;
+
   @ForeignKey(() => Category)
   @Column({ allowNull: false, type: DataType.UUID })
   categoryId!: string;
 
+  @ForeignKey(() => User)
+  @Column({ allowNull: false, type: DataType.UUID })
+  sellerId!: string;
+
   @BelongsTo(() => Category)
   category!: Category;
 
-  // @BelongsToMany(() => Cart, () => CartItem)
-  // carts?: Cart[];
+  @BelongsTo(() => User)
+  user!: User;
 
   @HasMany(() => CartItem)
   cartItems!: CartItem[];
+
+  @HasMany(() => OrderDetail)
+  orderDetails!: OrderDetail[];
 }
 
 export default Product;

@@ -1,4 +1,9 @@
-import { UserRoleEnum, ProductCategoryEnum } from "./utils/Enums";
+import type {
+  UserRoleEnum,
+  ProductCategoryEnum,
+  orderStatus,
+  ProductStatusEnum,
+} from "./utils/Enums";
 
 //PRODUCT
 export interface ProductAttributes {
@@ -6,7 +11,9 @@ export interface ProductAttributes {
   title: string;
   description: string;
   price: number;
+  status: ProductStatusEnum;
   categoryId: string;
+  sellerId: string;
 }
 
 export interface ProductCreationAttributes
@@ -14,6 +21,15 @@ export interface ProductCreationAttributes
 
 export interface ProductUpdateAttributes
   extends Partial<ProductCreationAttributes> {}
+
+export interface ProductImageAttributes {
+  readonly id: string;
+  productId: string;
+  url: string;
+}
+
+export interface ProductImageCreationAttributes
+  extends Optional<ProductImageAttributes, "id"> {}
 
 //CATEGORY
 export interface CategoryAttributes {
@@ -32,6 +48,7 @@ export interface UserAttributes {
   email: string;
   password: string;
   roleId: string;
+  statusId: string;
 }
 
 export interface UserCreationAttributes
@@ -68,3 +85,33 @@ export interface CartItemAttributes {
 
 export interface CartItemCreationAttributes
   extends Optional<CartItemAttributes, "id"> {}
+
+export interface OrderAttributes {
+  readonly id: string;
+  cartId: string;
+  total: number;
+  status: orderStatus;
+}
+
+export interface OrderCreationAttributes
+  extends Optional<OrderAttributes, "id"> {}
+
+export interface OrderDetailAttributes {
+  readonly id: string;
+  orderId: string;
+  productId: string;
+  quantity: number;
+  price: number;
+  subtotal: number;
+}
+
+export interface OrderDetailCreationAttributes
+  extends Optional<OrderDetailAttributes, "id"> {}
+
+export interface StatusAttributes {
+  readonly id: string;
+  title: string;
+}
+
+export interface StatusCreationAttributes
+  extends Optional<StatusAttributes, "id"> {}

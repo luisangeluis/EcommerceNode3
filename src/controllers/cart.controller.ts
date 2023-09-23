@@ -15,7 +15,7 @@ export const readCartByUserId = async (userId: string) => {
         include: [
           {
             model: Product,
-            attributes: ["title", "description", "categoryId"],
+            attributes: ["id", "title", "description", "categoryId"],
           },
         ],
       },
@@ -30,9 +30,19 @@ export const readOrCreateCart = async (
 ): Promise<[CartAttributes, boolean]> => {
   const response = await Cart.findOrCreate({
     where: { userId },
-    defaults: {
-      id: uuidv4(),
-    },
+    defaults: { id: uuidv4() },
+    include: [
+      {
+        model: CartItem,
+        attributes: ["id", "quantity", "price"],
+        include: [
+          {
+            model: Product,
+            attributes: ["title", "description", "categoryId"],
+          },
+        ],
+      },
+    ],
   });
 
   return response;

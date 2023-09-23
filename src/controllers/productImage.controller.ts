@@ -1,0 +1,29 @@
+import { v4 as uuidv4 } from "uuid";
+
+import ProductImage from "../models/ProductImage.model";
+import type { ProductImageCreationAttributes } from "../types";
+
+export const readAllImagesByProductId = async (productId: string) => {
+  const response = await ProductImage.findAll({ where: { productId } });
+
+  return response;
+};
+
+export const readAnImageByProductId = async (
+  productId: string,
+  imageId: string,
+) => {
+  const response = await ProductImage.findOne({
+    where: { productId, id: imageId },
+  });
+
+  return response;
+};
+
+export const createProductImage = async (
+  productImage: ProductImageCreationAttributes,
+) => {
+  const response = await ProductImage.create({ ...productImage, id: uuidv4() });
+
+  return response;
+};

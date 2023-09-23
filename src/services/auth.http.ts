@@ -1,12 +1,16 @@
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import * as authControllers from "../controllers/auth.controller";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const loginUser = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const data = req.body;
+  const jwtKey = process.env.JWT_KEY as string;
 
   if (!Object.keys(data).length) return res.status(400).send("Missing data");
 
@@ -19,7 +23,7 @@ export const loginUser = async (
 
   const token = jwt.sign(
     { id: user.id, email: user.email, roleId: user.roleId },
-    "academlo"
+    jwtKey
   );
 
   return res

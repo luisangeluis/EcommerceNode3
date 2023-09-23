@@ -3,15 +3,19 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   HasOne,
   IsEmail,
   Model,
   PrimaryKey,
   Table,
+  Unique,
 } from "sequelize-typescript";
 import { UserAttributes, UserCreationAttributes } from "../types";
 import Role from "./Role.model";
 import Cart from "./Cart.model";
+import Product from "./Product.model";
+import Status from "./Status.model";
 
 @Table
 class User extends Model<UserAttributes, UserCreationAttributes> {
@@ -34,6 +38,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
   })
   lastName!: string;
 
+  @Unique
   @IsEmail
   @Column({
     type: DataType.STRING(250),
@@ -51,11 +56,21 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
   @Column({ allowNull: false, type: DataType.UUID })
   roleId!: string;
 
+  @ForeignKey(() => Status)
+  @Column({allowNull: false, type: DataType.UUID})
+  statusId!:string;
+  
   @BelongsTo(() => Role)
   role!: Role;
 
+  @BelongsTo(() => Status)
+  status!: Status;
+
   @HasOne(() => Cart)
   cart!: Cart;
+
+  @HasMany(() => Product)
+  products!: Product[];
 }
 
 export default User;
