@@ -45,13 +45,13 @@ export const initDb = async (): Promise<void> => {
   try {
     await db.authenticate();
 
-    // if (process.env.NODE_ENV === "production") {
-    //   await db.sync();
-    // } else {
+    if (process.env.NODE_ENV === "production") {
+      await db.sync();
+    } else {
       await db.sync({ force: true });
-    // }
+    }
 
-    await generateData();
+    // await generateData();
     console.log("db synced");
   } catch (error: any) {
     console.log("error:", error.message);
