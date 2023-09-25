@@ -2,6 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import ProductImage from "../models/ProductImage.model";
 import type { ProductImageCreationAttributes } from "../types";
+import { readProductById } from "./product.controller";
+import Product from "../models/Product.model";
 
 export const readAllImagesByProductId = async (productId: string) => {
   const response = await ProductImage.findAll({ where: { productId } });
@@ -11,7 +13,7 @@ export const readAllImagesByProductId = async (productId: string) => {
 
 export const readAnImageByProductId = async (
   productId: string,
-  imageId: string
+  imageId: string,
 ) => {
   const response = await ProductImage.findOne({
     where: { productId, id: imageId },
@@ -21,13 +23,29 @@ export const readAnImageByProductId = async (
 };
 
 export const createProductImage = async (
-  productImage: ProductImageCreationAttributes
+  productImage: ProductImageCreationAttributes,
 ) => {
   const response = await ProductImage.create({ ...productImage, id: uuidv4() });
 
   return response;
 };
 
-// export const deleteImage = (imageId: string): void | undefined => {
-//   return;
-// };
+export const deleteProductImage = async (
+  sellerId: string,
+  productId: string,
+  productImageId: string,
+) => {
+  const response = await Product.findOne({
+    where: { id: productId, sellerId },
+    include: {
+      model: ProductImage,
+      where: {
+        id: productImageId,
+      },
+    },
+  });
+
+  if (!response) return 0;
+
+  return await ProductImage.destroy({ where: { id: productImageId } });
+};

@@ -79,26 +79,22 @@ export const postImageByProductId = async (
   }
 };
 
-// export const deleteImg = async (
-//   req: Request,
-//   res: Response,
-// ): Promise<Response> => {
-//   const sellerId = (req.user as UserTokenAttributes)?.id;
-//   const productId = req.params.id;
-//   const productImageId = req.params.productImageId;
-//   const query = { productId };
+export const deleteImg = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const sellerId = (req.user as UserTokenAttributes)?.id;
+  const productId = req.params.id;
+  const productImageId = req.params.productImageId;
 
-//   const response = await Product.findOne({
-//     where: { sellerId },
-//     attributes: ["id"],
-//     include: {
-//       model: ProductImage,
-//       attributes: ["id"],
-//       where: { id: productImageId, productId },
-//     },
-//   });
+  const response = await productImagesController.deleteProductImage(
+    sellerId,
+    productId,
+    productImageId,
+  );
 
-//   if(!response) return res.status(404).json({message:`Image with id doesn't exists`})
+  if (!response)
+    return res.status(404).json({ message: `Image with id doesn't exists` });
 
-//   await productImagesController.deleteImage(productId);
-// };
+  return res.status(204).json();
+};
