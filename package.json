@@ -12,7 +12,8 @@
     "test:cartItem:integration": "mocha --timeout 10000 -require ts-node/register test/setup.ts 'test/cartItem/cartItem.integration.spect.ts'",
     "test:order:integration": "mocha --timeout 12000 -require ts-node/register test/setup.ts 'test/order/order.integration.spect.ts'",
     "dev": "ts-node-dev src/index.ts",
-    "build": "npx tsc"
+    "build": "tsc",
+    "start":"node build/index.js"
   },
   "devDependencies": {
     "@types/chai": "^4.3.5",

@@ -5,8 +5,8 @@ import fs from "fs-extra";
 
 import * as productImagesController from "../controllers/productImage.controller";
 import * as productController from "../controllers/product.controller";
-import ProductImage from "../models/ProductImage.model";
-import Product from "../models/Product.model";
+// import ProductImage from "../models/ProductImage.model";
+// import Product from "../models/Product.model";
 
 export const getAllProductImages = async (
   req: Request,
