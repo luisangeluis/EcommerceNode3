@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
 // import type { Dialect } from "sequelize";
-import { generateData } from "../utils/defaultData";
+// import { generateData } from "../utils/defaultData";
 import Product from "../models/Product.model";
 import Category from "../models/Category.model";
 import User from "../models/User.model";
@@ -24,7 +24,7 @@ const database = process.env.DB_NAME as string;
 const isTesting = process.env.NODE_ENV === "test";
 
 const db = new Sequelize(database, username, password, {
-  dialect:"mysql",
+  dialect: "mysql",
   host,
   models: [
     Product,
