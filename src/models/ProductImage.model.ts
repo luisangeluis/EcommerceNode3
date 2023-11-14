@@ -1,6 +1,9 @@
+import Product from "./Product.model";
 import {
+  BelongsTo,
   Column,
   DataType,
+  ForeignKey,
   IsUrl,
   Model,
   PrimaryKey,
@@ -23,6 +26,7 @@ class ProductImage extends Model<
   })
   id!: string;
 
+  @ForeignKey(() => Product)
   @Column({
     allowNull: false,
     type: DataType.UUID,
@@ -35,6 +39,9 @@ class ProductImage extends Model<
     type: DataType.UUID,
   })
   url!: string;
+
+  @BelongsTo(() => Product)
+  product!: Product;
 }
 
 export default ProductImage;
