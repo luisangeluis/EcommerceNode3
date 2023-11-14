@@ -6,6 +6,7 @@ import type {
 } from "../types";
 import type { ProductsQuery } from "../types/request/types.request";
 import Product from "../models/Product.model";
+import ProductImage from "../models/ProductImage.model";
 
 //Geat all products
 export const readAllProducts = async (
@@ -13,7 +14,10 @@ export const readAllProducts = async (
 ): Promise<ProductAttributes[]> => {
   const filters: any = query;
 
-  return await Product.findAll({ where: filters });
+  return await Product.findAll({
+    where: filters,
+    include: [{ model: ProductImage, required: false }],
+  });
 };
 
 //Get a product by id

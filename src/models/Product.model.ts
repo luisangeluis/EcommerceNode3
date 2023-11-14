@@ -17,6 +17,7 @@ import CartItem from "./CartItem.model";
 import OrderDetail from "./OrderDetail.model";
 import User from "./User.model";
 import { ProductStatusEnum } from "../utils/Enums";
+import ProductImage from "./ProductImage.model";
 
 @Table
 class Product extends Model<ProductAttributes, ProductCreationAttributes> {
@@ -67,6 +68,9 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
 
   @HasMany(() => OrderDetail)
   orderDetails!: OrderDetail[];
+
+  @HasMany(() => ProductImage)
+  productImage!: ProductImage[];
 }
 
 export default Product;
