@@ -26,11 +26,11 @@ export const readCartByUserId = async (userId: string) => {
 };
 
 export const readOrCreateCart = async (
-  userId: string
+  userId: string,
 ): Promise<[CartAttributes, boolean]> => {
   const response = await Cart.findOrCreate({
     where: { userId },
-    defaults: { id: uuidv4() },
+    defaults: { id: uuidv4(), isActive: true },
     include: [
       {
         model: CartItem,

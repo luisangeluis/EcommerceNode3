@@ -6,7 +6,7 @@ import generateToken from "../../src/utils/generateToken";
 chai.use(chaiHttp);
 
 const expect = chai.expect;
-const cartItemId = "a4a56f72-1745-4297-9249-b41b28551f7c";
+const cartItemId = "d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6";
 let token: string;
 
 before(async () => {
@@ -27,7 +27,7 @@ describe("GET - Get a cart item - integration test", () => {
   it("Should respond with 200 code status", async () => {
     const response = await chai
       .request(app)
-      .get("/api/v1/cartItem/a4a56f72-1745-4297-9249-b41b28551f7c")
+      .get("/api/v1/cartItem/d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6")
       .set("Authorization", `Bearer ${token}`);
     expect(response).to.have.status(200);
   });
@@ -45,7 +45,7 @@ describe("POST - Add a cart item - integration test", () => {
   it("Should respond with 201 code status", async () => {
     const response = await chai
       .request(app)
-      .post("/api/v1/products/e2914c19-0f6c-4554-a2b9-97f4ceaffb6b/add-to-cart")
+      .post("/api/v1/products/10119ed0-b180-4ed5-a2b4-3c3619af97d9/add-to-cart")
       .set("Authorization", `Bearer ${token}`);
     expect(response).to.have.status(201);
   });

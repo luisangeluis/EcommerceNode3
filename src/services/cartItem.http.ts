@@ -6,7 +6,7 @@ import { readProductById } from "../controllers/product.controller";
 
 export const getCartItem = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   try {
     const userId = (req.user as UserTokenAttributes)?.id;
@@ -14,7 +14,7 @@ export const getCartItem = async (
 
     const response = await cartItemControllers.readCartItemById(
       cartItemId,
-      userId
+      userId,
     );
 
     if (!response)
@@ -30,7 +30,7 @@ export const getCartItem = async (
 
 export const addToCart = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   try {
     const productId = req.params.id;
@@ -51,14 +51,14 @@ export const addToCart = async (
         cartId: cart.id,
         quantity: 1,
         price: product.price,
-      }
+      },
     );
-    // if (!created) cartItem.quantity += 1;
-    // await cartItem.save();
-    if (!created)
-      return res.status(409).json({
-        message: `Product with id: ${productId} already exists in the cart`,
-      });
+    if (!created) _cartItem.quantity += 1;
+    await _cartItem.save();
+    // if (!created)
+    //   return res.status(409).json({
+    //     message: `Product with id: ${productId} already exists in the cart`,
+    //   });
 
     return res
       .status(201)
@@ -70,7 +70,7 @@ export const addToCart = async (
 
 export const updateQuantityFromCartItem = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
   const cartItemId = req.params.cartItemId;
@@ -84,7 +84,7 @@ export const updateQuantityFromCartItem = async (
   const response = await cartItemControllers.updateQuantity(
     cartItemId,
     userId,
-    quantity
+    quantity,
   );
 
   if (!response) return res.status(404);
@@ -96,7 +96,7 @@ export const updateQuantityFromCartItem = async (
 
 export const removeCartItem = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
   const cartItemId = req.params.cartItemId;
@@ -104,7 +104,7 @@ export const removeCartItem = async (
   try {
     const response = await cartItemControllers.deleteCartItem(
       cartItemId,
-      userId
+      userId,
     );
 
     if (!response)
