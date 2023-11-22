@@ -5,12 +5,12 @@ import Cart from "../models/Cart.model";
 
 export const readCartItemById = async (
   cartItemId: string,
-  userId: string
+  userId: string,
 ): Promise<CartItem | null> => {
   const response = await CartItem.findOne({
     where: { id: cartItemId },
-    attributes:{
-      exclude:["cartId"],
+    attributes: {
+      exclude: ["cartId"],
     },
     include: {
       model: Cart,
@@ -24,16 +24,16 @@ export const readCartItemById = async (
 };
 
 export const createCartItem = async (
-  cartItem: CartItemCreationAttributes
+  cartItem: CartItemCreationAttributes,
 ): Promise<CartItemAttributes> => {
   return await CartItem.create({ ...cartItem, id: uuidv4() });
 };
 
 export const readOrCreateCartItem = async (
-  cartItem: Partial<CartItemAttributes>
+  cartItem: Partial<CartItemAttributes>,
 ) => {
   const response = await CartItem.findOrCreate({
-    where: { productId: cartItem.productId },
+    where: { productId: cartItem.productId, cartId: cartItem.cartId },
     defaults: {
       ...cartItem,
       id: uuidv4(),
@@ -45,7 +45,7 @@ export const readOrCreateCartItem = async (
 export const updateQuantity = async (
   cartItemId: string,
   userId: string,
-  quantity: number
+  quantity: number,
 ): Promise<CartItem | null> => {
   const cartItem = await CartItem.findOne({
     where: { id: cartItemId },
@@ -67,7 +67,7 @@ export const updateQuantity = async (
 
 export const deleteCartItem = async (
   cartItemId: string,
-  userId: string
+  userId: string,
 ): Promise<number> => {
   const response = await CartItem.findOne({
     where: { id: cartItemId },
