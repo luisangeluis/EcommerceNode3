@@ -47,9 +47,13 @@ export const initDb = async (): Promise<void> => {
 
     if (process.env.NODE_ENV === "production") {
       await db.sync();
+      console.log("production");
+
       // await generateData();
     } else {
       await db.sync({ force: true });
+      console.log("development");
+
       await generateData();
     }
 
