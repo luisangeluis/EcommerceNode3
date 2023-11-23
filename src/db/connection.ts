@@ -54,7 +54,7 @@ export const initDb = async (): Promise<void> => {
       await db.sync({ force: true });
       console.log("development");
 
-      await generateData();
+      // await generateData();
     }
 
     console.log("db synced");
