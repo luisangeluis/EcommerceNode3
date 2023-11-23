@@ -12,6 +12,8 @@ import Status from "../models/Status.model";
 // import CartItem from "../models/CartItem.model";
 
 export const generateData = async (): Promise<void> => {
+  console.log("creating data");
+
   try {
     await Role.bulkCreate([
       { title: "admin", id: "bfff93c9-f81b-4c01-aaa9-df9167611595" },
