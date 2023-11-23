@@ -19,83 +19,83 @@ export const generateData = async (): Promise<void> => {
       { title: "seller", id: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7" },
       { title: "customer", id: "536e9745-8769-45e1-bca4-1e9b3054fac8" },
     ]);
-    
-    await Status.bulkCreate([
-      {
-        id:"8efdc23f-922b-4acc-a548-74444ba689ce",
-        title:"active"
-      },
-      {
-        id:"75ead6de-ed41-488d-91c0-175a47e1d16e",
-        title:"suspended"
-      },
-      {
-        id:"4b48c2d6-0114-4b76-a80e-d795661f5c9d",
-        title:"deleted"
-      },
-    ],
-    { validate: true }
-    )    
-    await User.bulkCreate([
-      {
-        id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
-        firstName: "juan",
-        lastName: "perez",
-        email: "juan.perez@correo.com",
-        password: "12345",
-        roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
-        statusId:"8efdc23f-922b-4acc-a548-74444ba689ce"
-      },
-      {
-        id: "45925e48-60d5-4c08-8962-3001195167dd",
-        firstName: "luis",
-        lastName: "gonzalez",
-        email: "luis.gonzalez@correo.com",
-        password: "12345",
-        roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
-        statusId:"75ead6de-ed41-488d-91c0-175a47e1d16e"
 
-      },
-      {
-        id: "2940915c-071e-423e-827c-a04d1ead2ce7",
-        firstName: "angel",
-        lastName: "zepeda",
-        email: "angel.zepeda@correo.com",
-        password: "12345",
-        roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
-        statusId:"4b48c2d6-0114-4b76-a80e-d795661f5c9d"
-
-      },
-      {
-        id: "024c33d3-2033-4baf-a1c2-c383d0765d03",
-        firstName: "pedro",
-        lastName: "lopez",
-        email: "pedro.lopez@correo.com",
-        password: "12345",
-        roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
-        statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
-      },
-      {
-        id: "187378bb-df40-4372-9558-cf3d0923c80c",
-        firstName: "rafa",
-        lastName: "marquez",
-        email: "rafa.marquez@correo.com",
-        password: "12345",
-        roleId: "6c00b89a-d293-40ec-8bf7-abdd161ad94a",
-        statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
-
-      },
-      {
-        id: uuidv4(),
-        firstName: "Clemmy",
-        lastName: "Haylor",
-        email: "chaylor4@creativecommons.org",
-        password: "bE1<6YMRjw",
-        roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
-        statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
-
-      },
-    ],{validate:true});
+    await Status.bulkCreate(
+      [
+        {
+          id: "8efdc23f-922b-4acc-a548-74444ba689ce",
+          title: "active",
+        },
+        {
+          id: "75ead6de-ed41-488d-91c0-175a47e1d16e",
+          title: "suspended",
+        },
+        {
+          id: "4b48c2d6-0114-4b76-a80e-d795661f5c9d",
+          title: "deleted",
+        },
+      ],
+      { validate: true },
+    );
+    await User.bulkCreate(
+      [
+        {
+          id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+          firstName: "juan",
+          lastName: "perez",
+          email: "juan.perez@correo.com",
+          password: "12345",
+          roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce",
+        },
+        {
+          id: "45925e48-60d5-4c08-8962-3001195167dd",
+          firstName: "luis",
+          lastName: "gonzalez",
+          email: "luis.gonzalez@correo.com",
+          password: "12345",
+          roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+          statusId: "75ead6de-ed41-488d-91c0-175a47e1d16e",
+        },
+        {
+          id: "2940915c-071e-423e-827c-a04d1ead2ce7",
+          firstName: "angel",
+          lastName: "zepeda",
+          email: "angel.zepeda@correo.com",
+          password: "12345",
+          roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+          statusId: "4b48c2d6-0114-4b76-a80e-d795661f5c9d",
+        },
+        {
+          id: "024c33d3-2033-4baf-a1c2-c383d0765d03",
+          firstName: "pedro",
+          lastName: "lopez",
+          email: "pedro.lopez@correo.com",
+          password: "12345",
+          roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce",
+        },
+        {
+          id: "187378bb-df40-4372-9558-cf3d0923c80c",
+          firstName: "rafa",
+          lastName: "marquez",
+          email: "rafa.marquez@correo.com",
+          password: "12345",
+          roleId: "6c00b89a-d293-40ec-8bf7-abdd161ad94a",
+          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce",
+        },
+        {
+          id: uuidv4(),
+          firstName: "Clemmy",
+          lastName: "Haylor",
+          email: "chaylor4@creativecommons.org",
+          password: "bE1<6YMRjw",
+          roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce",
+        },
+      ],
+      { validate: true },
+    );
 
     await Category.bulkCreate([
       { name: "sport", id: "58c21712-0dc4-4f98-af84-2ba868fcd2cd" },
@@ -241,7 +241,7 @@ export const generateData = async (): Promise<void> => {
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
         },
       ],
-      { validate: true }
+      { validate: true },
     );
 
     await Cart.bulkCreate(
@@ -257,49 +257,54 @@ export const generateData = async (): Promise<void> => {
           isActive: true,
         },
       ],
-      { validate: true }
+      { validate: true },
     );
 
-    await CartItem.bulkCreate([
-      {
-        id: "d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6",
-        productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
-        cartId: "daf37a51-3da3-42a9-81e5-a0426bd6ae3f",
-        quantity: 2,
-        price: 100,
-      },
-      {
-        id: "a4a56f72-1745-4297-9249-b41b28551f7c",
-        productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
-        cartId: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
-        quantity: 2,
-        price: 100,
-      },
-    ]);
+    await CartItem.bulkCreate(
+      [
+        {
+          id: "d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6",
+          productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+          cartId: "daf37a51-3da3-42a9-81e5-a0426bd6ae3f",
+          quantity: 2,
+          price: 100,
+        },
+        {
+          id: "a4a56f72-1745-4297-9249-b41b28551f7c",
+          productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+          cartId: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
+          quantity: 2,
+          price: 100,
+        },
+      ],
+      { validate: true },
+    );
 
     await Order.bulkCreate(
       [
         {
-          id:"7a21eedf-048b-45d4-90bd-7491e31df4e4",
-          cartId:"4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
-          total:200,
-          status:"created"
-        }
+          id: "7a21eedf-048b-45d4-90bd-7491e31df4e4",
+          cartId: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
+          total: 200,
+          status: "created",
+        },
       ],
-      {validate:true}
-      )
+      { validate: true },
+    );
 
     await OrderDetail.bulkCreate(
-      [{
-        id:"c0dde3c2-4368-434c-a84c-3e1661d4b5fa",
-        orderId:"7a21eedf-048b-45d4-90bd-7491e31df4e4",
-        productId:"dc29ea92-d7c3-48de-a389-76af84a470da",
-        quantity:2,
-        price:100,
-        subtotal:200
-      }],
-      {validate:true}
-    )
+      [
+        {
+          id: "c0dde3c2-4368-434c-a84c-3e1661d4b5fa",
+          orderId: "7a21eedf-048b-45d4-90bd-7491e31df4e4",
+          productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+          quantity: 2,
+          price: 100,
+          subtotal: 200,
+        },
+      ],
+      { validate: true },
+    );
   } catch (error: any) {
     console.log(error);
   }
