@@ -12,7 +12,7 @@ import Status from "../models/Status.model";
 // import CartItem from "../models/CartItem.model";
 
 export const generateData = async (): Promise<void> => {
-  console.log("creating data");
+  console.log("creating my data");
 
   try {
     await Role.bulkCreate([
