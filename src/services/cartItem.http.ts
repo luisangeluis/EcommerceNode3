@@ -55,10 +55,6 @@ export const addToCart = async (
     );
     if (!created) _cartItem.quantity += 1;
     await _cartItem.save();
-    // if (!created)
-    //   return res.status(409).json({
-    //     message: `Product with id: ${productId} already exists in the cart`,
-    //   });
 
     return res
       .status(201)

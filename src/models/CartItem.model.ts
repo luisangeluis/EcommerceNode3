@@ -24,20 +24,6 @@ class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
   })
   id!: string;
 
-  @ForeignKey(() => Product)
-  @Column({
-    type: DataType.UUID,
-    allowNull: false,
-  })
-  productId!: string;
-
-  @ForeignKey(() => Cart)
-  @Column({
-    type: DataType.UUID,
-    allowNull: false,
-  })
-  cartId!: string;
-
   @Default(1)
   @Column({
     allowNull: false,
@@ -51,6 +37,20 @@ class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
     type: DataType.DECIMAL(10, 2),
   })
   price!: number;
+
+  @ForeignKey(() => Product)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  productId!: string;
+
+  @ForeignKey(() => Cart)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  cartId!: string;
 
   @BelongsTo(() => Product)
   product!: Product;
