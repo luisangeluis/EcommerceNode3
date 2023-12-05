@@ -30,7 +30,8 @@ export const createCartItem = async (
 };
 
 export const readOrCreateCartItem = async (
-  cartItem: Partial<CartItemAttributes>,
+  // cartItem: Partial<CartItemAttributes>,
+  cartItem: CartItemCreationAttributes,
 ) => {
   const response = await CartItem.findOrCreate({
     where: { productId: cartItem.productId, cartId: cartItem.cartId },

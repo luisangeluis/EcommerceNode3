@@ -1,3 +1,4 @@
+import { Optional } from "sequelize";
 import type {
   UserRoleEnum,
   ProductCategoryEnum,
@@ -70,6 +71,7 @@ export interface RoleCreationAttributes
 export interface CartAttributes {
   readonly id: string;
   userId: string;
+  isActive: boolean;
 }
 
 export interface CartCreationAttributes

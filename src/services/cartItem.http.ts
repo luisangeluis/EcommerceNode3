@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import type { UserTokenAttributes } from "../types";
+import type { UserTokenAttributes, CartItemAttributes } from "../types";
 import * as cartItemControllers from "../controllers/cartItem.controller";
 import * as cartControllers from "../controllers/cart.controller";
 import { readProductById } from "../controllers/product.controller";
@@ -35,11 +35,9 @@ export const addToCart = async (
   try {
     const productId = req.params.id;
     const userId = (req.user as UserTokenAttributes)?.id;
-
+    const quantity = (req.body as Partial<CartItemAttributes>)?.quantity || 1;
+    //Read or create user's cart
     const [cart, _createdCart] = await cartControllers.readOrCreateCart(userId);
-
-    //TODO ver si podemos omitir la consulta de producto y si hay un error
-    //cacharlo
     const product = await readProductById(productId);
 
     if (!product || product === null)
@@ -47,18 +45,22 @@ export const addToCart = async (
         .status(404)
         .json({ message: `Product with id: ${productId} doesn't exist` });
 
-    const [_cartItem, created] = await cartItemControllers.readOrCreateCartItem(
-      {
-        productId: product.id,
-        cartId: cart.id,
-        quantity: 1,
-        price: product.price,
-      },
-    );
+    const [cartItem, created] = await cartItemControllers.readOrCreateCartItem({
+      productId: product.id,
+      cartId: cart.id,
+      quantity: 1,
+      price: product.price,
+    });
 
-    //agarrar el quantity en el body de la peticion
-    if (!created) _cartItem.quantity += 1;
-    await _cartItem.save();
+    if (!created) {
+      if (quantity > 0 && quantity <= 10) {
+        cartItem.quantity = quantity;
+      } else {
+        cartItem.quantity += 1;
+      }
+    }
+
+    await cartItem.save();
 
     return res
       .status(201)

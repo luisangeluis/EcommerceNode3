@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import db from "../db/connection";
-import type { UserTokenAttributes } from "../types";
+import type { OrderCreationAttributes, UserTokenAttributes } from "../types";
 import type { orderStatus } from "../utils/Enums";
 import * as orderControllers from "../controllers/order.controller";
 import * as orderDetailControllers from "../controllers/orderDetail.controller";
@@ -8,7 +8,7 @@ import { readCartByUserId } from "../controllers/cart.controller";
 
 export const getOrdersByUserId = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
   const response = await orderControllers.readAllOrders(userId);
@@ -18,7 +18,7 @@ export const getOrdersByUserId = async (
 
 export const getOrderById = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
   const orderId = req.params.orderId;
@@ -58,10 +58,14 @@ export const post = async (req: Request, res: Response) => {
 
     const total = cart?.cartItems.reduce(
       (accum, current) => accum + current.price * current.quantity,
-      0
+      0,
     );
 
-    const newOrder = { cartId: cart?.id, total };
+    const newOrder: OrderCreationAttributes = {
+      cartId: cart?.id,
+      total,
+      status: "created",
+    };
     const order = await orderControllers.createOrder(newOrder, transaction);
 
     const orderDetails = cart?.cartItems.map((cartItem) => {
@@ -77,7 +81,7 @@ export const post = async (req: Request, res: Response) => {
       };
       return orderDetailControllers.createOrderDetail(
         newOrderDetail,
-        transaction
+        transaction,
       );
     });
 
@@ -92,7 +96,7 @@ export const post = async (req: Request, res: Response) => {
 
 export const cancelAnOrder = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
   const orderId = req.params.orderId;
@@ -106,10 +110,10 @@ export const cancelAnOrder = async (
     );
 
     // console.log({hola:response});
-    
 
     if (!response)
-      return res.status(404)
+      return res
+        .status(404)
         .json({ message: `Order with id:${orderId} doesn't exists` });
 
     return res
@@ -126,10 +130,7 @@ export const finishAnOrder = async (req: Request, res: Response) => {
   const status = "finished";
 
   try {
-    const response = await orderControllers.updateOrderStatus(
-      orderId,
-      status
-    );
+    const response = await orderControllers.updateOrderStatus(orderId, status);
 
     if (!response[0])
       return res

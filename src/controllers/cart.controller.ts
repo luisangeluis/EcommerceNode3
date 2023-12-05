@@ -29,8 +29,8 @@ export const readOrCreateCart = async (
   userId: string,
 ): Promise<[CartAttributes, boolean]> => {
   const response = await Cart.findOrCreate({
-    where: { userId },
-    defaults: { id: uuidv4(), isActive: true },
+    where: { userId: userId },
+    defaults: { id: uuidv4(), isActive: true, userId },
     include: [
       {
         model: CartItem,

@@ -2,6 +2,7 @@ export const enum UserRoleEnum {
   ADMIN = "admin",
   SELLER = "seller",
   CUSTOMER = "customer",
+  SUPERUSER = "superuser",
 }
 
 export const enum ProductCategoryEnum {
