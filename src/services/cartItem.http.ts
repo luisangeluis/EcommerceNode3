@@ -38,6 +38,8 @@ export const addToCart = async (
 
     const [cart, _createdCart] = await cartControllers.readOrCreateCart(userId);
 
+    //TODO ver si podemos omitir la consulta de producto y si hay un error
+    //cacharlo
     const product = await readProductById(productId);
 
     if (!product || product === null)
@@ -53,6 +55,8 @@ export const addToCart = async (
         price: product.price,
       },
     );
+
+    //agarrar el quantity en el body de la peticion
     if (!created) _cartItem.quantity += 1;
     await _cartItem.save();
 
