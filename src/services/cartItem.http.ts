@@ -35,7 +35,8 @@ export const addToCart = async (
   try {
     const productId = req.params.id;
     const userId = (req.user as UserTokenAttributes)?.id;
-    const quantity = (req.body as Partial<CartItemAttributes>)?.quantity || 1;
+    let quantity = (req.body as Partial<CartItemAttributes>)?.quantity;
+
     //Read or create user's cart
     const [cart, _createdCart] = await cartControllers.readOrCreateCart(userId);
     const product = await readProductById(productId);
@@ -53,11 +54,9 @@ export const addToCart = async (
     });
 
     if (!created) {
-      if (quantity > 0 && quantity <= 10) {
+      if (quantity && quantity > 0 && quantity <= 10)
         cartItem.quantity = quantity;
-      } else {
-        cartItem.quantity += 1;
-      }
+      else cartItem.quantity += 1;
     }
 
     await cartItem.save();

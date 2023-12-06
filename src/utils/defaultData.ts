@@ -9,7 +9,7 @@ import Order from "../models/Order.model";
 import OrderDetail from "../models/OrderDetail.model";
 import Status from "../models/Status.model";
 
-import { UserRoleEnum } from "./Enums";
+import { UserRoleEnum, ProductCategoryEnum, ProductStatusEnum } from "./Enums";
 
 export const generateData = async (): Promise<void> => {
   console.log("creating my data");
@@ -109,9 +109,18 @@ export const generateData = async (): Promise<void> => {
     );
 
     await Category.bulkCreate([
-      { name: "sport", id: "58c21712-0dc4-4f98-af84-2ba868fcd2cd" },
-      { name: "home", id: "c7a96caa-719c-4097-ab3b-77139d4644dd" },
-      { name: "toys", id: "7c4b8522-bffa-4b1c-b82d-0c906366ec25" },
+      {
+        name: ProductCategoryEnum.SPORT,
+        id: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
+      },
+      {
+        name: ProductCategoryEnum.HOME,
+        id: "c7a96caa-719c-4097-ab3b-77139d4644dd",
+      },
+      {
+        name: ProductCategoryEnum.TOYS,
+        id: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
+      },
     ]);
 
     await Product.bulkCreate(
@@ -121,7 +130,7 @@ export const generateData = async (): Promise<void> => {
           title: "car",
           description: "a car",
           price: 100,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -130,7 +139,7 @@ export const generateData = async (): Promise<void> => {
           title: "dog",
           description: "a dog",
           price: 200,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -139,7 +148,7 @@ export const generateData = async (): Promise<void> => {
           title: "refrigerator",
           description: "a refrigerator",
           price: 300,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -148,7 +157,7 @@ export const generateData = async (): Promise<void> => {
           title: "ball",
           description: "a ball",
           price: 50,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -157,7 +166,7 @@ export const generateData = async (): Promise<void> => {
           title: "xbox",
           description: "a xbox",
           price: 400,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -166,7 +175,7 @@ export const generateData = async (): Promise<void> => {
           title: "play station",
           description: "a play station",
           price: 400,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -175,7 +184,7 @@ export const generateData = async (): Promise<void> => {
           title: "cell phone",
           description: "a cell phone",
           price: 300,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -184,7 +193,7 @@ export const generateData = async (): Promise<void> => {
           title: "tablet",
           description: "a tablet",
           price: 300,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -193,7 +202,7 @@ export const generateData = async (): Promise<void> => {
           title: "nintendo switch",
           description: "a nintendo switch",
           price: 300,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -202,7 +211,7 @@ export const generateData = async (): Promise<void> => {
           title: "laptop",
           description: "a laptop",
           price: 500,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
           sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
         },
@@ -211,7 +220,7 @@ export const generateData = async (): Promise<void> => {
           title: "earphones",
           description: "a earphone",
           price: 100,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
         },
@@ -220,7 +229,7 @@ export const generateData = async (): Promise<void> => {
           title: "television",
           description: "a television",
           price: 100,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
         },
@@ -229,7 +238,7 @@ export const generateData = async (): Promise<void> => {
           title: "backpack",
           description: "a backpack",
           price: 250,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
         },
@@ -238,7 +247,7 @@ export const generateData = async (): Promise<void> => {
           title: "washing machine",
           description: "a washing machine",
           price: 450,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
         },
@@ -247,7 +256,7 @@ export const generateData = async (): Promise<void> => {
           title: "volleyball ball",
           description: "a volleyball ball",
           price: 150,
-          status: "active",
+          status: ProductStatusEnum.ACTIVE,
           categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
         },
@@ -257,6 +266,11 @@ export const generateData = async (): Promise<void> => {
 
     await Cart.bulkCreate(
       [
+        {
+          id: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
+          userId: "45925e48-60d5-4c08-8962-3001195167dd",
+          isActive: true,
+        },
         {
           id: "daf37a51-3da3-42a9-81e5-a0426bd6ae3f",
           userId: "2940915c-071e-423e-827c-a04d1ead2ce7",
@@ -273,6 +287,13 @@ export const generateData = async (): Promise<void> => {
 
     await CartItem.bulkCreate(
       [
+        {
+          id: "6693978b-1bce-4ff8-acc2-6bcd7786d792",
+          productId: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b",
+          cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
+          quantity: 2,
+          price: 200,
+        },
         {
           id: "d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6",
           productId: "dc29ea92-d7c3-48de-a389-76af84a470da",

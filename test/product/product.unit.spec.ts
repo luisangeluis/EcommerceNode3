@@ -4,8 +4,9 @@ import * as productControllers from "../../src/controllers/product.controller";
 import Product from "../../src/models/Product.model";
 import Category from "../../src/models/Category.model";
 
-chai.use(chaiHttp);
 const expect = chai.expect;
+
+chai.use(chaiHttp);
 
 describe("READ - product - unit tests", () => {
   it("Should respond with an array of products", async () => {
@@ -42,7 +43,7 @@ describe("CREATE - product - unit tests", () => {
         description: "a product",
         price: 1,
         categoryId: category.id,
-        sellerId:"28149311-26a3-4b17-8ab4-f8d9a3b9657e"
+        sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
       };
 
       const response = await productControllers.createProduct(product);
