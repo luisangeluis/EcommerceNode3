@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import CartItem from "../models/CartItem.model";
 import type { CartItemAttributes, CartItemCreationAttributes } from "../types";
+import CartItem from "../models/CartItem.model";
 import Cart from "../models/Cart.model";
 
 export const readCartItemById = async (
@@ -27,20 +27,6 @@ export const createCartItem = async (
   cartItem: CartItemCreationAttributes,
 ): Promise<CartItemAttributes> => {
   return await CartItem.create({ ...cartItem, id: uuidv4() });
-};
-
-export const readOrCreateCartItem = async (
-  // cartItem: Partial<CartItemAttributes>,
-  cartItem: CartItemCreationAttributes,
-) => {
-  const response = await CartItem.findOrCreate({
-    where: { productId: cartItem.productId, cartId: cartItem.cartId },
-    defaults: {
-      ...cartItem,
-      id: uuidv4(),
-    },
-  });
-  return response;
 };
 
 export const updateQuantity = async (
@@ -84,4 +70,40 @@ export const deleteCartItem = async (
 
   await response.destroy();
   return 1;
+};
+
+export const readOrCreateCartItem = async (
+  // cartItem: Partial<CartItemAttributes>,
+  cartItem: CartItemCreationAttributes,
+) => {
+  const response = await CartItem.findOrCreate({
+    where: { productId: cartItem.productId, cartId: cartItem.cartId },
+    defaults: {
+      ...cartItem,
+      id: uuidv4(),
+    },
+  });
+  return response;
+};
+
+export const readCartItemByCartIdProductId = async (
+  cartId: string,
+  productId: string,
+) => {
+  const response = await CartItem.findOne({
+    where: {
+      cartId,
+      productId,
+    },
+    attributes: {
+      exclude: ["cartId"],
+    },
+    include: [
+      {
+        model: Cart,
+      },
+    ],
+  });
+
+  return response;
 };
