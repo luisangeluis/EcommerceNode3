@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
 // import type { Dialect } from "sequelize";
-// import { generateData } from "../utils/defaultData";
+import { generateData } from "../utils/defaultData";
 import Product from "../models/Product.model";
 import Category from "../models/Category.model";
 import User from "../models/User.model";
@@ -51,7 +51,7 @@ export const initDb = async (): Promise<void> => {
     } else {
       await db.sync({ force: true });
       console.log("development");
-      // await generateData();
+      await generateData();
     }
 
     console.log("db synced");
