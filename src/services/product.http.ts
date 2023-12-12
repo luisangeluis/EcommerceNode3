@@ -19,8 +19,8 @@ export const getProductById = async (
   req: Request,
   res: Response,
 ): Promise<Response> => {
-  const productId = req.params.id;
   try {
+    const productId = req.params.id;
     const response = await productControllers.readProductById(productId);
 
     if (!response)
@@ -63,7 +63,7 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
       sellerId: userId,
     };
 
-    const response = await productControllers.create(newProduct);
+    const response = await productControllers.createProduct(newProduct);
 
     return res.status(201).json({ response });
   } catch (error: any) {

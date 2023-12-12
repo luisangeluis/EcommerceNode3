@@ -1,5 +1,17 @@
 # ECOMERCE
 
+## PRODUCT ROUTES
+
+/api/v1/products
+- GET "GET ALL PRODUCTS"
+ #### Params: no params.
+ #### Querys: no querys.
+
+/api/v1/products/:id
+ - GET "GET A PRODUCT BY ID"
+ #### Params: product id.
+ #### Querys: no querys.
+
 ## CART Routes
 
 /api/v1/cart

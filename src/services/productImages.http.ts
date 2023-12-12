@@ -53,11 +53,11 @@ export const postImageByProductId = async (
 ): Promise<Response> => {
   try {
     const productId = req.params.id;
-    const userId = (req.user as UserTokenAttributes)?.id;
-    const query = { sellerId: userId };
+    // const userId = (req.user as UserTokenAttributes)?.id;
+    // const query = { sellerId: userId };
     const tempFile: any = req.files?.product_image;
 
-    const product = await productController.readProductById(productId, query);
+    const product = await productController.readProductById(productId);
 
     if (!product)
       return res

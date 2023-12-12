@@ -4,18 +4,13 @@ import type {
   ProductCreationAttributes,
   ProductUpdateAttributes,
 } from "../types";
-import type { ProductsQuery } from "../types/request/types.request";
+// import type { ProductsQuery } from "../types/request/types.request";
 import Product from "../models/Product.model";
 import ProductImage from "../models/ProductImage.model";
 
 //Geat all products
-export const readAllProducts = async (
-  query?: ProductsQuery,
-): Promise<ProductAttributes[]> => {
-  const filters: any = query;
-
+export const readAllProducts = async (): Promise<ProductAttributes[]> => {
   return await Product.findAll({
-    where: filters,
     include: [{ model: ProductImage, required: false }],
   });
 };
@@ -23,12 +18,14 @@ export const readAllProducts = async (
 //Get a product by id
 export const readProductById = async (
   id: string,
-  query?: ProductsQuery,
 ): Promise<ProductAttributes | null> =>
-  await Product.findOne({ where: { ...query, id } });
+  await Product.findOne({
+    where: { id },
+    include: { model: ProductImage, required: false },
+  });
 
 //Create a product
-export const create = async (
+export const createProduct = async (
   product: ProductCreationAttributes,
 ): Promise<ProductAttributes> => {
   return await Product.create({ ...product, id: uuidv4() });
