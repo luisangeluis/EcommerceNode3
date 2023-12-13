@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import type { UserTokenAttributes } from "../types";
+import catchErrors from "../utils/catchErrors";
 import * as productControllers from "../controllers/product.controller";
 
 export const getAllProducts = async (
@@ -42,17 +43,29 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
     if (!Object.keys(data).length)
       return res.status(400).json({ message: "Missing data" });
 
-    if (!data.title || !data.description || !data.price || !data.categoryId) {
+    if (
+      !data.title ||
+      !data.description ||
+      !data.price ||
+      !data.categoryId ||
+      data.status === "deleted"
+    ) {
       return res.status(400).json({
         message: "At least these  fields must be completed",
         fields: {
           title: "string",
           description: "string",
           price: "number",
+          status: "active/inactive - optional value -",
           categoryId: "string",
         },
       });
     }
+
+    if (typeof data.price !== "number")
+      return res
+        .status(400)
+        .json({ message: "Price property must be a number" });
 
     const newProduct = {
       title: data.title,
@@ -67,6 +80,9 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
 
     return res.status(201).json({ response });
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    // return res.status(500).json({ message: error.message });
+    // return catchErrors(error);
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };

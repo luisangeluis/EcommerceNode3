@@ -3,14 +3,35 @@
 ## PRODUCT ROUTES
 
 /api/v1/products
-- GET "GET ALL PRODUCTS"
+- Get "Get all products"
  #### Params: no params.
  #### Querys: no querys.
+ #### Body: no body.
 
 /api/v1/products/:id
- - GET "GET A PRODUCT BY ID"
- #### Params: product id.
- #### Querys: no querys.
+ - Get "Get a product by id"
+#### Params: product id.
+#### Querys: no querys.
+#### Body: no body.
+
+ /api/v1/products
+ - Post "Create a product"
+#### Params: no params.
+#### Querys: no querys.
+#### Body:
+```javascript
+const newProduct = {
+      title: "string",
+      description: "string",
+      //price is of type number
+      price: 2,
+      //status is optional and its value is active by default
+      //Acepted values are: active inactive
+      status: "string",
+      categoryId: "string",
+      sellerId: "string",
+    }
+```
 
 ## CART Routes
 
