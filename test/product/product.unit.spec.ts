@@ -106,4 +106,15 @@ describe("CREATE - product - unit tests", () => {
   });
 });
 
-// describe("EDIT - product - unit tests", () => {});
+describe("UPDATE - product - unit tests", () => {
+  it("Should", async () => {
+    try {
+      const data = {
+        title: "new title",
+        description: "new description",
+        price: 10,
+        status: "inactive",
+      };
+    } catch (error: any) {}
+  });
+});

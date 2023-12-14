@@ -10,6 +10,7 @@ import {
   HasMany,
   Length,
   Default,
+  Is,
 } from "sequelize-typescript";
 import type { ProductAttributes, ProductCreationAttributes } from "../types";
 import Category from "./Category.model";
@@ -44,6 +45,10 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   })
   price!: number;
 
+  @Is("status", (value) => {
+    if (value !== "active" || value !== "inActive" || value !== "deleted")
+      throw new Error(`"${value}" is not a valid value.`);
+  })
   @Length({ max: 15 })
   @Default("active")
   @Column({ allowNull: false })
