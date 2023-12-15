@@ -46,8 +46,12 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   price!: number;
 
   @Is("status", (value) => {
-    if (value !== "active" || value !== "inActive" || value !== "deleted")
-      throw new Error(`"${value}" is not a valid value.`);
+    let isValid = false;
+
+    if (value === "active" || value === "inactive" || value === "deleted")
+      isValid = true;
+
+    if (!isValid) throw new Error(`"${value}" is not a valid value.`);
   })
   @Length({ max: 15 })
   @Default("active")

@@ -256,7 +256,7 @@ export const generateData = async (): Promise<void> => {
           title: "volleyball ball",
           description: "a volleyball ball",
           price: 150,
-          status: ProductStatusEnum.ACTIVE,
+          status: ProductStatusEnum.INACTIVE,
           categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7",
         },

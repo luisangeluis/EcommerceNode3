@@ -9,9 +9,14 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe("READ - product - unit tests", () => {
-  it("Should respond with an array of products", async () => {
+  it("Should respond with an array of products with a status active or inactive", async () => {
     const response = await productControllers.readAllProducts();
     expect(response).to.be.an("array");
+
+    const allActive = response.every(
+      (product) => product.status === "active" || product.status === "inactive",
+    );
+    expect(allActive).to.equal(true);
   });
 });
 
@@ -99,6 +104,7 @@ describe("CREATE - product - unit tests", () => {
       };
 
       await productControllers.createProduct(product);
+
       expect.fail("Expected an error to be thrown");
     } catch (error: any) {
       expect(error.message).to.be.an("string");
@@ -107,14 +113,80 @@ describe("CREATE - product - unit tests", () => {
 });
 
 describe("UPDATE - product - unit tests", () => {
-  it("Should", async () => {
+  it("Should update a product when I send a valid productId and data", async () => {
+    const productId = "10119ed0-b180-4ed5-a2b4-3c3619af97d9";
+    const data: any = {
+      title: "new title",
+      description: "new description",
+      price: 10,
+      status: "inactive",
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
+    };
+
+    const response = await productControllers.updateProduct(productId, data);
+    expect(response[0]).to.equal(1);
+  });
+
+  it("Shouldn't update a product when I send an invalid productId", async () => {
+    const productId = "1";
+    const data: any = {
+      title: "new title",
+      description: "new description",
+      price: 10,
+      status: "inactive",
+    };
+
+    const response = await productControllers.updateProduct(productId, data);
+    expect(response[0]).to.equal(0);
+  });
+
+  it("Shouldn't update a product when I send an invalid categoryId", async () => {
     try {
-      const data = {
-        title: "new title",
-        description: "new description",
-        price: 10,
-        status: "inactive",
+      const productId = "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b";
+      const data: any = {
+        categoryId: "1",
       };
-    } catch (error: any) {}
+
+      await productControllers.updateProduct(productId, data);
+    } catch (error: any) {
+      expect(error.message).to.be.an("string");
+    }
+  });
+
+  it("Shouldn't update a product when I send an invalid status", async () => {
+    try {
+      const productId = "dc228176-e25a-4f2e-a485-5c16aa83a415";
+      const data: any = {
+        status: "wrongstatus",
+      };
+
+      await productControllers.updateProduct(productId, data);
+    } catch (error: any) {
+      expect(error.message).to.be.an("string");
+    }
+  });
+
+  it("Shouldn't update a product when I send an invalid type of data", async () => {
+    try {
+      const productId = "dc228176-e25a-4f2e-a485-5c16aa83a415";
+      const data: any = {
+        price: "2",
+      };
+
+      await productControllers.updateProduct(productId, data);
+    } catch (error: any) {
+      expect(error.message).to.be.an("string");
+    }
+  });
+});
+
+describe("DELETE - product - unit tests", () => {
+  it("Should change the product status to deleted when I send a valid value", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const data: any = {
+      status: "deleted",
+    };
+    const response = await productControllers.updateProduct(productId, data);
+    expect(response[0]).to.equal(1);
   });
 });

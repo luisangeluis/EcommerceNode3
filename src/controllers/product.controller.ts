@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import sequelize from "sequelize";
 import type {
   ProductAttributes,
   ProductCreationAttributes,
@@ -8,9 +9,12 @@ import type {
 import Product from "../models/Product.model";
 import ProductImage from "../models/ProductImage.model";
 
+const { Op } = sequelize;
+
 //Geat all products
 export const readAllProducts = async (): Promise<ProductAttributes[]> => {
   return await Product.findAll({
+    where: { status: { [Op.in]: ["active", "inactive"] } },
     include: [{ model: ProductImage, required: false }],
   });
 };
