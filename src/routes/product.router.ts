@@ -6,16 +6,27 @@ import isAseller from "../middleware/isAseller.middleware";
 
 const router = Router();
 
+router.route("/").get(productServices.getAllProducts);
+
+//SELLER ROUTES
 router
-  .route("/")
-  .get(productServices.getAllProducts)
+  .route("/seller")
+  .get()
   .post(
     passport.authenticate("jwt", { session: false }),
     isAseller,
     productServices.post,
   );
 
-router.route("/seller_my-products").get();
+router
+  .route("/seller/:productId")
+  .get()
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    isAseller,
+    productServices.updateProductById,
+  )
+  .delete();
 
 router
   .route("/:id/add-to-cart")

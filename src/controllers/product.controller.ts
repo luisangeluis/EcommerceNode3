@@ -46,6 +46,13 @@ export const updateProductAsSeller = async (
   data: ProductUpdateAttributes,
 ): Promise<number[]> => await Product.update(data, { where: { id, sellerId } });
 
+export const updateAProductBySellerId = async (
+  sellerId: string,
+  productId: string,
+  data: ProductUpdateAttributes,
+): Promise<number[]> =>
+  await Product.update(data, { where: { sellerId, id: productId } });
+
 //Delete a product
 export const deleteProduct = async (id: string): Promise<number> =>
   await Product.destroy({ where: { id } });
