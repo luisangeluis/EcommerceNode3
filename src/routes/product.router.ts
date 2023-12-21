@@ -27,7 +27,11 @@ router
     isAseller,
     productServices.updateProductById,
   )
-  .delete();
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    isAseller,
+    productServices.deleteProductById,
+  );
 
 //CUSTOMER ROUTES
 router

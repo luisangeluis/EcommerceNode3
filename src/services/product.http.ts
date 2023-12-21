@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import type { UserTokenAttributes } from "../types";
 import catchErrors from "../utils/catchErrors";
 import * as productControllers from "../controllers/product.controller";
+import { ProductStatusEnum } from "../utils/Enums";
 
 export const getAllProducts = async (
   _req: Request,
@@ -122,6 +123,30 @@ export const updateProductById = async (
     return res
       .status(200)
       .json({ message: `Product with id:${productId} successfully edited` });
+  } catch (error: any) {
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
+  }
+};
+
+export const deleteProductById = async (req: Request, res: Response) => {
+  try {
+    const userId = (req.user as UserTokenAttributes).id;
+    const productId = req.params.productId;
+    const data = { status: ProductStatusEnum.DELETED };
+
+    const response = await productControllers.updateAProductBySellerId(
+      userId,
+      productId,
+      data,
+    );
+
+    if (!response[0])
+      return res
+        .status(404)
+        .json({ message: `Product with id:${productId} doesn't exist` });
+
+    return res.status(204).json();
   } catch (error: any) {
     const customError = catchErrors(error);
     return res.status(customError.status).json({ message: customError.error });

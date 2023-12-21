@@ -189,4 +189,14 @@ describe("DELETE - product - unit tests", () => {
     const response = await productControllers.updateProduct(productId, data);
     expect(response[0]).to.equal(1);
   });
+
+  it("Should thrown an error when I send a product id that doesn't exist", async () => {
+    const productId = "1";
+    const data: any = {
+      status: "deleted",
+    };
+    const response = await productControllers.updateProduct(productId, data);
+
+    expect(response[0]).to.equal(0);
+  });
 });
