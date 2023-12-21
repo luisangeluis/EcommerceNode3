@@ -6,6 +6,7 @@ import isAseller from "../middleware/isAseller.middleware";
 
 const router = Router();
 
+//CUSTOMER ROUTES
 router.route("/").get(productServices.getAllProducts);
 
 //SELLER ROUTES
@@ -28,6 +29,7 @@ router
   )
   .delete();
 
+//CUSTOMER ROUTES
 router
   .route("/:id/add-to-cart")
   .post(

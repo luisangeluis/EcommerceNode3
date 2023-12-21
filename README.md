@@ -2,23 +2,26 @@
 
 ## PRODUCT ROUTES
 
-/api/v1/products
-- Get "Get all products"
- #### Params: no params.
- #### Querys: no querys.
- #### Body: no body.
+GET "GET ALL PRODUCTS"
+- /api/v1/products
+- - Auth:no 
+- - Params: No params.
+- - Querys: no querys. 
+- - Body: no body. 
 
-/api/v1/products/:id
- - Get "Get a product by id"
-#### Params: product id.
-#### Querys: no querys.
-#### Body: no body.
+GET "GET A PRODUCT BY ID"
+- /api/v1/products/:id
+- - Auth:No
+- - Params: product id.
+- - Querys: no querys.
+- - Body: no body.
 
- /api/v1/products
- - Post "Create a product"
-#### Params: no params.
-#### Querys: no querys.
-#### Body:
+POST "CREATE A PRODUCT
+- /api/v1/products/seller
+- - Auth:Yes (Only for sellers).
+- - Params: no params.
+- - Querys: no querys.
+- - Body:
 ```javascript
 const newProduct = {
       title: "string",
@@ -32,7 +35,17 @@ const newProduct = {
       sellerId: "string",
     }
 ```
-
+PUT "UPDATE A PRODUCT"
+- /api/v1/products/seller
+- - Auth:Yes (Only for sellers).
+- - Params: product id.
+- - Querys: no querys.
+- - Body:
+```javascript
+const newData = {
+      title: "new title"
+      }
+```
 ## CART Routes
 
 /api/v1/cart

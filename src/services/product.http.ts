@@ -80,8 +80,6 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
 
     return res.status(201).json({ response });
   } catch (error: any) {
-    // return res.status(500).json({ message: error.message });
-    // return catchErrors(error);
     const customError = catchErrors(error);
     return res.status(customError.status).json({ message: customError.error });
   }
@@ -95,7 +93,7 @@ export const updateProductById = async (
     const userId = (req.user as UserTokenAttributes).id;
     const productId = req.params.productId;
     const data = req.body;
-    const status = ["active", "unactive"];
+    const status = ["active", "inactive"];
     const { id, sellerId, ...restOfData } = data;
 
     if (Object.keys(restOfData).length === 0)
@@ -104,19 +102,19 @@ export const updateProductById = async (
     if (restOfData.status) {
       const statusIndex = status.indexOf(restOfData.status);
 
-      if (!statusIndex)
+      if (statusIndex < 0)
         return res.status(400).json({
           message: "Status must contain a valid value: active or inactive",
         });
     }
 
-    const response = productControllers.updateAProductBySellerId(
+    const response = await productControllers.updateAProductBySellerId(
       userId,
       productId,
       restOfData,
     );
 
-    if (!response)
+    if (!response[0])
       return res
         .status(404)
         .json({ message: `Product with id: ${productId} doesn't exists` });
@@ -125,6 +123,7 @@ export const updateProductById = async (
       .status(200)
       .json({ message: `Product with id:${productId} successfully edited` });
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };

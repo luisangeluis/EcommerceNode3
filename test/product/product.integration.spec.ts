@@ -73,7 +73,7 @@ describe("POST - Create a product - integration tests", () => {
 
     const response = await chai
       .request(app)
-      .post(`/api/v1/products/`)
+      .post(`/api/v1/products/seller`)
       .set("Authorization", `Bearer ${token}`)
       .send(product);
 
@@ -91,7 +91,7 @@ describe("POST - Create a product - integration tests", () => {
 
     const response = await chai
       .request(app)
-      .post(`/api/v1/products/`)
+      .post(`/api/v1/products/seller`)
       .set("Authorization", `Bearer ${token}`)
       .send(product);
 
@@ -110,7 +110,7 @@ describe("POST - Create a product - integration tests", () => {
 
     const response = await chai
       .request(app)
-      .post(`/api/v1/products/`)
+      .post(`/api/v1/products/seller`)
       .set("Authorization", `Bearer ${token}`)
       .send(product);
 
@@ -129,7 +129,7 @@ describe("POST - Create a product - integration tests", () => {
 
     const response = await chai
       .request(app)
-      .post(`/api/v1/products/`)
+      .post(`/api/v1/products/seller`)
       .set("Authorization", `Bearer ${token}`)
       .send(product);
 
@@ -148,7 +148,7 @@ describe("POST - Create a product - integration tests", () => {
 
     const response = await chai
       .request(app)
-      .post(`/api/v1/products/`)
+      .post(`/api/v1/products/seller`)
       .set("Authorization", `Bearer ${token}`)
       .send(product);
 
@@ -157,7 +157,7 @@ describe("POST - Create a product - integration tests", () => {
 });
 
 describe("PUT - Edit a product integration tests", async () => {
-  it("Should respond with 200 status code when I do a valid update ", async () => {
+  it("Should respond with 200 status code when I send a valid to update ", async () => {
     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
     const newData = {
       price: "10",
@@ -171,57 +171,88 @@ describe("PUT - Edit a product integration tests", async () => {
     expect(response).to.have.status(200);
   });
 
-  // it("Should respond with 400 status code when I do an invalid update ", async () => {
-  //   if (product) {
-  //     const newData = {
-  //       price: "tres",
-  //     };
-  //     const response = await chai
-  //       .request(app)
-  //       .put(`/api/v1/products/${product.id}`)
-  //       .set("Authorization", `Bearer ${token}`)
-  //       .send(newData);
+  it("Should respond with 200 status code when I send a valid status ", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      status: "inactive",
+    };
+    const response = await chai
+      .request(app)
+      .put(`/api/v1/products/seller/${productId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(newData);
 
-  //     expect(response).to.have.status(400);
-  //   }
-  // });
+    expect(response).to.have.status(200);
+  });
 
-  // it("Should respond with 404 status code when I send and invalid id", (done) => {
-  //   const id = 1;
-  //   const aProduct = {
-  //     price: 10,
-  //   };
+  it("Should respond with 400 status code when I send a product id to update", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      id: 1,
+    };
 
-  //   chai
-  //     .request(app)
-  //     .put(`/api/v1/products/${id}`)
-  //     .set("Authorization", `Bearer ${token}`)
-  //     .send(aProduct)
-  //     .end((_err, res) => {
-  //       expect(res).to.have.status(404);
-  //       done();
-  //     });
-  // });
+    const response = await chai
+      .request(app)
+      .put(`/api/v1/products/seller/${productId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(newData);
+
+    expect(response).to.have.status(400);
+  });
+
+  it("Should respond with 400 status code when I send a property with wrong type", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      price: "tres",
+    };
+
+    const response = await chai
+      .request(app)
+      .put(`/api/v1/products/seller/${productId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(newData);
+    // console.log({ response });
+
+    expect(response).to.have.status(400);
+  });
+
+  it("Should respond with 404 status code when I send and invalid id", (done) => {
+    const id = 1;
+    const data = {
+      price: 10,
+    };
+
+    chai
+      .request(app)
+      .put(`/api/v1/products/seller/${id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(data)
+      .end((_err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+
+  it("Should respond with 400 status code when I send a wrong status", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      status: "deleted",
+    };
+
+    const response = await chai
+      .request(app)
+      .put(`/api/v1/products/seller/${productId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(newData);
+    // console.log({ response });
+
+    expect(response).to.have.status(400);
+  });
 
   // it("Should respond with 400 status code when I do an invalid update with the foreign key", async () => {
   //   if (product) {
   //     const newData = {
   //       categoryId: "tres",
-  //     };
-  //     const response = await chai
-  //       .request(app)
-  //       .put(`/api/v1/products/${product.id}`)
-  //       .set("Authorization", `Bearer ${token}`)
-  //       .send(newData);
-
-  //     expect(response).to.have.status(400);
-  //   }
-  // });
-
-  // it("Should respond with 400 status code when I send property that doesn't exist", async () => {
-  //   if (product) {
-  //     const newData = {
-  //       invalidProperty: "hola",
   //     };
   //     const response = await chai
   //       .request(app)
