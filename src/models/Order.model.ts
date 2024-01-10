@@ -7,32 +7,32 @@ import {
   Model,
   PrimaryKey,
   Table,
-  Default,
-} from "sequelize-typescript";
-import { OrderAttributes, OrderCreationAttributes } from "../types";
-import Cart from "./Cart.model";
-import OrderDetail from "./OrderDetail.model";
+  Default
+} from 'sequelize-typescript';
+import { OrderAttributes, OrderCreationAttributes } from '../types';
+import Cart from './Cart.model';
+import OrderDetail from './OrderDetail.model';
 
 @Table
 class Order extends Model<OrderAttributes, OrderCreationAttributes> {
   @PrimaryKey
   @Column({
     type: DataType.UUID,
-    allowNull: false,
+    allowNull: false
   })
   id!: string;
 
   @ForeignKey(() => Cart)
   @Column({
     type: DataType.UUID,
-    allowNull: false,
+    allowNull: false
   })
   cartId!: string;
 
-  @Default("created")
+  @Default('created')
   @Column({
     type: DataType.STRING(20),
-    allowNull: false,
+    allowNull: false
   })
   status!: string; //finished, created, canceled
 

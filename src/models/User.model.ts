@@ -9,32 +9,32 @@ import {
   Model,
   PrimaryKey,
   Table,
-  Unique,
-} from "sequelize-typescript";
-import { UserAttributes, UserCreationAttributes } from "../types";
-import Role from "./Role.model";
-import Cart from "./Cart.model";
-import Product from "./Product.model";
-import Status from "./Status.model";
+  Unique
+} from 'sequelize-typescript';
+import { UserAttributes, UserCreationAttributes } from '../types';
+import Role from './Role.model';
+import Cart from './Cart.model';
+import Product from './Product.model';
+import Status from './Status.model';
 
 @Table
 class User extends Model<UserAttributes, UserCreationAttributes> {
   @PrimaryKey
   @Column({
     type: DataType.UUID,
-    allowNull: false,
+    allowNull: false
   })
   id!: string;
 
   @Column({
     type: DataType.STRING(150),
-    allowNull: false,
+    allowNull: false
   })
   firstName!: string;
 
   @Column({
     type: DataType.STRING(150),
-    allowNull: false,
+    allowNull: false
   })
   lastName!: string;
 
@@ -42,13 +42,13 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
   @IsEmail
   @Column({
     type: DataType.STRING(250),
-    allowNull: false,
+    allowNull: false
   })
   email!: string;
 
   @Column({
     type: DataType.STRING(400),
-    allowNull: false,
+    allowNull: false
   })
   password!: string;
 
@@ -57,9 +57,9 @@ class User extends Model<UserAttributes, UserCreationAttributes> {
   roleId!: string;
 
   @ForeignKey(() => Status)
-  @Column({allowNull: false, type: DataType.UUID})
-  statusId!:string;
-  
+  @Column({ allowNull: false, type: DataType.UUID })
+  statusId!: string;
+
   @BelongsTo(() => Role)
   role!: Role;
 

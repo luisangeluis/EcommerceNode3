@@ -1,5 +1,5 @@
-import app from "./app";
-import { initDb } from "./db/connection";
+import app from './app';
+import { initDb } from './db/connection';
 
 const PORT = 3000;
 

@@ -1,47 +1,42 @@
-import { v4 as uuidv4 } from "uuid";
-import type { CartItemAttributes, CartItemCreationAttributes } from "../types";
-import CartItem from "../models/CartItem.model";
-import Cart from "../models/Cart.model";
+import { v4 as uuidv4 } from 'uuid';
+import type { CartItemAttributes, CartItemCreationAttributes } from '../types';
+import CartItem from '../models/CartItem.model';
+import Cart from '../models/Cart.model';
 
-export const readCartItemById = async (
-  cartItemId: string,
-  userId: string,
-): Promise<CartItem | null> => {
+export const readCartItemById = async (cartItemId: string, userId: string): Promise<CartItem | null> => {
   const response = await CartItem.findOne({
     where: { id: cartItemId },
     attributes: {
-      exclude: ["cartId"],
+      exclude: ['cartId']
     },
     include: {
       model: Cart,
       where: {
-        userId,
-      },
-    },
+        userId
+      }
+    }
   });
 
   return response;
 };
 
-export const createCartItem = async (
-  cartItem: CartItemCreationAttributes,
-): Promise<CartItemAttributes> => {
+export const createCartItem = async (cartItem: CartItemCreationAttributes): Promise<CartItemAttributes> => {
   return await CartItem.create({ ...cartItem, id: uuidv4() });
 };
 
 export const updateQuantity = async (
   cartItemId: string,
   userId: string,
-  quantity: number,
+  quantity: number
 ): Promise<CartItem | null> => {
   const cartItem = await CartItem.findOne({
     where: { id: cartItemId },
     include: {
       model: Cart,
       where: {
-        userId,
-      },
-    },
+        userId
+      }
+    }
   });
 
   if (!cartItem) return null;
@@ -52,18 +47,15 @@ export const updateQuantity = async (
   return cartItem;
 };
 
-export const deleteCartItem = async (
-  cartItemId: string,
-  userId: string,
-): Promise<number> => {
+export const deleteCartItem = async (cartItemId: string, userId: string): Promise<number> => {
   const response = await CartItem.findOne({
     where: { id: cartItemId },
     include: {
       model: Cart,
       where: {
-        userId,
-      },
-    },
+        userId
+      }
+    }
   });
 
   if (!response) return 0;
@@ -74,35 +66,32 @@ export const deleteCartItem = async (
 
 export const readOrCreateCartItem = async (
   // cartItem: Partial<CartItemAttributes>,
-  cartItem: CartItemCreationAttributes,
+  cartItem: CartItemCreationAttributes
 ) => {
   const response = await CartItem.findOrCreate({
     where: { productId: cartItem.productId, cartId: cartItem.cartId },
     defaults: {
       ...cartItem,
-      id: uuidv4(),
-    },
+      id: uuidv4()
+    }
   });
   return response;
 };
 
-export const readCartItemByCartIdProductId = async (
-  cartId: string,
-  productId: string,
-) => {
+export const readCartItemByCartIdProductId = async (cartId: string, productId: string) => {
   const response = await CartItem.findOne({
     where: {
       cartId,
-      productId,
+      productId
     },
     attributes: {
-      exclude: ["cartId"],
+      exclude: ['cartId']
     },
     include: [
       {
-        model: Cart,
-      },
-    ],
+        model: Cart
+      }
+    ]
   });
 
   return response;

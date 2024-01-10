@@ -1,13 +1,10 @@
-import { Request, Response } from "express";
-import type { UserAttributes, UserTokenAttributes } from "../types";
-import type { ProductsQuery } from "../types/request/types.request";
+import { Request, Response } from 'express';
+import type { UserAttributes, UserTokenAttributes } from '../types';
+import type { ProductsQuery } from '../types/request/types.request';
 // import catchErrors from "../utils/catchErrors";
-import * as productControllers from "../controllers/product.controller";
+import * as productControllers from '../controllers/product.controller';
 
-export const getProductsBySellerId = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
+export const getProductsBySellerId = async (req: Request, res: Response): Promise<Response> => {
   const sellerId = (req.user as Partial<UserAttributes>)?.id;
   const query = req.query as ProductsQuery;
   const filters: ProductsQuery = {};
@@ -24,18 +21,14 @@ export const getProductsBySellerId = async (
   }
 };
 
-export const getProductAsSellerById = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
+export const getProductAsSellerById = async (req: Request, res: Response): Promise<Response> => {
   try {
     const id = req.params.id;
     const sellerId = (req.user as UserTokenAttributes)?.id;
     const query = { sellerId };
     const response = await productControllers.readProductById(id, query);
 
-    if (!response)
-      return res.status(404).send(`Product with id:${id} doesn't exist`);
+    if (!response) return res.status(404).send(`Product with id:${id} doesn't exist`);
 
     return res.status(200).json(response);
   } catch (error: any) {
@@ -79,41 +72,26 @@ export const getProductAsSellerById = async (
 //   }
 // };
 
-export const updateProductAsSeller = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
+export const updateProductAsSeller = async (req: Request, res: Response): Promise<Response> => {
   const userId = (req.user as Partial<UserAttributes>)?.id;
   const productId = req.params.productId;
   const data = req.body;
   const { id, sellerId, ...restOfData } = data;
 
   try {
-    if (!Object.keys(restOfData).length)
-      return res.status(400).json({ message: "Missing data" });
+    if (!Object.keys(restOfData).length) return res.status(400).json({ message: 'Missing data' });
 
-    const response = await productControllers.updateProductAsSeller(
-      { id: productId, sellerId: userId },
-      restOfData,
-    );
+    const response = await productControllers.updateProductAsSeller({ id: productId, sellerId: userId }, restOfData);
 
-    if (!response[0])
-      return res
-        .status(404)
-        .json({ message: `Product with id: ${productId} doesn't exists` });
+    if (!response[0]) return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
 
-    return res
-      .status(200)
-      .json({ message: `Product with id: ${productId} edited successfully` });
+    return res.status(200).json({ message: `Product with id: ${productId} edited successfully` });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-export const removeProductAsSeller = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
+export const removeProductAsSeller = async (req: Request, res: Response): Promise<Response> => {
   try {
     const productId = req.params.productId;
     const sellerId = (req.user as Partial<UserAttributes>)?.id;
@@ -121,15 +99,12 @@ export const removeProductAsSeller = async (
     const response = await productControllers.updateProductAsSeller(
       {
         id: productId,
-        sellerId,
+        sellerId
       },
-      { status: "deleted" },
+      { status: 'deleted' }
     );
 
-    if (!response[0])
-      return res
-        .status(404)
-        .json({ message: `Product with id: ${productId} doesn't exists` });
+    if (!response[0]) return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
 
     return res.status(204).json();
   } catch (error: any) {

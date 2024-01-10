@@ -1,42 +1,27 @@
-import Product from "./Product.model";
-import {
-  BelongsTo,
-  Column,
-  DataType,
-  ForeignKey,
-  IsUrl,
-  Model,
-  PrimaryKey,
-  Table,
-} from "sequelize-typescript";
-import {
-  ProductImageAttributes,
-  ProductImageCreationAttributes,
-} from "../types";
+import Product from './Product.model';
+import { BelongsTo, Column, DataType, ForeignKey, IsUrl, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { ProductImageAttributes, ProductImageCreationAttributes } from '../types';
 
 @Table
-class ProductImage extends Model<
-  ProductImageAttributes,
-  ProductImageCreationAttributes
-> {
+class ProductImage extends Model<ProductImageAttributes, ProductImageCreationAttributes> {
   @PrimaryKey
   @Column({
     type: DataType.UUID,
-    allowNull: false,
+    allowNull: false
   })
   id!: string;
 
   @ForeignKey(() => Product)
   @Column({
     allowNull: false,
-    type: DataType.UUID,
+    type: DataType.UUID
   })
   productId!: string;
 
   @IsUrl
   @Column({
     allowNull: false,
-    type: DataType.UUID,
+    type: DataType.UUID
   })
   url!: string;
 
