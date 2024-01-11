@@ -1,7 +1,7 @@
-import passport from 'passport';
-import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
-import { getUserById } from '../controllers/user.controller';
-import dotenv from 'dotenv';
+import passport from "passport";
+import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
+import { getUserById } from "../controllers/user.controller";
+import dotenv from "dotenv";
 
 dotenv.config();
 

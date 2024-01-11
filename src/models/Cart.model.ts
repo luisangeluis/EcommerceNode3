@@ -8,11 +8,11 @@ import {
   BelongsTo,
   HasMany,
   HasOne
-} from 'sequelize-typescript';
-import { CartAttributes, CartCreationAttributes } from '../types';
-import User from './User.model';
-import CartItem from './CartItem.model';
-import Order from './Order.model';
+} from "sequelize-typescript";
+import { CartAttributes, CartCreationAttributes } from "../types";
+import User from "./User.model";
+import CartItem from "./CartItem.model";
+import Order from "./Order.model";
 
 @Table({
   timestamps: false

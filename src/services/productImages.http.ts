@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { UserTokenAttributes } from '../types';
-import { uploadImage } from '../utils/cloudinary';
-import fs from 'fs-extra';
+import { Request, Response } from "express";
+import { UserTokenAttributes } from "../types";
+import { uploadImage } from "../utils/cloudinary";
+import fs from "fs-extra";
 
-import * as productImagesController from '../controllers/productImage.controller';
-import * as productController from '../controllers/product.controller';
+import * as productImagesController from "../controllers/productImage.controller";
+import * as productController from "../controllers/product.controller";
 // import ProductImage from "../models/ProductImage.model";
 // import Product from "../models/Product.model";
 

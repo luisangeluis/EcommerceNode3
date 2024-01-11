@@ -17,7 +17,7 @@ before(async () => {
     const user = {
       id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
       email: "juan.perez@correo.com",
-      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+      roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7"
     };
     token = await generateToken(user);
   } catch (error: any) {
@@ -30,8 +30,11 @@ describe("GET - products - integration tests", () => {
     chai
       .request(app)
       .get("/api/v1/products")
+      .query({ categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25" })
       .send()
       .end((_err, res) => {
+        console.log(res.body);
+
         expect(res).to.have.status(200);
         done();
       });
@@ -40,9 +43,7 @@ describe("GET - products - integration tests", () => {
 
 describe("GET - product by id - integration tests", () => {
   it("Should respond with 200 status code when I send a correct product id", async () => {
-    const response = await chai
-      .request(app)
-      .get(`/api/v1/products/10119ed0-b180-4ed5-a2b4-3c3619af97d9`);
+    const response = await chai.request(app).get(`/api/v1/products/10119ed0-b180-4ed5-a2b4-3c3619af97d9`);
     // console.log(response);
     expect(response).to.have.status(200);
   });
@@ -68,14 +69,10 @@ describe("POST - Create a product - integration tests", () => {
       price: 1,
       status: "active",
       categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
     };
 
-    const response = await chai
-      .request(app)
-      .post(`/api/v1/products/seller`)
-      .set("Authorization", `Bearer ${token}`)
-      .send(product);
+    const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
 
     expect(response).to.have.status(201);
   });
@@ -86,14 +83,10 @@ describe("POST - Create a product - integration tests", () => {
       price: 10,
       status: "active",
       categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
     };
 
-    const response = await chai
-      .request(app)
-      .post(`/api/v1/products/seller`)
-      .set("Authorization", `Bearer ${token}`)
-      .send(product);
+    const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
 
     expect(response).to.have.status(400);
   });
@@ -105,14 +98,10 @@ describe("POST - Create a product - integration tests", () => {
       price: "aaa",
       status: "active",
       categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
     };
 
-    const response = await chai
-      .request(app)
-      .post(`/api/v1/products/seller`)
-      .set("Authorization", `Bearer ${token}`)
-      .send(product);
+    const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
 
     expect(response).to.have.status(400);
   });
@@ -124,14 +113,10 @@ describe("POST - Create a product - integration tests", () => {
       price: 2,
       status: "active",
       categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
     };
 
-    const response = await chai
-      .request(app)
-      .post(`/api/v1/products/seller`)
-      .set("Authorization", `Bearer ${token}`)
-      .send(product);
+    const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
 
     expect(response).to.have.status(400);
   });
@@ -143,14 +128,10 @@ describe("POST - Create a product - integration tests", () => {
       price: 2,
       status: "active",
       categoryId: "5",
-      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
     };
 
-    const response = await chai
-      .request(app)
-      .post(`/api/v1/products/seller`)
-      .set("Authorization", `Bearer ${token}`)
-      .send(product);
+    const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
 
     expect(response).to.have.status(400);
   });
@@ -160,7 +141,7 @@ describe("PUT - Edit a product integration tests", async () => {
   it("Should respond with 200 status code when I send a valid to update ", async () => {
     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
     const newData = {
-      price: "10",
+      price: "10"
     };
     const response = await chai
       .request(app)
@@ -174,7 +155,7 @@ describe("PUT - Edit a product integration tests", async () => {
   it("Should respond with 200 status code when I send a valid status ", async () => {
     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
     const newData = {
-      status: "inactive",
+      status: "inactive"
     };
     const response = await chai
       .request(app)
@@ -188,7 +169,7 @@ describe("PUT - Edit a product integration tests", async () => {
   it("Should respond with 400 status code when I send a product id to update", async () => {
     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
     const newData = {
-      id: 1,
+      id: 1
     };
 
     const response = await chai
@@ -203,7 +184,7 @@ describe("PUT - Edit a product integration tests", async () => {
   it("Should respond with 400 status code when I send a property with wrong type", async () => {
     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
     const newData = {
-      price: "tres",
+      price: "tres"
     };
 
     const response = await chai
@@ -219,7 +200,7 @@ describe("PUT - Edit a product integration tests", async () => {
   it("Should respond with 404 status code when I send and invalid id", (done) => {
     const id = 1;
     const data = {
-      price: 10,
+      price: 10
     };
 
     chai
@@ -236,7 +217,7 @@ describe("PUT - Edit a product integration tests", async () => {
   it("Should respond with 400 status code when I send a wrong status", async () => {
     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
     const newData = {
-      status: "deleted",
+      status: "deleted"
     };
 
     const response = await chai

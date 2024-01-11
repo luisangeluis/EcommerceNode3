@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import type { UserTokenAttributes, CartItemAttributes } from '../types';
-import * as cartItemControllers from '../controllers/cartItem.controller';
-import * as cartControllers from '../controllers/cart.controller';
-import { readProductById } from '../controllers/product.controller';
+import { Request, Response } from "express";
+import type { UserTokenAttributes, CartItemAttributes } from "../types";
+import * as cartItemControllers from "../controllers/cartItem.controller";
+import * as cartControllers from "../controllers/cart.controller";
+import { readProductById } from "../controllers/product.controller";
 
 export const getCartItem = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -64,7 +64,7 @@ export const updateQuantityFromCartItem = async (req: Request, res: Response): P
   const quantity = req.body.quantity;
 
   if (quantity < 1 || quantity > 10)
-    return res.status(400).json({ message: 'quantity property must be between 1 and 10' });
+    return res.status(400).json({ message: "quantity property must be between 1 and 10" });
 
   const response = await cartItemControllers.updateQuantity(cartItemId, userId, quantity);
 

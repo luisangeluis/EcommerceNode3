@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-import ProductImage from '../models/ProductImage.model';
-import type { ProductImageCreationAttributes } from '../types';
-import Product from '../models/Product.model';
+import ProductImage from "../models/ProductImage.model";
+import type { ProductImageCreationAttributes } from "../types";
+import Product from "../models/Product.model";
 
 export const readAllImagesByProductId = async (productId: string) => {
   const response = await ProductImage.findAll({ where: { productId } });

@@ -1,6 +1,6 @@
-import Product from './Product.model';
-import { BelongsTo, Column, DataType, ForeignKey, IsUrl, Model, PrimaryKey, Table } from 'sequelize-typescript';
-import { ProductImageAttributes, ProductImageCreationAttributes } from '../types';
+import Product from "./Product.model";
+import { BelongsTo, Column, DataType, ForeignKey, IsUrl, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { ProductImageAttributes, ProductImageCreationAttributes } from "../types";
 
 @Table
 class ProductImage extends Model<ProductImageAttributes, ProductImageCreationAttributes> {

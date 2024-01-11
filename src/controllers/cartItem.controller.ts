@@ -1,13 +1,13 @@
-import { v4 as uuidv4 } from 'uuid';
-import type { CartItemAttributes, CartItemCreationAttributes } from '../types';
-import CartItem from '../models/CartItem.model';
-import Cart from '../models/Cart.model';
+import { v4 as uuidv4 } from "uuid";
+import type { CartItemAttributes, CartItemCreationAttributes } from "../types";
+import CartItem from "../models/CartItem.model";
+import Cart from "../models/Cart.model";
 
 export const readCartItemById = async (cartItemId: string, userId: string): Promise<CartItem | null> => {
   const response = await CartItem.findOne({
     where: { id: cartItemId },
     attributes: {
-      exclude: ['cartId']
+      exclude: ["cartId"]
     },
     include: {
       model: Cart,
@@ -85,7 +85,7 @@ export const readCartItemByCartIdProductId = async (cartId: string, productId: s
       productId
     },
     attributes: {
-      exclude: ['cartId']
+      exclude: ["cartId"]
     },
     include: [
       {

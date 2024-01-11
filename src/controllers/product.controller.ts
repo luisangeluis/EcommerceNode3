@@ -1,17 +1,26 @@
-import { v4 as uuidv4 } from 'uuid';
-import sequelize from 'sequelize';
-import type { ProductAttributes, ProductCreationAttributes, ProductReadAttributes, ProductUpdateAttributes } from '../types';
+import { v4 as uuidv4 } from "uuid";
+import sequelize from "sequelize";
+import type { ProductAttributes, ProductCreationAttributes, ProductReadAttributes, ProductUpdateAttributes } from "../types";
 // import type { ProductsQuery } from "../types/request/types.request";
-import Product from '../models/Product.model';
-import ProductImage from '../models/ProductImage.model';
-import { ProductStatusEnum } from '../utils/Enums';
+import Product from "../models/Product.model";
+import ProductImage from "../models/ProductImage.model";
+import { ProductStatusEnum } from "../utils/Enums";
+
+interface GetProducts {
+  totalResults: number;
+  response: Product[];
+  currentPage: number;
+  totalPages: number;
+}
 
 const { Op } = sequelize;
 
 //Geat all products
-export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>, page?: number): Promise<ProductAttributes[]> => {
+// export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<ProductAttributes[]> => {
+export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<GetProducts> => {
   const limit = 4;
-  const offset = (page || 1 - 1) * limit;
+  const page = optionalQueries?.page || 1;
+  const offset = (page - 1) * limit;
   const queries: any = {
     status: { [Op.in]: [ProductStatusEnum.ACTIVE, ProductStatusEnum.INACTIVE] }
   };
@@ -22,18 +31,34 @@ export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttri
 
   if (optionalQueries?.categoryId) queries.categoryId = optionalQueries.categoryId;
 
-  const response = await Product.findAll({
+  const { rows: response, count } = await Product.findAndCountAll({
     where: queries,
     include: [{ model: ProductImage, required: false }],
     limit,
     offset
   });
 
-  return response;
+  const totalPages = Math.ceil(count / limit);
+
+  return {
+    totalResults: count,
+    totalPages: totalPages,
+    currentPage: page,
+    response: response
+  };
+
+  // const response = await Product.findAll({
+  //   where: queries,
+  //   include: [{ model: ProductImage, required: false }],
+  //   limit,
+  //   offset
+  // });
+
+  // return response;
 };
 
 //Get a product by id
-export const readProductById = async (id: string): Promise<ProductAttributes | null> =>
+export const readProductById = async (id: string): Promise<Product | null> =>
   await Product.findOne({
     where: { id },
     include: { model: ProductImage, required: false }

@@ -1,6 +1,6 @@
-import { Column, DataType, PrimaryKey, Table, Model, HasMany } from 'sequelize-typescript';
-import type { CategoryAttributes, CategoryCreationAttributes } from '../types';
-import Product from './Product.model';
+import { Column, DataType, PrimaryKey, Table, Model, HasMany } from "sequelize-typescript";
+import type { CategoryAttributes, CategoryCreationAttributes } from "../types";
+import Product from "./Product.model";
 
 @Table
 class Category extends Model<CategoryAttributes, CategoryCreationAttributes> {

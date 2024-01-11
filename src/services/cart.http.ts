@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { UserTokenAttributes } from '../types';
-import * as cartControllers from '../controllers/cart.controller';
+import { Request, Response } from "express";
+import { UserTokenAttributes } from "../types";
+import * as cartControllers from "../controllers/cart.controller";
 
 export const getCartByUserId = async (req: Request, res: Response): Promise<Response> => {
   try {

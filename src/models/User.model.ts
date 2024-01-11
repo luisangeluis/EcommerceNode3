@@ -10,12 +10,12 @@ import {
   PrimaryKey,
   Table,
   Unique
-} from 'sequelize-typescript';
-import { UserAttributes, UserCreationAttributes } from '../types';
-import Role from './Role.model';
-import Cart from './Cart.model';
-import Product from './Product.model';
-import Status from './Status.model';
+} from "sequelize-typescript";
+import { UserAttributes, UserCreationAttributes } from "../types";
+import Role from "./Role.model";
+import Cart from "./Cart.model";
+import Product from "./Product.model";
+import Status from "./Status.model";
 
 @Table
 class User extends Model<UserAttributes, UserCreationAttributes> {

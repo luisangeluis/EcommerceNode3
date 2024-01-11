@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { readProductById } from '../controllers/product.controller';
+import { Request, Response, NextFunction } from "express";
+import { readProductById } from "../controllers/product.controller";
 
 const productExistsMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
   const productId: string = req.params.id;

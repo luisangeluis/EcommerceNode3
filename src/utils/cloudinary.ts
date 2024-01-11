@@ -1,5 +1,5 @@
-import { v2 as cloudinary } from 'cloudinary';
-import dotenv from 'dotenv';
+import { v2 as cloudinary } from "cloudinary";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -10,4 +10,4 @@ cloudinary.config({
 });
 
 export const uploadImage = async (filePath: string) =>
-  await cloudinary.uploader.upload(filePath, { folder: 'product-image' });
+  await cloudinary.uploader.upload(filePath, { folder: "product-image" });

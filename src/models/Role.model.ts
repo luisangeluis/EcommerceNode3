@@ -1,7 +1,7 @@
-import { Column, DataType, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
-import { RoleAttributes, RoleCreationAttributes } from '../types';
-import { UserRoleEnum } from '../utils/Enums';
-import User from './User.model';
+import { Column, DataType, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { RoleAttributes, RoleCreationAttributes } from "../types";
+import { UserRoleEnum } from "../utils/Enums";
+import User from "./User.model";
 
 @Table({
   timestamps: false

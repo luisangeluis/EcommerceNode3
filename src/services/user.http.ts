@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
-import * as userControllers from '../controllers/user.controller';
-import validateUserPassword from '../utils/validateUserPassword';
-import catchErrors from '../utils/catchErrors';
-import { UserAttributes, UserTokenAttributes } from '../types';
+import * as userControllers from "../controllers/user.controller";
+import validateUserPassword from "../utils/validateUserPassword";
+import catchErrors from "../utils/catchErrors";
+import { UserAttributes, UserTokenAttributes } from "../types";
 
 export const post = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id, ...restOfData } = req.body;
-    if (!Object.keys(restOfData)) return res.status(400).send('Missing data');
+    if (!Object.keys(restOfData)) return res.status(400).send("Missing data");
 
     if (
       !restOfData.firstName ||
@@ -18,13 +18,13 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
       !restOfData.roleId
     )
       return res.status(400).json({
-        message: 'At least these  fields must be completed',
+        message: "At least these  fields must be completed",
         fields: {
-          firstName: 'string',
-          lastName: 'string',
-          email: 'string',
-          password: 'string',
-          roleId: 'string'
+          firstName: "string",
+          lastName: "string",
+          email: "string",
+          password: "string",
+          roleId: "string"
         }
       });
 
@@ -32,7 +32,7 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
 
     if (!isValidPassword)
       return res.status(400).json({
-        message: 'The password must have the following characteristics',
+        message: "The password must have the following characteristics",
         characteristics: {
           min: 10,
           max: 30,
@@ -46,7 +46,7 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
     const response = await userControllers.createUser(restOfData);
 
     return res.status(201).json({
-      message: 'User created successfully',
+      message: "User created successfully",
       response: {
         id: response.id,
         firstName: response.firstName,
@@ -79,11 +79,11 @@ export const updateMyUser = async (req: Request, res: Response): Promise<Respons
     const data = req.body as Partial<UserAttributes>;
     const { id, email, password, roleId, ...restOfData } = data;
 
-    if (!Object.keys(restOfData)) return res.status(400).send('Missing data');
+    if (!Object.keys(restOfData)) return res.status(400).send("Missing data");
 
     const response = await userControllers.updateUserById(userId, restOfData);
 
-    if (!response[0]) return res.status(400).json({ message: 'Please enter valid data' });
+    if (!response[0]) return res.status(400).json({ message: "Please enter valid data" });
 
     return res.status(200).json({ message: `User with id: ${userId} succesfully edited` });
   } catch (error: any) {

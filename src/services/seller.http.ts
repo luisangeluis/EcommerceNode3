@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import type { UserAttributes, UserTokenAttributes } from '../types';
-import type { ProductsQuery } from '../types/request/types.request';
+import { Request, Response } from "express";
+import type { UserAttributes, UserTokenAttributes } from "../types";
+import type { ProductsQuery } from "../types/request/types.request";
 // import catchErrors from "../utils/catchErrors";
-import * as productControllers from '../controllers/product.controller';
+import * as productControllers from "../controllers/product.controller";
 
 export const getProductsBySellerId = async (req: Request, res: Response): Promise<Response> => {
   const sellerId = (req.user as Partial<UserAttributes>)?.id;
@@ -79,7 +79,7 @@ export const updateProductAsSeller = async (req: Request, res: Response): Promis
   const { id, sellerId, ...restOfData } = data;
 
   try {
-    if (!Object.keys(restOfData).length) return res.status(400).json({ message: 'Missing data' });
+    if (!Object.keys(restOfData).length) return res.status(400).json({ message: "Missing data" });
 
     const response = await productControllers.updateProductAsSeller({ id: productId, sellerId: userId }, restOfData);
 
@@ -101,7 +101,7 @@ export const removeProductAsSeller = async (req: Request, res: Response): Promis
         id: productId,
         sellerId
       },
-      { status: 'deleted' }
+      { status: "deleted" }
     );
 
     if (!response[0]) return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });

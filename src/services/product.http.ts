@@ -1,14 +1,22 @@
-import { Request, Response } from 'express';
-import type { UserTokenAttributes } from '../types';
-import catchErrors from '../utils/catchErrors';
-import * as productControllers from '../controllers/product.controller';
-import { ProductStatusEnum } from '../utils/Enums';
+import { Request, Response } from "express";
+import type { UserTokenAttributes } from "../types";
+import catchErrors from "../utils/catchErrors";
+import * as productControllers from "../controllers/product.controller";
+import { ProductStatusEnum } from "../utils/Enums";
 
-export const getAllProducts = async (_req: Request, res: Response): Promise<Response> => {
+//Get all products
+export const getAllProducts = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const response = await productControllers.readAllProducts();
+    const queries = req.query;
+    const { totalResults, response, currentPage, totalPages } =
+      Object.keys(queries).length === 0 ? await productControllers.readAllProducts() : await productControllers.readAllProducts(queries);
 
-    return res.status(200).json(response);
+    return res.status(200).json({
+      totalResults,
+      totalPages,
+      currentPage,
+      response
+    });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
@@ -32,22 +40,22 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
     const userId = (req.user as UserTokenAttributes)?.id;
     const data = req.body;
 
-    if (!Object.keys(data).length) return res.status(400).json({ message: 'Missing data' });
+    if (!Object.keys(data).length) return res.status(400).json({ message: "Missing data" });
 
-    if (!data.title || !data.description || !data.price || !data.categoryId || data.status === 'deleted') {
+    if (!data.title || !data.description || !data.price || !data.categoryId || data.status === "deleted") {
       return res.status(400).json({
-        message: 'At least these  fields must be completed',
+        message: "At least these  fields must be completed",
         fields: {
-          title: 'string',
-          description: 'string',
-          price: 'number',
-          status: 'active/inactive - optional value -',
-          categoryId: 'string'
+          title: "string",
+          description: "string",
+          price: "number",
+          status: "active/inactive - optional value -",
+          categoryId: "string"
         }
       });
     }
 
-    if (typeof data.price !== 'number') return res.status(400).json({ message: 'Price property must be a number' });
+    if (typeof data.price !== "number") return res.status(400).json({ message: "Price property must be a number" });
 
     const newProduct = {
       title: data.title,
@@ -72,17 +80,17 @@ export const updateProductById = async (req: Request, res: Response): Promise<Re
     const userId = (req.user as UserTokenAttributes).id;
     const productId = req.params.productId;
     const data = req.body;
-    const status = ['active', 'inactive'];
+    const status = ["active", "inactive"];
     const { id, sellerId, ...restOfData } = data;
 
-    if (Object.keys(restOfData).length === 0) return res.status(400).json({ message: 'Missing data' });
+    if (Object.keys(restOfData).length === 0) return res.status(400).json({ message: "Missing data" });
 
     if (restOfData.status) {
       const statusIndex = status.indexOf(restOfData.status);
 
       if (statusIndex < 0)
         return res.status(400).json({
-          message: 'Status must contain a valid value: active or inactive'
+          message: "Status must contain a valid value: active or inactive"
         });
     }
 

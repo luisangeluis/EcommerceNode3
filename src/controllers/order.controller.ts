@@ -1,10 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
-import type { OrderCreationAttributes } from '../types';
-import Order from '../models/Order.model';
-import { Transaction } from 'sequelize';
-import Cart from '../models/Cart.model';
-import OrderDetail from '../models/OrderDetail.model';
-import { orderStatus } from '../utils/Enums';
+import { v4 as uuidv4 } from "uuid";
+import type { OrderCreationAttributes } from "../types";
+import Order from "../models/Order.model";
+import { Transaction } from "sequelize";
+import Cart from "../models/Cart.model";
+import OrderDetail from "../models/OrderDetail.model";
+import { orderStatus } from "../utils/Enums";
 
 export const readAllOrders = async (userId: string): Promise<Order[]> => {
   const response = await Order.findAll({
@@ -37,7 +37,7 @@ export const updateOrderStatus = async (id: string, status: orderStatus) => {
 
 export const updateOrderStatusAsCustomer = async (orderId: string, status: string, userId: string) => {
   const response = await Order.findOne({
-    where: { id: orderId, status: 'created' },
+    where: { id: orderId, status: "created" },
     include: [
       {
         model: Cart,

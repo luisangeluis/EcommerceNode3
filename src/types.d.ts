@@ -1,5 +1,5 @@
-import { Optional } from 'sequelize';
-import type { UserRoleEnum, ProductCategoryEnum, orderStatus, ProductStatusEnum } from './utils/Enums';
+import { Optional } from "sequelize";
+import type { UserRoleEnum, ProductCategoryEnum, orderStatus, ProductStatusEnum } from "./utils/Enums";
 
 //PRODUCT
 export interface ProductAttributes {
@@ -12,11 +12,12 @@ export interface ProductAttributes {
   sellerId: string;
 }
 
-export interface ProductCreationAttributes extends Optional<ProductAttributes, 'id'> {}
+export interface ProductCreationAttributes extends Optional<ProductAttributes, "id"> {}
 
 export interface ProductUpdateAttributes extends Partial<ProductCreationAttributes> {}
 
 export interface ProductReadAttributes extends Partial<ProductAttributes> {
+  page?: number;
   title?: string;
   description?: string;
   price?: number;
@@ -30,7 +31,7 @@ export interface ProductImageAttributes {
   url: string;
 }
 
-export interface ProductImageCreationAttributes extends Optional<ProductImageAttributes, 'id'> {}
+export interface ProductImageCreationAttributes extends Optional<ProductImageAttributes, "id"> {}
 
 //CATEGORY
 export interface CategoryAttributes {
@@ -38,7 +39,7 @@ export interface CategoryAttributes {
   name: ProductCategoryEnum;
 }
 
-export interface CategoryCreationAttributes extends Optional<CategoryAttributes, 'id'> {}
+export interface CategoryCreationAttributes extends Optional<CategoryAttributes, "id"> {}
 
 //USER
 export interface UserAttributes {
@@ -51,7 +52,7 @@ export interface UserAttributes {
   statusId: string;
 }
 
-export interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+export interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 
 export interface UserTokenAttributes extends Pick<UserAttributes, firstName | email | roleId> {}
 
@@ -61,7 +62,7 @@ export interface RoleAttributes {
   title: UserRoleEnum;
 }
 
-export interface RoleCreationAttributes extends Optional<RoleAttributes, 'id'> {}
+export interface RoleCreationAttributes extends Optional<RoleAttributes, "id"> {}
 
 //Cart
 export interface CartAttributes {
@@ -70,7 +71,7 @@ export interface CartAttributes {
   isActive: boolean;
 }
 
-export interface CartCreationAttributes extends Optional<CartAttributes, 'id'> {}
+export interface CartCreationAttributes extends Optional<CartAttributes, "id"> {}
 
 export interface CartItemAttributes {
   readonly id: string;
@@ -80,7 +81,7 @@ export interface CartItemAttributes {
   price: number;
 }
 
-export interface CartItemCreationAttributes extends Optional<CartItemAttributes, 'id'> {}
+export interface CartItemCreationAttributes extends Optional<CartItemAttributes, "id"> {}
 
 export interface OrderAttributes {
   readonly id: string;
@@ -89,7 +90,7 @@ export interface OrderAttributes {
   status: orderStatus;
 }
 
-export interface OrderCreationAttributes extends Optional<OrderAttributes, 'id'> {}
+export interface OrderCreationAttributes extends Optional<OrderAttributes, "id"> {}
 
 export interface OrderDetailAttributes {
   readonly id: string;
@@ -100,11 +101,11 @@ export interface OrderDetailAttributes {
   subtotal: number;
 }
 
-export interface OrderDetailCreationAttributes extends Optional<OrderDetailAttributes, 'id'> {}
+export interface OrderDetailCreationAttributes extends Optional<OrderDetailAttributes, "id"> {}
 
 export interface StatusAttributes {
   readonly id: string;
   title: string;
 }
 
-export interface StatusCreationAttributes extends Optional<StatusAttributes, 'id'> {}
+export interface StatusCreationAttributes extends Optional<StatusAttributes, "id"> {}

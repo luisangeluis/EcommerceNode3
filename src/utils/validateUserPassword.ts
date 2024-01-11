@@ -1,4 +1,4 @@
-import passwordComplexity from 'joi-password-complexity';
+import passwordComplexity from "joi-password-complexity";
 
 const validateUserPassword = (password: string): boolean => {
   const complexityOptions = {

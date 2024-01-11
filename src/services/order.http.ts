@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import db from '../db/connection';
-import type { OrderCreationAttributes, UserTokenAttributes } from '../types';
-import type { orderStatus } from '../utils/Enums';
-import * as orderControllers from '../controllers/order.controller';
-import * as orderDetailControllers from '../controllers/orderDetail.controller';
-import { readCartByUserId } from '../controllers/cart.controller';
+import { Request, Response } from "express";
+import db from "../db/connection";
+import type { OrderCreationAttributes, UserTokenAttributes } from "../types";
+import type { orderStatus } from "../utils/Enums";
+import * as orderControllers from "../controllers/order.controller";
+import * as orderDetailControllers from "../controllers/orderDetail.controller";
+import { readCartByUserId } from "../controllers/cart.controller";
 
 export const getOrdersByUserId = async (req: Request, res: Response): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
@@ -38,16 +38,16 @@ export const post = async (req: Request, res: Response) => {
     const cart = await readCartByUserId(userId);
 
     if (!cart?.cartItems.length || cart?.cartItems.length === 0)
-      return res.status(400).json({ message: 'Please to add products to cart' });
+      return res.status(400).json({ message: "Please to add products to cart" });
 
-    if (!cart.isActive) return res.status(400).json({ message: 'Unavailable cart to make an order' });
+    if (!cart.isActive) return res.status(400).json({ message: "Unavailable cart to make an order" });
 
     const total = cart?.cartItems.reduce((accum, current) => accum + current.price * current.quantity, 0);
 
     const newOrder: OrderCreationAttributes = {
       cartId: cart?.id,
       total,
-      status: 'created'
+      status: "created"
     };
     const order = await orderControllers.createOrder(newOrder, transaction);
 
@@ -67,7 +67,7 @@ export const post = async (req: Request, res: Response) => {
 
     await Promise.all(orderDetails);
     await transaction.commit();
-    return res.status(201).json({ message: 'Order sucessfully created' });
+    return res.status(201).json({ message: "Order sucessfully created" });
   } catch (error: any) {
     await transaction.rollback();
     return res.status(500).json({ message: error.message });
@@ -77,7 +77,7 @@ export const post = async (req: Request, res: Response) => {
 export const cancelAnOrder = async (req: Request, res: Response): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
   const orderId = req.params.orderId;
-  const status: orderStatus = 'canceled';
+  const status: orderStatus = "canceled";
 
   try {
     const response = await orderControllers.updateOrderStatusAsCustomer(orderId, status, userId);
@@ -95,7 +95,7 @@ export const cancelAnOrder = async (req: Request, res: Response): Promise<Respon
 export const finishAnOrder = async (req: Request, res: Response) => {
   const orderId = req.params.orderId;
   // const userId = req.body.userId;
-  const status = 'finished';
+  const status = "finished";
 
   try {
     const response = await orderControllers.updateOrderStatus(orderId, status);

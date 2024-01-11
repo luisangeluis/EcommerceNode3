@@ -11,14 +11,14 @@ import {
   Length,
   Default,
   Is
-} from 'sequelize-typescript';
-import type { ProductAttributes, ProductCreationAttributes } from '../types';
-import Category from './Category.model';
-import CartItem from './CartItem.model';
-import OrderDetail from './OrderDetail.model';
-import User from './User.model';
-import { ProductStatusEnum } from '../utils/Enums';
-import ProductImage from './ProductImage.model';
+} from "sequelize-typescript";
+import type { ProductAttributes, ProductCreationAttributes } from "../types";
+import Category from "./Category.model";
+import CartItem from "./CartItem.model";
+import OrderDetail from "./OrderDetail.model";
+import User from "./User.model";
+import { ProductStatusEnum } from "../utils/Enums";
+import ProductImage from "./ProductImage.model";
 
 @Table
 class Product extends Model<ProductAttributes, ProductCreationAttributes> {
@@ -45,15 +45,15 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   })
   price!: number;
 
-  @Is('status', (value) => {
+  @Is("status", (value) => {
     let isValid = false;
 
-    if (value === 'active' || value === 'inactive' || value === 'deleted') isValid = true;
+    if (value === "active" || value === "inactive" || value === "deleted") isValid = true;
 
     if (!isValid) throw new Error(`"${value}" is not a valid value.`);
   })
   @Length({ max: 15 })
-  @Default('active')
+  @Default("active")
   @Column({ allowNull: false })
   status!: ProductStatusEnum;
 

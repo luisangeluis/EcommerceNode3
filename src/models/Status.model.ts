@@ -1,6 +1,6 @@
-import { Column, DataType, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
-import { StatusAttributes, StatusCreationAttributes } from '../types';
-import User from './User.model';
+import { Column, DataType, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { StatusAttributes, StatusCreationAttributes } from "../types";
+import User from "./User.model";
 
 @Table
 class Status extends Model<StatusAttributes, StatusCreationAttributes> {

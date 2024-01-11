@@ -8,10 +8,10 @@ import {
   Default,
   IsNumeric,
   BelongsTo
-} from 'sequelize-typescript';
-import { CartItemAttributes, CartItemCreationAttributes } from '../types';
-import Product from './Product.model';
-import Cart from './Cart.model';
+} from "sequelize-typescript";
+import { CartItemAttributes, CartItemCreationAttributes } from "../types";
+import Product from "./Product.model";
+import Cart from "./Cart.model";
 
 @Table({
   timestamps: false
