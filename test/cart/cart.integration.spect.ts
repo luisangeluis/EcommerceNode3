@@ -12,7 +12,7 @@ before(async () => {
     const customer = {
       id: "45925e48-60d5-4c08-8962-3001195167dd",
       email: "luis.gonzalez@correo.com",
-      roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+      roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8"
     };
 
     token = await generateToken(customer);
@@ -23,10 +23,7 @@ before(async () => {
 
 describe("GET - cart - integration tests ", () => {
   it("Should respond with 200 status code", async () => {
-    const response = await chai
-      .request(app)
-      .get("/api/v1/cart")
-      .set("Authorization", `Bearer ${token}`);
+    const response = await chai.request(app).get("/api/v1/cart").set("Authorization", `Bearer ${token}`);
 
     expect(response).to.have.status(200);
   });

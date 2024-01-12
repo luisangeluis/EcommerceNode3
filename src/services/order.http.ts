@@ -37,8 +37,7 @@ export const post = async (req: Request, res: Response) => {
     //*************************/
     const cart = await readCartByUserId(userId);
 
-    if (!cart?.cartItems.length || cart?.cartItems.length === 0)
-      return res.status(400).json({ message: "Please to add products to cart" });
+    if (!cart?.cartItems.length || cart?.cartItems.length === 0) return res.status(400).json({ message: "Please to add products to cart" });
 
     if (!cart.isActive) return res.status(400).json({ message: "Unavailable cart to make an order" });
 
@@ -62,6 +61,7 @@ export const post = async (req: Request, res: Response) => {
         price,
         subtotal: quantity * price
       };
+
       return orderDetailControllers.createOrderDetail(newOrderDetail, transaction);
     });
 

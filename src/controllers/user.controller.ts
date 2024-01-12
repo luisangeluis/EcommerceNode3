@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import User from "../models/User.model";
 import type { UserAttributes, UserCreationAttributes } from "../types";
+import { Transaction } from "sequelize";
 
 export const getUserById = async (id: string): Promise<UserAttributes | null> => {
   return await User.findOne({
@@ -9,11 +10,11 @@ export const getUserById = async (id: string): Promise<UserAttributes | null> =>
   });
 };
 
-export const createUser = async (newUser: UserCreationAttributes): Promise<UserAttributes> => {
-  return await User.create({ ...newUser, id: uuidv4() });
+export const createUser = async (newUser: UserCreationAttributes, transaction: Transaction): Promise<UserAttributes> => {
+  return await User.create({ ...newUser, id: uuidv4() }, { transaction });
 };
 
-export const updateUserById = async (id: string, data: Partial<UserAttributes>): Promise<Number[]> =>
+export const updateUserById = async (id: string, data: Partial<UserAttributes>): Promise<number[]> =>
   await User.update(data, { where: { id } });
 
 export const deleteUserById = async (id: string) => {

@@ -1,21 +1,31 @@
 import { Request, Response } from "express";
+import db from "../db/connection";
 
-import * as userControllers from "../controllers/user.controller";
+//Utils
 import validateUserPassword from "../utils/validateUserPassword";
 import catchErrors from "../utils/catchErrors";
+
+//Types
 import { UserAttributes, UserTokenAttributes } from "../types";
 
+//Controllers
+import * as userControllers from "../controllers/user.controller";
+import { createCart } from "../controllers/cart.controller";
+
 export const post = async (req: Request, res: Response): Promise<Response> => {
+  const t = await db.transaction();
+
   try {
     const { id, ...restOfData } = req.body;
     if (!Object.keys(restOfData)) return res.status(400).send("Missing data");
 
     if (
-      !restOfData.firstName ||
-      !restOfData.lastName ||
-      !restOfData.email ||
-      !restOfData.password ||
-      !restOfData.roleId
+      !restOfData?.firstName ||
+      !restOfData?.lastName ||
+      !restOfData?.email ||
+      !restOfData?.password ||
+      !restOfData?.roleId ||
+      !restOfData?.statusId
     )
       return res.status(400).json({
         message: "At least these  fields must be completed",
@@ -24,7 +34,8 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
           lastName: "string",
           email: "string",
           password: "string",
-          roleId: "string"
+          roleId: "string",
+          statusId: "string"
         }
       });
 
@@ -43,17 +54,22 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
         }
       });
 
-    const response = await userControllers.createUser(restOfData);
+    const newUser = await userControllers.createUser(restOfData, t);
+    const newCart = await createCart(newUser.id, t);
+
+    await t.commit();
 
     return res.status(201).json({
       message: "User created successfully",
       response: {
-        id: response.id,
-        firstName: response.firstName,
-        roleId: response.roleId
+        id: newUser.id,
+        roleId: newUser.roleId,
+        cartId: newCart.id
       }
     });
   } catch (error: any) {
+    await t.rollback();
+
     const customError = catchErrors(error);
     return res.status(customError.status).json({ message: customError.error });
   }

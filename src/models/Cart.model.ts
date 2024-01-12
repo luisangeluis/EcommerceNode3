@@ -1,14 +1,4 @@
-import {
-  Table,
-  Model,
-  PrimaryKey,
-  Column,
-  DataType,
-  ForeignKey,
-  BelongsTo,
-  HasMany,
-  HasOne
-} from "sequelize-typescript";
+import { Table, Model, PrimaryKey, Column, DataType, ForeignKey, BelongsTo, HasMany, HasOne } from "sequelize-typescript";
 import { CartAttributes, CartCreationAttributes } from "../types";
 import User from "./User.model";
 import CartItem from "./CartItem.model";

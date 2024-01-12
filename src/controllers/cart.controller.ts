@@ -1,7 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
+import { Transaction } from "sequelize";
 
-import Cart from "../models/Cart.model";
+//Types
 import { CartAttributes } from "../types";
+
+//Models
+import Cart from "../models/Cart.model";
 import CartItem from "../models/CartItem.model";
 import Product from "../models/Product.model";
 
@@ -22,6 +26,12 @@ export const readCartByUserId = async (userId: string) => {
     ]
   });
 
+  return response;
+};
+
+export const createCart = async (userId: string, transaction: Transaction) => {
+  const newCart = { isActive: true, userId, id: uuidv4() };
+  const response = await Cart.create(newCart, { transaction });
   return response;
 };
 
