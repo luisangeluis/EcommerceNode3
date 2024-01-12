@@ -5,7 +5,7 @@ import * as cartControllers from "../controllers/cart.controller";
 export const getCartByUserId = async (req: Request, res: Response): Promise<Response> => {
   try {
     const userId = (req.user as UserTokenAttributes)?.id;
-    const [cart, _created] = await cartControllers.readOrCreateCart(userId);
+    const cart = cartControllers.readCartByUserId(userId);
 
     return res.status(200).json({ response: cart });
   } catch (error: any) {

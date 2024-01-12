@@ -15,6 +15,7 @@ import { createCart } from "../controllers/cart.controller";
 export const post = async (req: Request, res: Response): Promise<Response> => {
   const t = await db.transaction();
 
+  //TODO NO DEJAR QUE EL USUARIO ELIGA SU ESTATUS
   try {
     const { id, ...restOfData } = req.body;
     if (!Object.keys(restOfData)) return res.status(400).send("Missing data");

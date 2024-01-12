@@ -24,16 +24,16 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
   try {
     const productId = req.params.id;
     const userId = (req.user as UserTokenAttributes)?.id;
-    let quantity = (req.body as Partial<CartItemAttributes>)?.quantity;
+    const quantity = (req.body as Partial<CartItemAttributes>)?.quantity;
 
-    //Read or create user's cart
-    const [cart, _createdCart] = await cartControllers.readOrCreateCart(userId);
+    //TODO Pedir al user en todo momento agregar un quantity
+
+    const cart = await cartControllers.readCartByUserId(userId);
     const product = await readProductById(productId);
 
-    if (!product || product === null)
-      return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
+    if (!product || product === null) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
 
-    const cartItem = await cartItemControllers.readCartItemByCartIdProductId(cart.id, product.id);
+    const cartItem = await cartItemControllers.readCartItemByCartIdProductId(cart!.id, product.id);
 
     if (cartItem) {
       if (quantity && quantity > 0 && quantity <= 10) cartItem.quantity = quantity;
@@ -46,7 +46,7 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
         quantity: quantity && quantity > 0 && quantity <= 10 ? quantity : 1,
         price: product.price,
         productId: product.id,
-        cartId: cart.id
+        cartId: cart!.id
       };
 
       await cartItemControllers.createCartItem(cartItem);
@@ -63,8 +63,7 @@ export const updateQuantityFromCartItem = async (req: Request, res: Response): P
   const cartItemId = req.params.cartItemId;
   const quantity = req.body.quantity;
 
-  if (quantity < 1 || quantity > 10)
-    return res.status(400).json({ message: "quantity property must be between 1 and 10" });
+  if (quantity < 1 || quantity > 10) return res.status(400).json({ message: "quantity property must be between 1 and 10" });
 
   const response = await cartItemControllers.updateQuantity(cartItemId, userId, quantity);
 

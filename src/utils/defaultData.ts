@@ -1,7 +1,6 @@
 import Category from "../models/Category.model";
 import Product from "../models/Product.model";
 import Role from "../models/Role.model";
-import { v4 as uuidv4 } from "uuid";
 import User from "../models/User.model";
 import Cart from "../models/Cart.model";
 import CartItem from "../models/CartItem.model";
@@ -96,7 +95,7 @@ export const generateData = async (): Promise<void> => {
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
         {
-          id: uuidv4(),
+          id: "456e0972-01ed-4975-acfe-f13af058ba17",
           firstName: "Clemmy",
           lastName: "Haylor",
           email: "chaylor4@creativecommons.org",
@@ -267,6 +266,11 @@ export const generateData = async (): Promise<void> => {
     await Cart.bulkCreate(
       [
         {
+          id: "55357029-746e-4493-93cd-613c0911b3af",
+          userId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
+          isActive: true
+        },
+        {
           id: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
           userId: "45925e48-60d5-4c08-8962-3001195167dd",
           isActive: true
@@ -279,6 +283,16 @@ export const generateData = async (): Promise<void> => {
         {
           id: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
           userId: "024c33d3-2033-4baf-a1c2-c383d0765d03",
+          isActive: true
+        },
+        {
+          id: "cd3ad7ef-720f-419a-8235-f66bae001b05",
+          userId: "187378bb-df40-4372-9558-cf3d0923c80c",
+          isActive: true
+        },
+        {
+          id: "9bc2d3ba-1337-4563-8314-6a15f10fa5e8",
+          userId: "456e0972-01ed-4975-acfe-f13af058ba17",
           isActive: true
         }
       ],
