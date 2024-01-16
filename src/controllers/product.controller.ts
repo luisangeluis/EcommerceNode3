@@ -31,6 +31,8 @@ export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttri
 
   if (optionalQueries?.categoryId) queries.categoryId = optionalQueries.categoryId;
 
+  if (optionalQueries?.userId) queries.userId = optionalQueries.userId;
+
   const { rows: response, count } = await Product.findAndCountAll({
     where: queries,
     include: [{ model: ProductImage, required: false }],
@@ -46,23 +48,21 @@ export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttri
     currentPage: page,
     response: response
   };
-
-  // const response = await Product.findAll({
-  //   where: queries,
-  //   include: [{ model: ProductImage, required: false }],
-  //   limit,
-  //   offset
-  // });
-
-  // return response;
 };
 
 //Get a product by id
-export const readProductById = async (id: string): Promise<Product | null> =>
-  await Product.findOne({
-    where: { id },
+export const readProductById = async (id: string, optionalQueries?: Partial<ProductReadAttributes>): Promise<Product | null> => {
+  const queries: any = {
+    id
+  };
+
+  if (optionalQueries?.userId) queries.userId = optionalQueries.userId;
+
+  return await Product.findOne({
+    where: queries,
     include: { model: ProductImage, required: false }
   });
+};
 
 //Create a product
 export const createProduct = async (product: ProductCreationAttributes): Promise<ProductAttributes> => {

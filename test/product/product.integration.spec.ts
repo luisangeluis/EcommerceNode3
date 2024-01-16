@@ -2,15 +2,11 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../../src/app";
 import generateToken from "../../src/utils/generateToken";
-// import Product from "../../src/models/Product.model";
-// import Category from "../../src/models/Category.model";
 
 chai.use(chaiHttp);
 
 const expect = chai.expect;
 let token: string;
-// let category: Category | null;
-// let product: Product | null;
 
 before(async () => {
   try {
@@ -33,8 +29,6 @@ describe("GET - products - integration tests", () => {
       .query({ categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25" })
       .send()
       .end((_err, res) => {
-        console.log(res.body);
-
         expect(res).to.have.status(200);
         done();
       });

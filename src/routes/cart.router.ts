@@ -8,8 +8,6 @@ const router = Router();
 
 router.route("/").get(passport.authenticate("jwt", { session: false }), IsACustomer, cartServices.getCartByUserId);
 
-router
-  .route("/:cartId/make-order")
-  .post(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.post);
+router.route("/:cartId/make-order").post(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.post);
 
 export default router;

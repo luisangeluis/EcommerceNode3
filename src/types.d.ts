@@ -17,12 +17,13 @@ export interface ProductCreationAttributes extends Optional<ProductAttributes, "
 export interface ProductUpdateAttributes extends Partial<ProductCreationAttributes> {}
 
 export interface ProductReadAttributes extends Partial<ProductAttributes> {
-  page?: number;
-  title?: string;
-  description?: string;
-  price?: number;
-  status?: ProductStatusEnum;
-  categoryId?: string;
+  page: number;
+  title: string;
+  description: string;
+  price: number;
+  status: ProductStatusEnum;
+  categoryId: string;
+  userId: string;
 }
 
 export interface ProductImageAttributes {

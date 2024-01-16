@@ -6,5 +6,11 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error", { endOfLine: "auto" }],
     "no-unused-vars": ["error", { varsIgnorePattern: "^_" }]
+  },
+  globals: {
+    console: true,
+    describe: true,
+    it: true,
+    before: true
   }
 };

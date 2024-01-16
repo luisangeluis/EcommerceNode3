@@ -19,11 +19,11 @@ before(async () => {
     const user = {
       id: "45925e48-60d5-4c08-8962-3001195167dd",
       email: "luis.gonzalez@correo.com",
-      roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+      roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8"
     };
 
     testProduct = await Product.findOne({
-      where: { id: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b" },
+      where: { id: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b" }
     });
     testCart = await Cart.findOne({ where: { userId: user.id } });
     console.log({ product: testProduct?.id });
@@ -37,11 +37,7 @@ describe("READ - cartItem - unit tests", () => {
   it("should get an existing cartItem when I send a cartId and a productId", async () => {
     try {
       if (testCart && testProduct) {
-        const response =
-          await cartItemControllers.readCartItemByCartIdProductId(
-            testCart?.id,
-            testProduct?.id,
-          );
+        const response = await cartItemControllers.readCartItemByCartIdProductId(testCart?.id, testProduct?.id);
         console.log({ response });
 
         expect(response).to.be.an("object");
