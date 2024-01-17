@@ -9,19 +9,15 @@ const router = Router();
 
 router
   .route("/product/:id/product-image/:productImageId")
-  .get(productExistsMiddleware, productImages.getAnImageByProductId)
-  // .delete(
-  //   passport.authenticate("jwt", { session: false }),
-  //   productImages.deleteImg,
-  // );
+  .get(productExistsMiddleware, productImages.getAnImageByProductId);
+// .delete(
+//   passport.authenticate("jwt", { session: false }),
+//   productImages.deleteImg,
+// );
 
 router
   .route("/product/:id")
   .get(productExistsMiddleware, productImages.getAllProductImages)
-  .post(
-    passport.authenticate("jwt", { session: false }),
-    uploadImage,
-    productImages.postImageByProductId,
-  );
+  .post(passport.authenticate("jwt", { session: false }), uploadImage, productImages.postImageByProductId);
 
 export default router;

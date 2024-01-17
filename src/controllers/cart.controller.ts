@@ -1,7 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
+import { Transaction } from "sequelize";
 
-import Cart from "../models/Cart.model";
+//Types
 import { CartAttributes } from "../types";
+
+//Models
+import Cart from "../models/Cart.model";
 import CartItem from "../models/CartItem.model";
 import Product from "../models/Product.model";
 
@@ -15,22 +19,26 @@ export const readCartByUserId = async (userId: string) => {
         include: [
           {
             model: Product,
-            attributes: ["id", "title", "description", "categoryId"],
-          },
-        ],
-      },
-    ],
+            attributes: ["id", "title", "description", "categoryId"]
+          }
+        ]
+      }
+    ]
   });
 
   return response;
 };
 
-export const readOrCreateCart = async (
-  userId: string,
-): Promise<[CartAttributes, boolean]> => {
+export const createCart = async (userId: string, transaction: Transaction) => {
+  const newCart = { isActive: true, userId, id: uuidv4() };
+  const response = await Cart.create(newCart, { transaction });
+  return response;
+};
+
+export const readOrCreateCart = async (userId: string): Promise<[CartAttributes, boolean]> => {
   const response = await Cart.findOrCreate({
-    where: { userId },
-    defaults: { id: uuidv4(), isActive: true },
+    where: { userId: userId },
+    defaults: { id: uuidv4(), isActive: true, userId },
     include: [
       {
         model: CartItem,
@@ -38,11 +46,11 @@ export const readOrCreateCart = async (
         include: [
           {
             model: Product,
-            attributes: ["title", "description", "categoryId"],
-          },
-        ],
-      },
-    ],
+            attributes: ["title", "description", "categoryId"]
+          }
+        ]
+      }
+    ]
   });
 
   return response;

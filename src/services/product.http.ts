@@ -1,32 +1,33 @@
 import { Request, Response } from "express";
 import type { UserTokenAttributes } from "../types";
+import catchErrors from "../utils/catchErrors";
 import * as productControllers from "../controllers/product.controller";
+import { ProductStatusEnum } from "../utils/Enums";
 
-export const getAllProducts = async (
-  _req: Request,
-  res: Response,
-): Promise<Response> => {
+//Get all products
+export const getAllProducts = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const response = await productControllers.readAllProducts();
+    const queries = req.query;
+    const { totalResults, response, currentPage, totalPages } =
+      Object.keys(queries).length === 0 ? await productControllers.readAllProducts() : await productControllers.readAllProducts(queries);
 
-    return res.status(200).json(response);
+    return res.status(200).json({
+      totalResults,
+      totalPages,
+      currentPage,
+      response
+    });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-export const getProductById = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
-  const productId = req.params.id;
+export const getProductById = async (req: Request, res: Response): Promise<Response> => {
   try {
+    const productId = req.params.id;
     const response = await productControllers.readProductById(productId);
 
-    if (!response)
-      return res
-        .status(404)
-        .json({ message: `Product with id: ${productId} doesn't exists` });
+    if (!response) return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
 
     return res.status(200).json({ response });
   } catch (error: any) {
@@ -34,39 +35,19 @@ export const getProductById = async (
   }
 };
 
-export const post = async (req: Request, res: Response): Promise<Response> => {
+export const deleteProductById = async (req: Request, res: Response) => {
   try {
-    const userId = (req.user as UserTokenAttributes)?.id;
-    const data = req.body;
+    const userId = (req.user as UserTokenAttributes).id;
+    const productId = req.params.productId;
+    const data = { status: ProductStatusEnum.DELETED };
 
-    if (!Object.keys(data).length)
-      return res.status(400).json({ message: "Missing data" });
+    const response = await productControllers.updateAProductBySellerId(userId, productId, data);
 
-    if (!data.title || !data.description || !data.price || !data.categoryId) {
-      return res.status(400).json({
-        message: "At least these  fields must be completed",
-        fields: {
-          title: "string",
-          description: "string",
-          price: "number",
-          categoryId: "string",
-        },
-      });
-    }
+    if (!response[0]) return res.status(404).json({ message: `Product with id:${productId} doesn't exist` });
 
-    const newProduct = {
-      title: data.title,
-      description: data.description,
-      price: data.price,
-      status: data.status,
-      categoryId: data.categoryId,
-      sellerId: userId,
-    };
-
-    const response = await productControllers.create(newProduct);
-
-    return res.status(201).json({ response });
+    return res.status(204).json();
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };

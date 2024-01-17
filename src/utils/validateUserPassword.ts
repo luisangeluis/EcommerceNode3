@@ -8,7 +8,7 @@ const validateUserPassword = (password: string): boolean => {
     upperCase: 1,
     numeric: 1,
     symbol: 1,
-    requirementCount: 6,
+    requirementCount: 6
   };
 
   const complexity = passwordComplexity(complexityOptions);

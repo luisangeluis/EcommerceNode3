@@ -10,54 +10,44 @@ export const readAllOrders = async (userId: string): Promise<Order[]> => {
   const response = await Order.findAll({
     include: [
       { model: Cart, where: { userId }, attributes: [] },
-      { model: OrderDetail, required: true },
-    ],
+      { model: OrderDetail, required: true }
+    ]
   });
 
   return response;
 };
 
-export const readOrderById = async (
-  userId: string,
-  orderId: string
-): Promise<Order | null> => {
+export const readOrderById = async (userId: string, orderId: string): Promise<Order | null> => {
   const response = await Order.findOne({
     where: { id: orderId },
-    include: { model: Cart, where: { userId } },
+    include: { model: Cart, where: { userId } }
   });
 
   return response;
 };
 
-export const createOrder = async (
-  order: OrderCreationAttributes,
-  transaction: Transaction
-) => await Order.create({ ...order, id: uuidv4() }, { transaction });
+export const createOrder = async (order: OrderCreationAttributes, transaction: Transaction) =>
+  await Order.create({ ...order, id: uuidv4() }, { transaction });
 
-export const updateOrderStatus=async(id:string,status:orderStatus)=>{
-  const response = await Order.update({status},{where:{id}});
-  
+export const updateOrderStatus = async (id: string, status: orderStatus) => {
+  const response = await Order.update({ status }, { where: { id } });
+
   return response;
-}
+};
 
-
-export const updateOrderStatusAsCustomer = async (
-  orderId: string,
-  status: string,
-  userId:string,
-) => {
+export const updateOrderStatusAsCustomer = async (orderId: string, status: string, userId: string) => {
   const response = await Order.findOne({
-    where: { id: orderId,status:"created" },
+    where: { id: orderId, status: "created" },
     include: [
       {
         model: Cart,
-        where: {userId:userId},
-        required:true
-      },
-    ],
+        where: { userId: userId },
+        required: true
+      }
+    ]
   });
   // console.log(response);
-  
+
   if (!response) return null;
 
   response.status = status;

@@ -10,6 +10,7 @@ import {
   HasMany,
   Length,
   Default,
+  Is
 } from "sequelize-typescript";
 import type { ProductAttributes, ProductCreationAttributes } from "../types";
 import Category from "./Category.model";
@@ -24,7 +25,7 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
   @PrimaryKey
   @Column({
     type: DataType.UUID,
-    allowNull: false,
+    allowNull: false
   })
   id!: string;
 
@@ -33,17 +34,24 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> {
 
   @Column({
     type: DataType.TEXT,
-    allowNull: false,
+    allowNull: false
   })
   description!: string;
 
   @IsNumeric
   @Column({
     allowNull: false,
-    type: DataType.DECIMAL(10, 2),
+    type: DataType.DECIMAL(10, 2)
   })
   price!: number;
 
+  @Is("status", (value) => {
+    let isValid = false;
+
+    if (value === "active" || value === "inactive" || value === "deleted") isValid = true;
+
+    if (!isValid) throw new Error(`"${value}" is not a valid value.`);
+  })
   @Length({ max: 15 })
   @Default("active")
   @Column({ allowNull: false })

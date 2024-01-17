@@ -26,19 +26,8 @@ const isTesting = process.env.NODE_ENV === "test";
 const db = new Sequelize(database, username, password, {
   dialect: "mysql",
   host,
-  models: [
-    Product,
-    Category,
-    User,
-    Role,
-    Cart,
-    CartItem,
-    Order,
-    OrderDetail,
-    Status,
-    ProductImage,
-  ],
-  logging: isTesting,
+  models: [Product, Category, User, Role, Cart, CartItem, Order, OrderDetail, Status, ProductImage],
+  logging: isTesting
 });
 
 export const initDb = async (): Promise<void> => {
@@ -48,12 +37,9 @@ export const initDb = async (): Promise<void> => {
     if (process.env.NODE_ENV === "production") {
       await db.sync();
       console.log("production");
-
-      // await generateData();
     } else {
       await db.sync({ force: true });
       console.log("development");
-
       await generateData();
     }
 

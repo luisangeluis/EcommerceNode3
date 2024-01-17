@@ -9,7 +9,7 @@ const jwtKey = process.env.JWT_KEY;
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: jwtKey, // debe estar en una variable de entorno
+  secretOrKey: jwtKey // debe estar en una variable de entorno
 };
 
 passport.use(
