@@ -5,7 +5,15 @@ import * as sellerProductsServices from "../services/sellerProducts.http";
 
 const router = Router();
 
-router.route("/").get(passport.authenticate("jwt", { session: false }), isAseller, sellerProductsServices.getAllProducts);
-router.route("/:productId").get(passport.authenticate("jwt", { session: false }), isAseller, sellerProductsServices.getProductById);
+router
+  .route("/")
+  .get(passport.authenticate("jwt", { session: false }), isAseller, sellerProductsServices.getAllProducts)
+  .post(passport.authenticate("jwt", { session: false }), isAseller, sellerProductsServices.post);
+
+router
+  .route("/:productId")
+  .get(passport.authenticate("jwt", { session: false }), isAseller, sellerProductsServices.getProductById)
+  .put(passport.authenticate("jwt", { session: false }), isAseller, sellerProductsServices.updateProductById)
+  .delete(passport.authenticate("jwt", { session: false }), isAseller, sellerProductsServices.deleteProductById);
 
 export default router;

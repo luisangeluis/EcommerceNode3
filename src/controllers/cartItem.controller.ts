@@ -24,11 +24,7 @@ export const createCartItem = async (cartItem: CartItemCreationAttributes): Prom
   return await CartItem.create({ ...cartItem, id: uuidv4() });
 };
 
-export const updateQuantity = async (
-  cartItemId: string,
-  userId: string,
-  quantity: number
-): Promise<CartItem | null> => {
+export const updateQuantity = async (cartItemId: string, userId: string, quantity: number): Promise<CartItem | null> => {
   const cartItem = await CartItem.findOne({
     where: { id: cartItemId },
     include: {
