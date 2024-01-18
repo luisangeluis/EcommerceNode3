@@ -62,6 +62,7 @@ export const updateQuantityFromCartItem = async (req: Request, res: Response): P
   const userId = (req.user as UserTokenAttributes)?.id;
   const cartItemId = req.params.cartItemId;
   const quantity = req.body.quantity;
+  console.log({ quantity });
 
   if (quantity < 1 || quantity > 10) return res.status(400).json({ message: "quantity property must be between 1 and 10" });
 
