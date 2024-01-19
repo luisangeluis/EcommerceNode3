@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import catchErrors from "../utils/catchErrors";
 import type { UserTokenAttributes, CartItemAttributes } from "../types";
 import * as cartItemControllers from "../controllers/cartItem.controller";
 import * as cartControllers from "../controllers/cart.controller";
@@ -59,18 +60,23 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
 };
 
 export const updateQuantityFromCartItem = async (req: Request, res: Response): Promise<Response> => {
-  const userId = (req.user as UserTokenAttributes)?.id;
-  const cartItemId = req.params.cartItemId;
-  const quantity = req.body.quantity;
-  console.log({ quantity });
+  try {
+    const userId = (req.user as UserTokenAttributes)?.id;
+    const cartItemId = req.params.cartItemId;
+    const quantity = req.body.quantity;
+    // console.log({ quantity });
+    if (!quantity) return res.status(400).json({ message: "quantity property must be between 1 and 10" });
+    if (quantity < 1 || quantity > 10) return res.status(400).json({ message: "quantity property must be between 1 and 10" });
 
-  if (quantity < 1 || quantity > 10) return res.status(400).json({ message: "quantity property must be between 1 and 10" });
+    const response = await cartItemControllers.updateQuantity(cartItemId, userId, quantity);
 
-  const response = await cartItemControllers.updateQuantity(cartItemId, userId, quantity);
+    if (!response) return res.status(404);
 
-  if (!response) return res.status(404);
-
-  return res.status(200).json({ message: `Cart item with id: ${cartItemId} successfully edited` });
+    return res.status(200).json({ message: `Cart item with id: ${cartItemId} successfully edited` });
+  } catch (error: any) {
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
+  }
 };
 
 export const removeCartItem = async (req: Request, res: Response): Promise<Response> => {
