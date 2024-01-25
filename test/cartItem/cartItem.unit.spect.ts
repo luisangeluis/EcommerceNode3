@@ -73,6 +73,23 @@ describe("READ - cartItem - unit tests", () => {
 });
 
 describe("CREATE - cartItem - unit tests", () => {
+  it("Should respond with a cartItem when I send a correct data to create a cartItem", async () => {
+    try {
+      const data = {
+        productId: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b",
+        cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
+        price: 200
+      };
+
+      const [cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);
+
+      expect(cartItem.quantity).to.equal(1);
+      expect(cartItem.productId).to.equal("e2914c19-0f6c-4554-a2b9-97f4ceaffb6b");
+      expect(cartItem.cartId).to.equal("2d17bf0b-579d-417d-8b71-0fa1b75d3079");
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
   // it("Should respond with an array when I send a correct data to create a cartItem", async () => {
   //   try {
   //     if (testProduct && testCart) {

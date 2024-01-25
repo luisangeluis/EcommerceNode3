@@ -305,7 +305,7 @@ export const generateData = async (): Promise<void> => {
           id: "6693978b-1bce-4ff8-acc2-6bcd7786d792",
           productId: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b",
           cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
-          quantity: 2,
+          quantity: 1,
           price: 200
         },
         {

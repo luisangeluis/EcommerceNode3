@@ -60,14 +60,12 @@ export const deleteCartItem = async (cartItemId: string, userId: string): Promis
   return 1;
 };
 
-export const readOrCreateCartItem = async (
-  // cartItem: Partial<CartItemAttributes>,
-  cartItem: CartItemCreationAttributes
-) => {
+export const readOrCreateCartItemById = async (cartItem: Omit<CartItemAttributes, "id" | "quantity">) => {
   const response = await CartItem.findOrCreate({
     where: { productId: cartItem.productId, cartId: cartItem.cartId },
     defaults: {
       ...cartItem,
+      quantity: 1,
       id: uuidv4()
     }
   });
