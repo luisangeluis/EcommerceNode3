@@ -14,6 +14,7 @@ class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
   })
   id!: string;
 
+  @IsNumeric
   @Default(1)
   @Column({
     allowNull: false,

@@ -309,6 +309,13 @@ export const generateData = async (): Promise<void> => {
           price: 200
         },
         {
+          id: "e8458c6f-dea3-4583-8c02-7f00e5e46212",
+          productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+          cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
+          quantity: 1,
+          price: 300
+        },
+        {
           id: "d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6",
           productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
           cartId: "daf37a51-3da3-42a9-81e5-a0426bd6ae3f",
