@@ -16,13 +16,7 @@ chai.use(chaiHttp);
 //Si no es mi intencion que el test entre al catch usar throw new error "para que marque los errores en test"
 //Si es mi intencion que entre al catch usar expect en el catch
 
-before(async () => {
-  try {
-  } catch (error: any) {
-    console.log(error.message);
-  }
-});
-
+//READ
 describe("READ - cartItem - unit tests", () => {
   it("should get an existing cartItem when I send a cartItemId and a userId", async () => {
     try {
@@ -31,7 +25,6 @@ describe("READ - cartItem - unit tests", () => {
       expect(response?.id).to.equal(cartItemId);
       expect(response?.cart.userId).to.equal(user.id);
     } catch (error: any) {
-      console.log(error.message);
       throw new Error(`Test failed due to an error: ${error.message}`);
     }
   });
@@ -41,7 +34,6 @@ describe("READ - cartItem - unit tests", () => {
       const response = await cartItemControllers.readCartItemById(1 as any, user.id);
       expect(response).to.equal(null);
     } catch (error: any) {
-      console.log(error.message);
       throw new Error(`Test failed due to an error: ${error.message}`);
     }
   });
@@ -52,12 +44,12 @@ describe("READ - cartItem - unit tests", () => {
 
       expect(response).to.equal(null);
     } catch (error: any) {
-      console.log(error.message);
       throw new Error(`Test failed due to an error: ${error.message}`);
     }
   });
 });
 
+//CREATE
 describe("CREATE - cartItem - unit tests", () => {
   it("Should create and respond with a cartItem when I send a correct data to create a cartItem", async () => {
     try {
@@ -122,6 +114,7 @@ describe("CREATE - cartItem - unit tests", () => {
   });
 });
 
+//UPDATE
 describe("UPDATE - cartItem - unit tests", () => {
   it("Should update the cartItem quantity when I send the data correctly", async () => {
     try {
@@ -134,7 +127,6 @@ describe("UPDATE - cartItem - unit tests", () => {
         expect(cartItem.quantity).to.equal(5);
       }
     } catch (error: any) {
-      console.log(error.message);
       throw new Error(`Test failed due to an error: ${error.message}`);
     }
   });
@@ -151,8 +143,25 @@ describe("UPDATE - cartItem - unit tests", () => {
       expect(error.name).to.equal("SequelizeValidationError");
     }
   });
+
+  it("Shouldn't update the cartItem quantity when I send a wrond user id", async () => {
+    try {
+      const cartItem = await cartItemControllers.readCartItemById("6693978b-1bce-4ff8-acc2-6bcd7786d792", 2 as any);
+
+      if (cartItem) {
+        cartItem.quantity = 3;
+        await cartItem.save();
+
+        expect(cartItem.quantity).to.equal(3);
+      }
+      expect(cartItem).to.equal(null);
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
 });
 
+//DELETE
 describe("DELETE - cartItem - unit test", () => {
   it("Should return null, when I delete a cartItem correctly", async () => {
     try {
@@ -162,7 +171,17 @@ describe("DELETE - cartItem - unit test", () => {
 
       expect(cartItem).to.be.null;
     } catch (error: any) {
-      console.log("ERROR: ", error.message);
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
+
+  it("Shouldn't delete the cartItem, when I send a wrong user id", async () => {
+    try {
+      await cartItemControllers.deleteCartItem("6693978b-1bce-4ff8-acc2-6bcd7786d792", 2 as any);
+      const cartItem = await cartItemControllers.readCartItemById("6693978b-1bce-4ff8-acc2-6bcd7786d792", user.id);
+
+      expect(cartItem?.id).to.equal("6693978b-1bce-4ff8-acc2-6bcd7786d792");
+    } catch (error: any) {
       throw new Error(`Test failed due to an error: ${error.message}`);
     }
   });

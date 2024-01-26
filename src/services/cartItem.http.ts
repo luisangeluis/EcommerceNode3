@@ -41,9 +41,11 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
     if (!created) {
       cartItem.quantity += 1;
       await cartItem.save();
+
+      return res.status(200).json({ message: `Product with id: ${cartItem.productId} added to cart` });
     }
 
-    return res.status(200).json({ message: `Product with id: ${cartItem.productId} added to cart` });
+    return res.status(201).json({ message: `Product with id: ${cartItem.productId} added to cart` });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
