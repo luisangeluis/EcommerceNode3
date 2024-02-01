@@ -91,7 +91,7 @@ export interface OrderAttributes {
   status: orderStatus;
 }
 
-export interface OrderCreationAttributes extends Optional<OrderAttributes, "id"> {}
+export interface OrderCreationAttributes extends Optional<OrderAttributes, "id", "status"> {}
 
 export interface OrderDetailAttributes {
   readonly id: string;

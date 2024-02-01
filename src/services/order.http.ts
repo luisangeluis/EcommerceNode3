@@ -5,6 +5,7 @@ import type { orderStatus } from "../utils/Enums";
 import * as orderControllers from "../controllers/order.controller";
 import * as orderDetailControllers from "../controllers/orderDetail.controller";
 import { readCartByUserId } from "../controllers/cart.controller";
+import CartItem from "../models/CartItem.model";
 
 export const getOrdersByUserId = async (req: Request, res: Response): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
@@ -41,7 +42,7 @@ export const post = async (req: Request, res: Response) => {
 
     if (!cart.isActive) return res.status(400).json({ message: "Unavailable cart to make an order" });
 
-    const total = cart?.cartItems.reduce((accum, current) => accum + current.price * current.quantity, 0);
+    const total = cart?.cartItems.reduce((accum: number, current: CartItem) => accum + current.price * current.quantity, 0);
 
     const newOrder: OrderCreationAttributes = {
       cartId: cart?.id,
@@ -50,7 +51,7 @@ export const post = async (req: Request, res: Response) => {
     };
     const order = await orderControllers.createOrder(newOrder, transaction);
 
-    const orderDetails = cart?.cartItems.map((cartItem) => {
+    const orderDetails = cart?.cartItems.map((cartItem: CartItem) => {
       const price = cartItem.price;
       const quantity = cartItem.quantity;
 

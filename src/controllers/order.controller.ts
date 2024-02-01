@@ -1,10 +1,15 @@
 import { v4 as uuidv4 } from "uuid";
 import type { OrderCreationAttributes } from "../types";
-import Order from "../models/Order.model";
 import { Transaction } from "sequelize";
+
+//MODELS
+import Order from "../models/Order.model";
 import Cart from "../models/Cart.model";
 import OrderDetail from "../models/OrderDetail.model";
-import { orderStatus } from "../utils/Enums";
+
+//controllers
+import * as cartControllers from "./cart.controller";
+// import { orderStatus } from "../utils/Enums";
 
 export const readAllOrders = async (userId: string): Promise<Order[]> => {
   const response = await Order.findAll({
@@ -26,33 +31,37 @@ export const readOrderById = async (userId: string, orderId: string): Promise<Or
   return response;
 };
 
-export const createOrder = async (order: OrderCreationAttributes, transaction: Transaction) =>
+export const createOrder = async (order: OrderCreationAttributes, transaction?: Transaction) =>
   await Order.create({ ...order, id: uuidv4() }, { transaction });
 
-export const updateOrderStatus = async (id: string, status: orderStatus) => {
-  const response = await Order.update({ status }, { where: { id } });
-
-  return response;
+export const cancelAOrder = async (orderId: string, userId: string) => {
+  const userCart = await cartControllers.readCartByUserId(userId);
 };
 
-export const updateOrderStatusAsCustomer = async (orderId: string, status: string, userId: string) => {
-  const response = await Order.findOne({
-    where: { id: orderId, status: "created" },
-    include: [
-      {
-        model: Cart,
-        where: { userId: userId },
-        required: true
-      }
-    ]
-  });
-  // console.log(response);
+// export const updateOrderStatus = async (id: string, status: orderStatus) => {
+//   const response = await Order.update({ status }, { where: { id } });
 
-  if (!response) return null;
+//   return response;
+// };
 
-  response.status = status;
+// export const updateOrderStatusAsCustomer = async (orderId: string, status: string, userId: string) => {
+//   const response = await Order.findOne({
+//     where: { id: orderId, status: "created" },
+//     include: [
+//       {
+//         model: Cart,
+//         where: { userId: userId },
+//         required: true
+//       }
+//     ]
+//   });
+//   // console.log(response);
 
-  await response.save();
+//   if (!response) return null;
 
-  return response;
-};
+//   response.status = status;
+
+//   await response.save();
+
+//   return response;
+// };
