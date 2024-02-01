@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import db from "../db/connection";
 import type { OrderCreationAttributes, UserTokenAttributes } from "../types";
-import type { orderStatus } from "../utils/Enums";
+// import type { orderStatus } from "../utils/Enums";
 import * as orderControllers from "../controllers/order.controller";
 import * as orderDetailControllers from "../controllers/orderDetail.controller";
 import { readCartByUserId } from "../controllers/cart.controller";
@@ -75,36 +75,36 @@ export const post = async (req: Request, res: Response) => {
   }
 };
 
-export const cancelAnOrder = async (req: Request, res: Response): Promise<Response> => {
-  const userId = (req.user as UserTokenAttributes)?.id;
-  const orderId = req.params.orderId;
-  const status: orderStatus = "canceled";
+// export const cancelAnOrder = async (req: Request, res: Response): Promise<Response> => {
+//   const userId = (req.user as UserTokenAttributes)?.id;
+//   const orderId = req.params.orderId;
+//   const status: orderStatus = "canceled";
 
-  try {
-    const response = await orderControllers.updateOrderStatusAsCustomer(orderId, status, userId);
+//   try {
+//     const response = await orderControllers.updateOrderStatusAsCustomer(orderId, status, userId);
 
-    // console.log({hola:response});
+//     // console.log({hola:response});
 
-    if (!response) return res.status(404).json({ message: `Order with id:${orderId} doesn't exists` });
+//     if (!response) return res.status(404).json({ message: `Order with id:${orderId} doesn't exists` });
 
-    return res.status(200).json({ message: `Order with id: ${orderId} canceled` });
-  } catch (error: any) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+//     return res.status(200).json({ message: `Order with id: ${orderId} canceled` });
+//   } catch (error: any) {
+//     return res.status(500).json({ message: error.message });
+//   }
+// };
 
-export const finishAnOrder = async (req: Request, res: Response) => {
-  const orderId = req.params.orderId;
-  // const userId = req.body.userId;
-  const status = "finished";
+// export const finishAnOrder = async (req: Request, res: Response) => {
+//   const orderId = req.params.orderId;
+//   // const userId = req.body.userId;
+//   const status = "finished";
 
-  try {
-    const response = await orderControllers.updateOrderStatus(orderId, status);
+//   try {
+//     const response = await orderControllers.updateOrderStatus(orderId, status);
 
-    if (!response[0]) return res.status(404).json({ message: `Order with id: ${orderId} doesn´t exists` });
+//     if (!response[0]) return res.status(404).json({ message: `Order with id: ${orderId} doesn´t exists` });
 
-    return res.status(200).json({ message: `Order with id: ${orderId} finished` });
-  } catch (error: any) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+//     return res.status(200).json({ message: `Order with id: ${orderId} finished` });
+//   } catch (error: any) {
+//     return res.status(500).json({ message: error.message });
+//   }
+// };

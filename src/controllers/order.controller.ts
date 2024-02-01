@@ -8,7 +8,7 @@ import Cart from "../models/Cart.model";
 import OrderDetail from "../models/OrderDetail.model";
 
 //controllers
-import * as cartControllers from "./cart.controller";
+// import * as cartControllers from "./cart.controller";
 // import { orderStatus } from "../utils/Enums";
 
 export const readAllOrders = async (userId: string): Promise<Order[]> => {
@@ -22,10 +22,10 @@ export const readAllOrders = async (userId: string): Promise<Order[]> => {
   return response;
 };
 
-export const readOrderById = async (userId: string, orderId: string): Promise<Order | null> => {
+export const readOrderById = async (orderId: string, userId: string): Promise<Order | null> => {
   const response = await Order.findOne({
     where: { id: orderId },
-    include: { model: Cart, where: { userId } }
+    include: [{ model: Cart, where: { userId }, attributes: ["userId"] }, { model: OrderDetail }]
   });
 
   return response;
@@ -34,9 +34,9 @@ export const readOrderById = async (userId: string, orderId: string): Promise<Or
 export const createOrder = async (order: OrderCreationAttributes, transaction?: Transaction) =>
   await Order.create({ ...order, id: uuidv4() }, { transaction });
 
-export const cancelAOrder = async (orderId: string, userId: string) => {
-  const userCart = await cartControllers.readCartByUserId(userId);
-};
+//Cancel an order by orderId
+export const deleteOrderById = async (orderId: string, cartId: string) =>
+  await Order.update({ status: "canceled" }, { where: { id: orderId, cartId } });
 
 // export const updateOrderStatus = async (id: string, status: orderStatus) => {
 //   const response = await Order.update({ status }, { where: { id } });
