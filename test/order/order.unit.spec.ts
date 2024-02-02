@@ -23,6 +23,18 @@ before(async () => {
   }
 });
 
+describe("READ - Read all orders by userId - unit test", () => {
+  it("Should get all user orders when I send an existing user", async () => {
+    try {
+      const orders = await orderControllers.readAllOrders(user.id);
+
+      expect(orders.length).to.equal(0);
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
+});
+
 describe("READ - Read an order by id - unit test", () => {
   it("Should get an order when I send data correctly", async () => {
     try {
@@ -30,7 +42,6 @@ describe("READ - Read an order by id - unit test", () => {
       const orderId = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
       const userId = "024c33d3-2033-4baf-a1c2-c383d0765d03";
       const order = await orderControllers.readOrderById(orderId, userId);
-      console.log("userId: ", order?.cart.userId);
 
       expect(order?.cart.userId).to.equal(userId);
     } catch (error: any) {
@@ -56,15 +67,15 @@ describe("CREATE - order - unit test", () => {
   });
 });
 
-describe("DELETE - order - unit test", () => {
-  it("Should order status of the order when I send data correctly", async () => {
+describe("UPDATE - order - unit test", () => {
+  it("Should change status of the order when I send data correctly", async () => {
     try {
       //USER pedro lopez
       const orderId = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
-      const cartId = "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8";
-      const response = await orderControllers.deleteOrderById(orderId, cartId);
+      const userId = "024c33d3-2033-4baf-a1c2-c383d0765d03";
+      const response = await orderControllers.changeStatus(orderId, userId, "canceled");
 
-      expect(response[0]).to.equal(1);
+      expect(response).to.equal(1);
     } catch (error: any) {
       throw new Error(`Test failed due to an error: ${error.message}`);
     }

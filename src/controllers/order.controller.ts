@@ -13,10 +13,7 @@ import OrderDetail from "../models/OrderDetail.model";
 
 export const readAllOrders = async (userId: string): Promise<Order[]> => {
   const response = await Order.findAll({
-    include: [
-      { model: Cart, where: { userId }, attributes: [] },
-      { model: OrderDetail, required: true }
-    ]
+    include: [{ model: Cart, where: { userId }, attributes: [] }, { model: OrderDetail }]
   });
 
   return response;
@@ -35,8 +32,19 @@ export const createOrder = async (order: OrderCreationAttributes, transaction?: 
   await Order.create({ ...order, id: uuidv4() }, { transaction });
 
 //Cancel an order by orderId
-export const deleteOrderById = async (orderId: string, cartId: string) =>
-  await Order.update({ status: "canceled" }, { where: { id: orderId, cartId } });
+export const changeStatus = async (orderId: string, userId: string, status: string) => {
+  const order = await readOrderById(orderId, userId);
+
+  if (!order) return 0;
+
+  order.status = status;
+  await order.save();
+
+  return 1;
+};
+
+// export const deleteOrderById = async (orderId: string, cartId: string) =>
+//   await Order.update({ status: "canceled" }, { where: { id: orderId, cartId } });
 
 // export const updateOrderStatus = async (id: string, status: orderStatus) => {
 //   const response = await Order.update({ status }, { where: { id } });
