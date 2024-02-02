@@ -5,5 +5,7 @@ import OrderDetail from "../models/OrderDetail.model";
 
 export const createOrderDetail = async (
   orderDetail: OrderDetailCreationAttributes,
-  transaction: Transaction
+  transaction?: Transaction
 ): Promise<OrderDetailAttributes | null> => await OrderDetail.create({ ...orderDetail, id: uuidv4() }, { transaction });
+
+export const deleteOrders = async (orderId: string): Promise<number> => await OrderDetail.destroy({ where: { orderId } });

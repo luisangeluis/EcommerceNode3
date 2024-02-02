@@ -2,6 +2,8 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import * as cartItemControllers from "../../src/controllers/cartItem.controller";
 
+chai.use(chaiHttp);
+
 const expect = chai.expect;
 const user = {
   id: "45925e48-60d5-4c08-8962-3001195167dd",
@@ -9,8 +11,6 @@ const user = {
   roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8"
 };
 const cartItemId = "6693978b-1bce-4ff8-acc2-6bcd7786d792";
-
-chai.use(chaiHttp);
 
 //PRUEBAS UNITARIAS
 //Si no es mi intencion que el test entre al catch usar throw new error "para que marque los errores en test"
