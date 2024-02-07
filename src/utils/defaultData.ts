@@ -340,6 +340,12 @@ export const generateData = async (): Promise<void> => {
           cartId: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
           total: 200,
           status: "created"
+        },
+        {
+          id: "10d6ae78-fe83-4aab-8364-cea1d2a5e610",
+          cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
+          total: 500,
+          status: "created"
         }
       ],
       { validate: true }
