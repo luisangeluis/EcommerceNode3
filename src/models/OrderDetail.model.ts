@@ -1,14 +1,4 @@
-import {
-  BelongsTo,
-  Column,
-  DataType,
-  ForeignKey,
-  IsNumeric,
-  Model,
-  PrimaryKey,
-  Table,
-  Validate
-} from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, IsNumeric, Model, PrimaryKey, Table, Validate } from "sequelize-typescript";
 import { OrderDetailAttributes, OrderDetailCreationAttributes } from "../types";
 import Order from "./Order.model";
 import Product from "./Product.model";

@@ -305,8 +305,15 @@ export const generateData = async (): Promise<void> => {
           id: "6693978b-1bce-4ff8-acc2-6bcd7786d792",
           productId: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b",
           cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
-          quantity: 2,
+          quantity: 1,
           price: 200
+        },
+        {
+          id: "e8458c6f-dea3-4583-8c02-7f00e5e46212",
+          productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+          cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
+          quantity: 1,
+          price: 300
         },
         {
           id: "d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6",
@@ -332,6 +339,12 @@ export const generateData = async (): Promise<void> => {
           id: "7a21eedf-048b-45d4-90bd-7491e31df4e4",
           cartId: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
           total: 200,
+          status: "created"
+        },
+        {
+          id: "10d6ae78-fe83-4aab-8364-cea1d2a5e610",
+          cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
+          total: 500,
           status: "created"
         }
       ],
