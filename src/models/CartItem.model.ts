@@ -22,13 +22,6 @@ class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
   })
   quantity!: number;
 
-  @IsNumeric
-  @Column({
-    allowNull: false,
-    type: DataType.DECIMAL(10, 2)
-  })
-  price!: number;
-
   @ForeignKey(() => Product)
   @Column({
     type: DataType.UUID,

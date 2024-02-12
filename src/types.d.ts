@@ -79,7 +79,6 @@ export interface CartItemAttributes {
   productId: string;
   cartId: string;
   quantity: number;
-  price: number;
 }
 
 export interface CartItemCreationAttributes extends Optional<CartItemAttributes, "id"> {}

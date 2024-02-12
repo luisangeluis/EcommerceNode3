@@ -55,8 +55,7 @@ describe("CREATE - cartItem - unit tests", () => {
     try {
       const data = {
         productId: "dc228176-e25a-4f2e-a485-5c16aa83a415",
-        cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
-        price: 300
+        cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079"
       };
 
       const [cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);
@@ -71,8 +70,7 @@ describe("CREATE - cartItem - unit tests", () => {
     try {
       const data = {
         productId: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b",
-        cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
-        price: 200
+        cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079"
       };
 
       const [cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);
@@ -89,8 +87,7 @@ describe("CREATE - cartItem - unit tests", () => {
     try {
       const data = {
         productId: 1 as any,
-        cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
-        price: 200
+        cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079"
       };
 
       const [_cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);
@@ -103,8 +100,7 @@ describe("CREATE - cartItem - unit tests", () => {
     try {
       const data = {
         productId: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b",
-        cartId: 2 as any,
-        price: 200
+        cartId: 2 as any
       };
 
       const [_cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);

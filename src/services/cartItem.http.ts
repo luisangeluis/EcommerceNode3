@@ -31,7 +31,6 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
     if (!product || product === null) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
 
     const currentCartItem = {
-      price: product.price,
       productId: product.id,
       cartId: cart!.id
     };

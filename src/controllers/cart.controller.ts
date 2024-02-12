@@ -15,11 +15,11 @@ export const readCartByUserId = async (userId: string) => {
     include: [
       {
         model: CartItem,
-        attributes: ["id", "quantity", "price"],
+        attributes: ["id", "quantity"],
         include: [
           {
             model: Product,
-            attributes: ["id", "title", "description", "categoryId"]
+            attributes: ["id", "title", "description", "price", "categoryId"]
           }
         ]
       }
@@ -29,7 +29,7 @@ export const readCartByUserId = async (userId: string) => {
   return response;
 };
 
-export const createCart = async (userId: string, transaction: Transaction) => {
+export const createCart = async (userId: string, transaction?: Transaction) => {
   const newCart = { isActive: true, userId, id: uuidv4() };
   const response = await Cart.create(newCart, { transaction });
   return response;
