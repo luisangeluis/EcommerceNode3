@@ -5,6 +5,7 @@ import type { OrderCreationAttributes, UserTokenAttributes } from "../types";
 import * as orderControllers from "../controllers/order.controller";
 import * as orderDetailControllers from "../controllers/orderDetail.controller";
 import { readCartByUserId } from "../controllers/cart.controller";
+import { deleteAllCartItems } from "../controllers/cartItem.controller";
 import CartItem from "../models/CartItem.model";
 
 export const getOrdersByUserId = async (req: Request, res: Response): Promise<Response> => {
@@ -39,18 +40,15 @@ export const post = async (req: Request, res: Response) => {
     const cart = await readCartByUserId(userId);
 
     if (!cart?.cartItems.length || cart?.cartItems.length === 0) return res.status(400).json({ message: "Please to add products to cart" });
-
     if (!cart.isActive) return res.status(400).json({ message: "Unavailable cart to make an order" });
 
     const total = cart?.cartItems.reduce((accum: number, current: CartItem) => accum + current.product.price * current.quantity, 0);
-
     const newOrder: OrderCreationAttributes = {
       cartId: cart?.id,
       total,
       status: "created"
     };
     const order = await orderControllers.createOrder(newOrder, transaction);
-
     const orderDetails = cart?.cartItems.map((cartItem: CartItem) => {
       const price = cartItem.product.price;
       const quantity = cartItem.quantity;
@@ -67,6 +65,9 @@ export const post = async (req: Request, res: Response) => {
     });
 
     await Promise.all(orderDetails);
+
+    await deleteAllCartItems(cart.id, transaction);
+
     await transaction.commit();
     return res.status(201).json({ message: "Order sucessfully created" });
   } catch (error: any) {

@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { CartItemAttributes } from "../types";
 import CartItem from "../models/CartItem.model";
 import Cart from "../models/Cart.model";
+import { Transaction } from "sequelize";
 
 export const readCartItemById = async (cartItemId: string, userId: string): Promise<CartItem | null> => {
   const response = await CartItem.findOne({
@@ -31,6 +32,14 @@ export const readOrCreateCartItemById = async (cartItem: Omit<CartItemAttributes
   });
   return response;
 };
+
+export const deleteAllCartItems = async (cartId: string, transaction?: Transaction) =>
+  await CartItem.destroy({
+    where: {
+      cartId
+    },
+    transaction
+  });
 
 export const deleteCartItem = async (cartItemId: string, userId: string): Promise<boolean> => {
   const response = await CartItem.findOne({

@@ -1,6 +1,7 @@
 import chai from "chai";
 import chaiHttp from "chai-http";
 import * as cartItemControllers from "../../src/controllers/cartItem.controller";
+import { readCartByUserId } from "../../src/controllers/cart.controller";
 
 chai.use(chaiHttp);
 
@@ -177,6 +178,23 @@ describe("DELETE - cartItem - unit test", () => {
       const cartItem = await cartItemControllers.readCartItemById("6693978b-1bce-4ff8-acc2-6bcd7786d792", user.id);
 
       expect(cartItem?.id).to.equal("6693978b-1bce-4ff8-acc2-6bcd7786d792");
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
+});
+
+//DELETE ALL cartItems
+describe("DELETE - Delete all cartItems by cartId", () => {
+  it("Should delete all cartItems of cart", async () => {
+    try {
+      const angelCart = "daf37a51-3da3-42a9-81e5-a0426bd6ae3f";
+      const angelId = "2940915c-071e-423e-827c-a04d1ead2ce7";
+
+      await cartItemControllers.deleteAllCartItems(angelCart);
+      const cart = await readCartByUserId(angelId);
+
+      expect(cart?.cartItems.length).to.equal(0);
     } catch (error: any) {
       throw new Error(`Test failed due to an error: ${error.message}`);
     }
