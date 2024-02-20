@@ -7,9 +7,7 @@ import uploadImage from "../utils/uploadImage";
 
 const router = Router();
 
-router
-  .route("/product/:id/product-image/:productImageId")
-  .get(productExistsMiddleware, productImages.getAnImageByProductId);
+router.route("/product/:id/product-image/:productImageId").get(productExistsMiddleware, productImages.getAnImageByProductId);
 // .delete(
 //   passport.authenticate("jwt", { session: false }),
 //   productImages.deleteImg,

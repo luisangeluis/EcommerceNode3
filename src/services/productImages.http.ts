@@ -36,28 +36,48 @@ export const getAnImageByProductId = async (req: Request, res: Response): Promis
 
 export const postImageByProductId = async (req: Request, res: Response): Promise<Response> => {
   try {
+    const user = req?.user as UserTokenAttributes;
     const productId = req.params.id;
-    // const userId = (req.user as UserTokenAttributes)?.id;
-    // const query = { sellerId: userId };
-    const tempFile: any = req.files?.product_image;
+    const product = await productController.readProductById(productId, { userId: user.id });
+    let tempFiles: any = req.files?.product_images;
+    // const tempFiles: any = req.files;
 
-    const product = await productController.readProductById(productId);
+    if (!tempFiles) return res.status(400).json({ message: "Missing data" });
 
-    if (!product) return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
+    if (!product) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
 
-    const uploadedImage = await uploadImage(tempFile.tempFilePath);
+    if (!tempFiles.length) tempFiles = [tempFiles];
 
-    const newProductImage = { productId, url: uploadedImage.secure_url };
-
-    const response = await productImagesController.createProductImage(newProductImage);
-
-    await fs.unlink(tempFile.tempFilePath);
-
-    return res.status(201).json({ response });
+    const uploadedImages = await uploadImage(tempFiles.tempFilePath);
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
 };
+
+// export const postImageByProductId = async (req: Request, res: Response): Promise<Response> => {
+//   try {
+//     const productId = req.params.id;
+//     // const userId = (req.user as UserTokenAttributes)?.id;
+//     // const query = { sellerId: userId };
+//     const tempFile: any = req.files?.product_image;
+
+//     const product = await productController.readProductById(productId);
+
+//     if (!product) return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
+
+//     const uploadedImage = await uploadImage(tempFile.tempFilePath);
+
+//     const newProductImage = { productId, url: uploadedImage.secure_url };
+
+//     const response = await productImagesController.createProductImage(newProductImage);
+
+//     await fs.unlink(tempFile.tempFilePath);
+
+//     return res.status(201).json({ response });
+//   } catch (error: any) {
+//     return res.status(500).json({ message: error.message });
+//   }
+// };
 
 export const deleteImg = async (req: Request, res: Response): Promise<Response> => {
   const sellerId = (req.user as UserTokenAttributes)?.id;

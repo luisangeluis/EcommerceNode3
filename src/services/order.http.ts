@@ -32,7 +32,6 @@ export const getOrderById = async (req: Request, res: Response): Promise<Respons
 
 export const post = async (req: Request, res: Response) => {
   const transaction = await db.transaction();
-
   try {
     const userId = (req.user as UserTokenAttributes)?.id;
     //****TODO LOGICA PARA PAGOS
@@ -43,6 +42,7 @@ export const post = async (req: Request, res: Response) => {
     if (!cart.isActive) return res.status(400).json({ message: "Unavailable cart to make an order" });
 
     const total = cart?.cartItems.reduce((accum: number, current: CartItem) => accum + current.product.price * current.quantity, 0);
+
     const newOrder: OrderCreationAttributes = {
       cartId: cart?.id,
       total,
