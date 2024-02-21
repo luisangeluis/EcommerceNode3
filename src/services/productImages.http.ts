@@ -36,19 +36,38 @@ export const getAnImageByProductId = async (req: Request, res: Response): Promis
 
 export const postImageByProductId = async (req: Request, res: Response): Promise<Response> => {
   try {
+    // TODO add field publish id to identify images in cloudinary
+
     const user = req?.user as UserTokenAttributes;
     const productId = req.params.id;
-    const product = await productController.readProductById(productId, { userId: user.id });
+
+    //Search the user product
+    const product = await productController.readProductById(productId, { sellerId: user.id });
+
+    //Read tempFiles
     let tempFiles: any = req.files?.product_images;
+
     // const tempFiles: any = req.files;
-
+    console.log({ tempFiles });
     if (!tempFiles) return res.status(400).json({ message: "Missing data" });
-
     if (!product) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
-
     if (!tempFiles.length) tempFiles = [tempFiles];
 
-    const uploadedImages = await uploadImage(tempFiles.tempFilePath);
+    //Upload images to cloudinary
+    const promises = tempFiles.map((tempFile: any) => uploadImage(tempFile.tempFilePath));
+    const uploadedImages = await Promise.all(promises);
+
+    //Create records en bd with the images
+    const response = uploadedImages.map((uploadedImage) =>
+      productImagesController.createProductImage({ productId, url: uploadedImage.secure_url })
+    );
+    await Promise.all(response);
+
+    //Delete temporal files
+    const deletedTempFiles = tempFiles.map((tempFile: any) => fs.unlink(tempFile.tempFilePath));
+    await Promise.all(deletedTempFiles);
+
+    return res.status(201).json({ message: `Images uploaded successfully` });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
