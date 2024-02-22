@@ -48,18 +48,21 @@ export const postImageByProductId = async (req: Request, res: Response): Promise
     let tempFiles: any = req.files?.product_images;
 
     // const tempFiles: any = req.files;
-    console.log({ tempFiles });
+    // console.log({ tempFiles });
     if (!tempFiles) return res.status(400).json({ message: "Missing data" });
     if (!product) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
     if (!tempFiles.length) tempFiles = [tempFiles];
+    console.log({ tempFiles });
 
     //Upload images to cloudinary
     const promises = tempFiles.map((tempFile: any) => uploadImage(tempFile.tempFilePath));
     const uploadedImages = await Promise.all(promises);
 
+    // console.log({ uploadedImages });
+
     //Create records en bd with the images
     const response = uploadedImages.map((uploadedImage) =>
-      productImagesController.createProductImage({ productId, url: uploadedImage.secure_url })
+      productImagesController.createProductImage({ productId, url: uploadedImage.secure_url, cloudinaryId: uploadedImage.public_id })
     );
     await Promise.all(response);
 

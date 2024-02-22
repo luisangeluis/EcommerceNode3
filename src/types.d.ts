@@ -30,6 +30,7 @@ export interface ProductImageAttributes {
   readonly id: string;
   productId: string;
   url: string;
+  cloudinaryId: string;
 }
 
 export interface ProductImageCreationAttributes extends Optional<ProductImageAttributes, "id"> {}
