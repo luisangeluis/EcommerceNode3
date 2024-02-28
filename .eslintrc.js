@@ -11,6 +11,7 @@ module.exports = {
     console: true,
     describe: true,
     it: true,
-    before: true
+    before: true,
+    __dirname: true
   }
 };
