@@ -4,7 +4,7 @@ const getCurrentDate = () => {
   const day = currentDate.getDate();
   const year = currentDate.getFullYear();
 
-  return `${month}/${day}/${year}`;
+  return `${month}-${day}-${year}`;
 };
 
 export default getCurrentDate;

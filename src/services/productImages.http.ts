@@ -37,7 +37,7 @@ export const getAnImageByProductId = async (req: Request, res: Response): Promis
 export const postImageByProductId = async (req: Request, res: Response): Promise<Response> => {
   try {
     // TODO add field publish id to identify images in cloudinary
-    console.log(req.files);
+    // console.log(req.file);
 
     const user = req?.user as UserTokenAttributes;
     const productId = req.params.id;
