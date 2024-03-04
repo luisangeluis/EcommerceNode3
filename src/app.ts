@@ -1,6 +1,6 @@
 import express from "express";
-import passport from "./middleware/passport.middleware";
 import cors from "cors";
+import passport from "./middleware/passport.middleware";
 import productRoutes from "./routes/product.router";
 import authRoutes from "./routes/auth.router";
 import userRoutes from "./routes/user.router";
@@ -24,6 +24,5 @@ app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/seller-products", sellerProductsRouter);
 app.use("/api/v1/cartItem", cartItemRouter);
 app.use("/api/v1/productImages", productImagesRoutes);
-// app.get('/', (_req, res) => res.send('hola'));
 
 export default app;

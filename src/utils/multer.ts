@@ -11,10 +11,7 @@ const storage = multer.diskStorage({
   filename: (_req, file, cb) => {
     const originalName = file.originalname;
     const extension = path.extname(originalName);
-    const fileName = originalName.replace(extension, ""); // Elimina la extensión del nombre original
-    // Concatena el nombre original, la fecha actual y la extensión para obtener el nombre final
-    // const finalFileName = `${fileName}-${Date.now()}${extension}`;
-
+    const fileName = originalName.replace(extension, "");
     const finalFileName = `${fileName}_${getCurrentDate()}${extension}`;
     cb(null, finalFileName);
   }

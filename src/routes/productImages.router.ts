@@ -19,6 +19,11 @@ router
   .route("/product/:id")
   .get(productExistsMiddleware, productImages.getAllProductImages)
   // .post(passport.authenticate("jwt", { session: false }), uploadImage, productImages.postImageByProductId);
-  .post(passport.authenticate("jwt", { session: false }), upload.single("product_images"), productImages.postImageByProductId);
+  .post(
+    passport.authenticate("jwt", { session: false }),
+
+    upload.array("product_images", 2),
+    productImages.postImageByProductId
+  );
 
 export default router;
