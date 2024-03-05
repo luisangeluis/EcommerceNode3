@@ -11,6 +11,12 @@ class ProductImage extends Model<ProductImageAttributes, ProductImageCreationAtt
   })
   id!: string;
 
+  @Column({
+    allowNull: false,
+    type: DataType.STRING
+  })
+  name!: string;
+
   @ForeignKey(() => Product)
   @Column({
     allowNull: false,

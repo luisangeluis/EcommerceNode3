@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserTokenAttributes } from "../types";
-// import { uploadImage } from "../utils/cloudinary";
+import { uploadImage } from "../utils/cloudinary";
 // import fs from "fs-extra";
 
 import * as productImagesController from "../controllers/productImage.controller";
@@ -46,22 +46,29 @@ export const postImageByProductId = async (req: Request, res: Response): Promise
     if (!product) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
     //Read tempFiles
     // let tempFiles: any = req.files?.product_images;
-    // // const tempFiles: any = req.files;
-    // if (!tempFiles) return res.status(400).json({ message: "Missing data" });
-    // if (!tempFiles.length) tempFiles = [tempFiles];
+    let tempFiles: any = req.files;
+    if (!tempFiles) return res.status(400).json({ message: "Missing data" });
+    if (!tempFiles.length) tempFiles = [tempFiles];
 
-    // //Upload images to cloudinary
-    // const promises = tempFiles.map((tempFile: any) => uploadImage(tempFile.tempFilePath));
-    // const uploadedImages = await Promise.all(promises);
-    // // console.log({ uploadedImages });
-    // //Create records en bd with the images
+    //Upload images to cloudinary
+    const promises = tempFiles.map((tempFile: any) => uploadImage(tempFile.tempFilePath));
+    const uploadedImages = await Promise.all(promises);
+    console.log({ uploadedImages });
+    console.log("hola");
+    //Create records en bd with the images
     // const response = uploadedImages.map((uploadedImage) =>
-    //   productImagesController.createProductImage({ productId, url: uploadedImage.secure_url, cloudinaryId: uploadedImage.public_id })
+    //   productImagesController.createProductImage({
+    //     name: uploadImage.name,
+    //     productId,
+    //     url: uploadedImage.secure_url,
+    //     cloudinaryId: uploadedImage.public_id
+    //   })
     // );
     // await Promise.all(response);
-    // //Delete temporal files
-    // // const deletedTempFiles = tempFiles.map((tempFile: any) => fs.unlink(tempFile.tempFilePath));
-    // // await Promise.all(deletedTempFiles);
+
+    //Delete temporal files
+    // const deletedTempFiles = tempFiles.map((tempFile: any) => fs.unlink(tempFile.tempFilePath));
+    // await Promise.all(deletedTempFiles);
 
     return res.status(201).json({ message: `Images uploaded successfully` });
   } catch (error: any) {

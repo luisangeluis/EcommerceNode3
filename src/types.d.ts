@@ -28,6 +28,7 @@ export interface ProductReadAttributes extends Partial<ProductAttributes> {
 
 export interface ProductImageAttributes {
   readonly id: string;
+  name: string;
   productId: string;
   url: string;
   cloudinaryId: string;

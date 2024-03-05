@@ -10,6 +10,8 @@ import sellerProductsRouter from "./routes/sellerProducts.router";
 import cartItemRouter from "./routes/cartItem.router";
 import productImagesRoutes from "./routes/productImages.router";
 
+import multer from "multer";
+
 const app = express();
 
 app.use(passport.initialize());
@@ -24,5 +26,13 @@ app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/seller-products", sellerProductsRouter);
 app.use("/api/v1/cartItem", cartItemRouter);
 app.use("/api/v1/productImages", productImagesRoutes);
+
+app.use(function (err: any, _req: any, res: any, _next: any) {
+  if (err instanceof multer.MulterError) {
+    res.status(400).send("Error al cargar el archivo: " + err.message);
+  } else {
+    res.status(500).send("Error interno del servidor" + err.message);
+  }
+});
 
 export default app;

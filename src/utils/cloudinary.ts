@@ -10,4 +10,4 @@ cloudinary.config({
   secure: true
 });
 
-export const uploadImage = async (filePath: string) => await cloudinary.uploader.upload(filePath, { folder: "product-image" });
+export const uploadImage = async (filePath: string) => await cloudinary.uploader.upload(filePath, { folder: "ecommerce-product-image" });

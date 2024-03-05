@@ -3,9 +3,7 @@ import path from "path";
 import getCurrentDate from "./getCurrentDate";
 
 const storage = multer.diskStorage({
-  destination: (_req, file, cb) => {
-    console.log({ file });
-
+  destination: (_req, _file, cb) => {
     cb(null, "src/uploadedImages/");
   },
   filename: (_req, file, cb) => {
@@ -17,6 +15,24 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage });
+const fileFilter = function (_req: any, file: any, cb: any) {
+  // Verifica el tipo de archivo
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg") {
+    // Acepta el archivo
+    cb(null, true);
+  } else {
+    const error = new multer.MulterError("LIMIT_UNEXPECTED_FILE");
+    error.message = "Tipo de archivo no admitido";
+    cb(error, false);
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 1024 * 1024 * 2
+  }
+});
 
 export default upload;
