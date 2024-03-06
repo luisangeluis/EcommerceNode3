@@ -29,6 +29,8 @@ app.use("/api/v1/productImages", productImagesRoutes);
 
 app.use(function (err: any, _req: any, res: any, _next: any) {
   if (err instanceof multer.MulterError) {
+    console.log({ err });
+
     res.status(400).send("Error al cargar el archivo: " + err.message);
   } else {
     res.status(500).send("Error interno del servidor" + err.message);
