@@ -11,3 +11,4 @@ cloudinary.config({
 });
 
 export const uploadImage = async (filePath: string) => await cloudinary.uploader.upload(filePath, { folder: "ecommerce-product-image" });
+export const deleteImage = async (cloudinaryPath: string) => await cloudinary.uploader.destroy(cloudinaryPath);

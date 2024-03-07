@@ -9,11 +9,9 @@ import upload from "../utils/multer";
 
 const router = Router();
 
-// router.route("/product/:id/product-image/:productImageId")
-// .delete(
-//   passport.authenticate("jwt", { session: false }),
-//   productImages.deleteImg,
-// );
+router
+  .route("/product/:id/product-image/:productImageId")
+  .delete(passport.authenticate("jwt", { session: false }), productImages.deleteImg);
 
 router
   .route("/product/:id")

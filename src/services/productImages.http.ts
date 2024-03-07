@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { UserTokenAttributes } from "../types";
-import { uploadImage } from "../utils/cloudinary";
+import { deleteImage, uploadImage } from "../utils/cloudinary";
 import fs from "fs-extra";
 
 import * as productImagesController from "../controllers/productImage.controller";
 import * as productController from "../controllers/product.controller";
+import catchErrors from "../utils/catchErrors";
 
 //Post images by product id
 export const postImageByProductId = async (req: Request, res: Response): Promise<Response> => {
@@ -46,13 +47,31 @@ export const postImageByProductId = async (req: Request, res: Response): Promise
 };
 
 export const deleteImg = async (req: Request, res: Response): Promise<Response> => {
-  const sellerId = (req.user as UserTokenAttributes)?.id;
-  const productId = req.params.id;
-  const productImageId = req.params.productImageId;
+  try {
+    const seller = req.user as UserTokenAttributes;
+    const productId = req.params.id;
+    const productImageId = req.params.productImageId;
 
-  const response = await productImagesController.deleteProductImage(sellerId, productId, productImageId);
+    //check that the product is valid
+    const product = await productController.readProductById(productId, seller!.id);
+    if (!product) return res.status(400).json({ message: `Product with id: ${productId} doesn't exist` });
 
-  if (!response) return res.status(404).json({ message: `Image with id doesn't exists` });
+    //check that the productImage is valid
+    const productImage = await productImagesController.readAProductImage(product.id, productImageId);
+    if (!productImage) return res.status(400).json({ message: `Image with id: ${productImageId} doesn't exist` });
 
-  return res.status(204).json();
+    //Cloudinary route
+    const imageRoute = productImage.cloudinaryId;
+
+    //Delete image register
+    await productImage.destroy();
+
+    //Delete cloudinary image
+    await deleteImage(imageRoute);
+
+    return res.status(204).json();
+  } catch (error: any) {
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
+  }
 };
