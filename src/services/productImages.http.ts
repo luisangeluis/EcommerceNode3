@@ -19,7 +19,7 @@ export const postImageByProductId = async (req: Request, res: Response): Promise
 
     //Read tempFiles
     let tempFiles: any = req.files;
-    if (!tempFiles.length) return res.status(400).json({ message: "Missing data" });
+    if (!tempFiles?.length) return res.status(400).json({ message: "Missing data" });
 
     //Upload images to cloudinary
     const promises = tempFiles.map((tempFile: any) => uploadImage(tempFile.path));

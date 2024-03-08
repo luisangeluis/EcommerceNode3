@@ -1,3 +1,4 @@
+import { UserRoleEnum, ProductCategoryEnum, ProductStatusEnum } from "./Enums";
 import Category from "../models/Category.model";
 import Product from "../models/Product.model";
 import Role from "../models/Role.model";
@@ -7,8 +8,7 @@ import CartItem from "../models/CartItem.model";
 import Order from "../models/Order.model";
 import OrderDetail from "../models/OrderDetail.model";
 import Status from "../models/Status.model";
-
-import { UserRoleEnum, ProductCategoryEnum, ProductStatusEnum } from "./Enums";
+import ProductImage from "../models/ProductImage.model";
 
 export const generateData = async (): Promise<void> => {
   console.log("creating my data");
@@ -258,6 +258,61 @@ export const generateData = async (): Promise<void> => {
           status: ProductStatusEnum.INACTIVE,
           categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7"
+        }
+      ],
+      { validate: true }
+    );
+
+    await ProductImage.bulkCreate(
+      [
+        {
+          id: "ab544701-9910-4492-9088-9c1953029f22",
+          name: "car_3-8-2024",
+          productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+          url: "https://res.cloudinary.com/dqdhetmy3/image/upload/v1709937149/ecommerce-product-image/car2_aendbr.jpg",
+          cloudinaryId: "ecommerce-product-image/car2_aendbr.jpg"
+        },
+        {
+          id: "d023bb0d-b9ee-44a8-b8a6-cf90d63e6a89",
+          name: "lambo_3-8-2024",
+          productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+          url: "https://res.cloudinary.com/dqdhetmy3/image/upload/v1709937420/ecommerce-product-image/lambo2_xdj47o.jpg",
+          cloudinaryId: "ecommerce-product-image/lambo2_xdj47o.jpg"
+        },
+        {
+          id: "37f34b7c-a5bb-4b3d-bc5c-018201c51bae",
+          name: "lambo_3-8-2024",
+          productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
+          url: "https://res.cloudinary.com/dqdhetmy3/image/upload/v1709937409/ecommerce-product-image/lambo_ait433.jpg",
+          cloudinaryId: "ecommerce-product-image/lambo_ait433.jpg"
+        },
+        {
+          id: "22a167dd-2a7c-427b-abd3-ef9386d46da3",
+          name: "dog_3-8-2024",
+          productId: "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b",
+          url: "https://res.cloudinary.com/dqdhetmy3/image/upload/v1709937797/ecommerce-product-image/dog_vlbilm.jpg",
+          cloudinaryId: "ecommerce-product-image/dog_vlbilm.jpg"
+        },
+        {
+          id: "d07d2945-1f98-4984-989f-43cc3733da4d",
+          name: "iphone_3-8-2024",
+          productId: "2e112c93-7db1-48b9-b978-85fa51f1c7bd",
+          url: "https://res.cloudinary.com/dqdhetmy3/image/upload/v1709937998/ecommerce-product-image/iphone_b1d61o.jpg",
+          cloudinaryId: "ecommerce-product-image/iphone_b1d61o.jpg"
+        },
+        {
+          id: "e26edb44-22fc-4e81-a3cd-7b2883456fff",
+          name: "tv_3-8-2024",
+          productId: "7802d357-239d-415e-859c-d0c1da0010a0",
+          url: "https://res.cloudinary.com/dqdhetmy3/image/upload/v1709938175/ecommerce-product-image/tv_tlddkb.jpg",
+          cloudinaryId: "ecommerce-product-image/tv_tlddkb.jpg"
+        },
+        {
+          id: "2fd00672-f3fe-475c-8b3c-7778679357bd",
+          name: "volleyball_3-8-2024",
+          productId: "6edfd984-807f-4829-932f-0511fb1881b7",
+          url: "https://res.cloudinary.com/dqdhetmy3/image/upload/v1709938458/ecommerce-product-image/volleyball_kyibpd.jpg",
+          cloudinaryId: "ecommerce-product-image/volleyball_kyibpd.jpg"
         }
       ],
       { validate: true }
