@@ -56,7 +56,7 @@ export const readProductById = async (id: string, optionalQueries?: Partial<Prod
     id
   };
 
-  if (optionalQueries?.userId) queries.userId = optionalQueries.userId;
+  if (optionalQueries?.sellerId) queries.sellerId = optionalQueries.sellerId;
 
   return await Product.findOne({
     where: queries,

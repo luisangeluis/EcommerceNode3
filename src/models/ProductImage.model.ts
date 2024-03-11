@@ -11,6 +11,12 @@ class ProductImage extends Model<ProductImageAttributes, ProductImageCreationAtt
   })
   id!: string;
 
+  @Column({
+    allowNull: false,
+    type: DataType.STRING
+  })
+  name!: string;
+
   @ForeignKey(() => Product)
   @Column({
     allowNull: false,
@@ -20,10 +26,14 @@ class ProductImage extends Model<ProductImageAttributes, ProductImageCreationAtt
 
   @IsUrl
   @Column({
-    allowNull: false,
-    type: DataType.UUID
+    allowNull: false
   })
   url!: string;
+
+  @Column({
+    allowNull: false
+  })
+  cloudinaryId!: string;
 
   @BelongsTo(() => Product)
   product!: Product;
