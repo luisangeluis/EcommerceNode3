@@ -258,6 +258,15 @@ export const generateData = async (): Promise<void> => {
           status: ProductStatusEnum.INACTIVE,
           categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
           sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7"
+        },
+        {
+          id: "b0a6b7c8-e47d-48f8-9d86-4448beff61f5",
+          title: "laptop",
+          description: "a laptop",
+          price: 1000,
+          status: ProductStatusEnum.ACTIVE,
+          categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
+          sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
         }
       ],
       { validate: true }

@@ -8,9 +8,9 @@ import { ProductStatusEnum } from "../utils/Enums";
 
 interface GetProducts {
   totalResults: number;
-  response: Product[];
   currentPage: number;
   totalPages: number;
+  products: Product[];
 }
 
 const { Op } = sequelize;
@@ -26,14 +26,11 @@ export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttri
   };
 
   if (optionalQueries?.title) queries.title = { [Op.like]: `%${optionalQueries.title}%` };
-
   if (optionalQueries?.description) queries.description = { [Op.like]: `%${optionalQueries.description}%` };
-
   if (optionalQueries?.categoryId) queries.categoryId = optionalQueries.categoryId;
+  if (optionalQueries?.sellerId) queries.sellerId = optionalQueries.sellerId;
 
-  if (optionalQueries?.userId) queries.userId = optionalQueries.userId;
-
-  const { rows: response, count } = await Product.findAndCountAll({
+  const { rows: products, count } = await Product.findAndCountAll({
     where: queries,
     include: [{ model: ProductImage, required: false }],
     limit,
@@ -44,9 +41,9 @@ export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttri
 
   return {
     totalResults: count,
-    totalPages: totalPages,
+    totalPages,
     currentPage: page,
-    response: response
+    products
   };
 };
 
