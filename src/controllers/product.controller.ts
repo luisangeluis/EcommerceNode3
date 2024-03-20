@@ -18,7 +18,7 @@ const { Op } = sequelize;
 //Geat all products
 // export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<ProductAttributes[]> => {
 export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<GetProducts> => {
-  const limit = 4;
+  const limit = 2;
   const page = optionalQueries?.page || 1;
   const offset = (page - 1) * limit;
   const queries: any = {
@@ -30,12 +30,23 @@ export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttri
   if (optionalQueries?.categoryId) queries.categoryId = optionalQueries.categoryId;
   if (optionalQueries?.sellerId) queries.sellerId = optionalQueries.sellerId;
 
+  console.log({ queries });
+
   const { rows: products, count } = await Product.findAndCountAll({
     where: queries,
     include: [{ model: ProductImage, required: false }],
     limit,
-    offset
+    offset,
+    // subQuery: false,
+    distinct: true
   });
+  // console.log({ misResultados: products });
+
+  const counter = await Product.count({
+    where: queries
+  });
+
+  console.log({ counter });
 
   const totalPages = Math.ceil(count / limit);
 

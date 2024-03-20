@@ -126,7 +126,7 @@ export const generateData = async (): Promise<void> => {
       [
         {
           id: "dc29ea92-d7c3-48de-a389-76af84a470da",
-          title: "car",
+          title: "laptop",
           description: "a car",
           price: 100,
           status: ProductStatusEnum.ACTIVE,
@@ -208,7 +208,7 @@ export const generateData = async (): Promise<void> => {
         {
           id: "16cb051e-3109-474e-be38-48d032ea9dfa",
           title: "laptop",
-          description: "a laptop",
+          description: "a l",
           price: 500,
           status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",

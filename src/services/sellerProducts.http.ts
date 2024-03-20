@@ -8,13 +8,13 @@ import * as productControllers from "../controllers/product.controller";
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const user = req.user as UserTokenAttributes;
-    const { totalResults, response, currentPage, totalPages } = await productControllers.readAllProducts({ userId: user.id });
+    const { totalResults, products, currentPage, totalPages } = await productControllers.readAllProducts({ userId: user.id });
 
     return res.status(200).json({
       totalResults,
       totalPages,
       currentPage,
-      response
+      products
     });
   } catch (error: any) {
     const customError = catchErrors(error);

@@ -8,14 +8,14 @@ import { ProductStatusEnum } from "../utils/Enums";
 export const getAllProducts = async (req: Request, res: Response): Promise<Response> => {
   try {
     const queries = req.query;
-    const { totalResults, response, currentPage, totalPages } =
+    const { totalResults, totalPages, currentPage, products } =
       Object.keys(queries).length === 0 ? await productControllers.readAllProducts() : await productControllers.readAllProducts(queries);
 
     return res.status(200).json({
       totalResults,
       totalPages,
       currentPage,
-      response
+      products
     });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
