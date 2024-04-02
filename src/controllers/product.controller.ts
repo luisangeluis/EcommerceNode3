@@ -18,20 +18,22 @@ const { Op } = sequelize;
 //Geat all products
 // export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<ProductAttributes[]> => {
 export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<GetProducts> => {
-  const limit = 2;
+  const limit = 5;
   const page = optionalQueries?.page || 1;
   const offset = (page - 1) * limit;
+
+  //Get only active and inactive products
   const queries: any = {
     status: { [Op.in]: [ProductStatusEnum.ACTIVE, ProductStatusEnum.INACTIVE] }
   };
 
+  //Getting optional querys
   if (optionalQueries?.title) queries.title = { [Op.like]: `%${optionalQueries.title}%` };
   if (optionalQueries?.description) queries.description = { [Op.like]: `%${optionalQueries.description}%` };
   if (optionalQueries?.categoryId) queries.categoryId = optionalQueries.categoryId;
   if (optionalQueries?.sellerId) queries.sellerId = optionalQueries.sellerId;
 
   console.log({ queries });
-
   const { rows: products, count } = await Product.findAndCountAll({
     where: queries,
     include: [{ model: ProductImage, required: false }],
@@ -41,13 +43,12 @@ export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttri
     distinct: true
   });
   // console.log({ misResultados: products });
+  // const counter = await Product.count({
+  //   where: queries
+  // });
+  // console.log({ counter });
 
-  const counter = await Product.count({
-    where: queries
-  });
-
-  console.log({ counter });
-
+  //Getting total pages
   const totalPages = Math.ceil(count / limit);
 
   return {

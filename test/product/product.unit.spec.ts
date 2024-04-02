@@ -32,9 +32,9 @@ describe("READ - product - unit tests", () => {
 
   it("Should respond with an array of products which includes my string to search in title", async () => {
     // const response = await productControllers.readAllProducts({ title: "laptop", page: 2 });
-    const response = await productControllers.readAllProducts({ title: "laptop", page: 2 });
-    const isValidSearched = response.products.every((product) => product.title === "cell");
+    const response = await productControllers.readAllProducts({ title: "laptop", page: 1 });
     console.log({ response });
+    const isValidSearched = response.products.every((product) => product.title.includes("pto"));
     response.products.map((p) => console.log(p.dataValues.id, p.dataValues.title));
     // console.log(response.products.length);
 

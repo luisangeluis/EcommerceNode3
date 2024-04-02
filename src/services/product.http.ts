@@ -1,13 +1,24 @@
 import { Request, Response } from "express";
-import type { UserTokenAttributes } from "../types";
+import type { UserTokenAttributes, ProductReadAttributes } from "../types";
 import catchErrors from "../utils/catchErrors";
-import * as productControllers from "../controllers/product.controller";
 import { ProductStatusEnum } from "../utils/Enums";
+import * as productControllers from "../controllers/product.controller";
 
 //Get all products
 export const getAllProducts = async (req: Request, res: Response): Promise<Response> => {
   try {
     const queries = req.query;
+    const { productInfo, categoryId, sellerId } = queries;
+    const queriesToSearch: Partial<ProductReadAttributes>;
+
+    if (productInfo) {
+      queriesToSearch.title = productInfo;
+      queriesToSearch.description = productInfo;
+    }
+
+    if (categoryId) queriesToSearch.categoryId = categoryId;
+    if (sellerId) queriesToSearch.sellerId = sellerId;
+
     const { totalResults, totalPages, currentPage, products } =
       Object.keys(queries).length === 0 ? await productControllers.readAllProducts() : await productControllers.readAllProducts(queries);
 
