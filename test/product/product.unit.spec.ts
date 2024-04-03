@@ -1,10 +1,13 @@
 import chai from "chai";
 import chaiHttp from "chai-http";
 import * as productControllers from "../../src/controllers/product.controller";
+import sequelize from "sequelize";
+
 // import Product from "../../src/models/Product.model";
 // import Category from "../../src/models/Category.model";
 
 const expect = chai.expect;
+const { Op } = sequelize;
 
 chai.use(chaiHttp);
 
@@ -31,11 +34,20 @@ describe("READ - product - unit tests", () => {
   // });
 
   it("Should respond with an array of products which includes my string to search in title", async () => {
+    const queries = {
+      page: 2,
+      [Op.or]: [{ title: { [Op.like]: `%a%` } }, { description: { [Op.like]: `%a%` } }]
+    };
+
+    // const queries2 = {
+    //   description: { [Op.like]: `%a%` }
+    // };
     // const response = await productControllers.readAllProducts({ title: "laptop", page: 2 });
-    const response = await productControllers.readAllProducts({ title: "laptop", page: 1 });
+    const response = await productControllers.readAllProducts(queries);
     console.log({ response });
-    const isValidSearched = response.products.every((product) => product.title.includes("pto"));
-    response.products.map((p) => console.log(p.dataValues.id, p.dataValues.title));
+    // console.log(response.products[0]);
+    const isValidSearched = response.products.every((product) => product.description.includes("a"));
+    response.products.map((p) => console.log(p.dataValues.id, p.dataValues.title, p.dataValues.description));
     // console.log(response.products.length);
 
     expect(isValidSearched).to.equal(true);

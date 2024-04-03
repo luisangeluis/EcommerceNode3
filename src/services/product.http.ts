@@ -1,26 +1,30 @@
 import { Request, Response } from "express";
-import type { UserTokenAttributes, ProductReadAttributes } from "../types";
+import sequelize from "sequelize";
+import type { UserTokenAttributes } from "../types";
 import catchErrors from "../utils/catchErrors";
 import { ProductStatusEnum } from "../utils/Enums";
 import * as productControllers from "../controllers/product.controller";
+
+const { Op } = sequelize;
 
 //Get all products
 export const getAllProducts = async (req: Request, res: Response): Promise<Response> => {
   try {
     const queries = req.query;
-    const { productInfo, categoryId, sellerId } = queries;
-    const queriesToSearch: Partial<ProductReadAttributes>;
+    const { productInfo, categoryId, page } = queries;
+    const queriesToSearch: any = { status: { [Op.in]: [ProductStatusEnum.ACTIVE, ProductStatusEnum.INACTIVE] } };
 
     if (productInfo) {
       queriesToSearch.title = productInfo;
       queriesToSearch.description = productInfo;
+
+      queriesToSearch.title = { [Op.like]: `%${productInfo}%` };
+      queriesToSearch.description = { [Op.like]: `%${productInfo}%` };
     }
-
     if (categoryId) queriesToSearch.categoryId = categoryId;
-    if (sellerId) queriesToSearch.sellerId = sellerId;
+    if (page) queriesToSearch.page = page;
 
-    const { totalResults, totalPages, currentPage, products } =
-      Object.keys(queries).length === 0 ? await productControllers.readAllProducts() : await productControllers.readAllProducts(queries);
+    const { totalResults, totalPages, currentPage, products } = await productControllers.readAllProducts(queriesToSearch);
 
     return res.status(200).json({
       totalResults,

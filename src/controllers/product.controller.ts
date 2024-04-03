@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import sequelize from "sequelize";
+// import sequelize from "sequelize";
 import type { ProductAttributes, ProductCreationAttributes, ProductReadAttributes, ProductUpdateAttributes } from "../types";
 // import type { ProductsQuery } from "../types/request/types.request";
 import Product from "../models/Product.model";
 import ProductImage from "../models/ProductImage.model";
-import { ProductStatusEnum } from "../utils/Enums";
+// import { ProductStatusEnum } from "../utils/Enums";
 
 interface GetProducts {
   totalResults: number;
@@ -13,40 +13,23 @@ interface GetProducts {
   products: Product[];
 }
 
-const { Op } = sequelize;
+// const { Op } = sequelize;
 
 //Geat all products
 // export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<ProductAttributes[]> => {
-export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<GetProducts> => {
+export const readAllProducts = async (queriesToSearch: any): Promise<GetProducts> => {
   const limit = 5;
-  const page = optionalQueries?.page || 1;
-  const offset = (page - 1) * limit;
+  const offset = ((queriesToSearch.page || 1) - 1) * limit;
+  const { page, ...restOfQueries } = queriesToSearch;
+  console.log({ restOfQueries });
 
-  //Get only active and inactive products
-  const queries: any = {
-    status: { [Op.in]: [ProductStatusEnum.ACTIVE, ProductStatusEnum.INACTIVE] }
-  };
-
-  //Getting optional querys
-  if (optionalQueries?.title) queries.title = { [Op.like]: `%${optionalQueries.title}%` };
-  if (optionalQueries?.description) queries.description = { [Op.like]: `%${optionalQueries.description}%` };
-  if (optionalQueries?.categoryId) queries.categoryId = optionalQueries.categoryId;
-  if (optionalQueries?.sellerId) queries.sellerId = optionalQueries.sellerId;
-
-  console.log({ queries });
   const { rows: products, count } = await Product.findAndCountAll({
-    where: queries,
+    where: restOfQueries,
     include: [{ model: ProductImage, required: false }],
     limit,
     offset,
-    // subQuery: false,
     distinct: true
   });
-  // console.log({ misResultados: products });
-  // const counter = await Product.count({
-  //   where: queries
-  // });
-  // console.log({ counter });
 
   //Getting total pages
   const totalPages = Math.ceil(count / limit);
@@ -54,7 +37,7 @@ export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttri
   return {
     totalResults: count,
     totalPages,
-    currentPage: page,
+    currentPage: page || 1,
     products
   };
 };
