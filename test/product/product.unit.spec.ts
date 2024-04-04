@@ -12,45 +12,35 @@ const { Op } = sequelize;
 chai.use(chaiHttp);
 
 describe("READ - product - unit tests", () => {
-  // it("Should respond with an array of products with a status active or inactive", async () => {
-  //   const response = await productControllers.readAllProducts();
-  //   const allActive = response.products.every((product) => product.status === "active" || product.status === "inactive");
-
-  //   expect(allActive).to.equal(true);
-  // });
-
-  // it("Should respond with an array of products with category id 7c4b8522-bffa-4b1c-b82d-0c906366ec25", async () => {
-  //   const response = await productControllers.readAllProducts({ categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25", page: 2 });
-  //   const isValidCategory = response.products.every((product) => product.categoryId === "7c4b8522-bffa-4b1c-b82d-0c906366ec25");
-
-  //   expect(isValidCategory).to.equal(true);
-  // });
-
-  // it("Should respond with an array of products with sellerId id 7c4b8522-bffa-4b1c-b82d-0c906366ec25", async () => {
-  //   const response = await productControllers.readAllProducts({ sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e", page: 3 });
-  //   const isValidSeller = response.products.every((product) => product.sellerId === "28149311-26a3-4b17-8ab4-f8d9a3b9657e");
-
-  //   expect(isValidSeller).to.equal(true);
-  // });
-
   it("Should respond with an array of products which includes my string to search in title", async () => {
     const queries = {
-      page: 2,
-      [Op.or]: [{ title: { [Op.like]: `%a%` } }, { description: { [Op.like]: `%a%` } }]
+      [Op.or]: [{ title: { [Op.like]: `%apt%` } }, { description: { [Op.like]: `%apt%` } }]
     };
-
-    // const queries2 = {
-    //   description: { [Op.like]: `%a%` }
-    // };
-    // const response = await productControllers.readAllProducts({ title: "laptop", page: 2 });
     const response = await productControllers.readAllProducts(queries);
-    console.log({ response });
-    // console.log(response.products[0]);
-    const isValidSearched = response.products.every((product) => product.description.includes("a"));
-    response.products.map((p) => console.log(p.dataValues.id, p.dataValues.title, p.dataValues.description));
-    // console.log(response.products.length);
+    const isValidSearched = response.products.every((product) => product.description.includes("apt") || product.title.includes("apt"));
 
     expect(isValidSearched).to.equal(true);
+  });
+
+  it("Should respond with an array of products with a status active or inactive", async () => {
+    const response = await productControllers.readAllProducts();
+    const allActive = response.products.every((product) => product.status === "active" || product.status === "inactive");
+
+    expect(allActive).to.equal(true);
+  });
+
+  it("Should respond with an array of products with category id 7c4b8522-bffa-4b1c-b82d-0c906366ec25", async () => {
+    const response = await productControllers.readAllProducts({ categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25" }, 1);
+    const isValidCategory = response.products.every((product) => product.categoryId === "7c4b8522-bffa-4b1c-b82d-0c906366ec25");
+
+    expect(isValidCategory).to.equal(true);
+  });
+
+  it("Should respond with an array of products with sellerId id 7c4b8522-bffa-4b1c-b82d-0c906366ec25", async () => {
+    const response = await productControllers.readAllProducts({ sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e" }, 3);
+    const isValidSeller = response.products.every((product) => product.sellerId === "28149311-26a3-4b17-8ab4-f8d9a3b9657e");
+
+    expect(isValidSeller).to.equal(true);
   });
 });
 

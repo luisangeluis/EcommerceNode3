@@ -11,20 +11,17 @@ const { Op } = sequelize;
 export const getAllProducts = async (req: Request, res: Response): Promise<Response> => {
   try {
     const queries = req.query;
-    const { productInfo, categoryId, page } = queries;
     const queriesToSearch: any = { status: { [Op.in]: [ProductStatusEnum.ACTIVE, ProductStatusEnum.INACTIVE] } };
+    let pageToSearch = 1;
 
-    if (productInfo) {
-      queriesToSearch.title = productInfo;
-      queriesToSearch.description = productInfo;
-
-      queriesToSearch.title = { [Op.like]: `%${productInfo}%` };
-      queriesToSearch.description = { [Op.like]: `%${productInfo}%` };
+    if (queries.productInfo) {
+      queriesToSearch.title = { [Op.like]: `%${queries.productInfo}%` };
+      queriesToSearch.description = { [Op.like]: `%${queries.productInfo}%` };
     }
-    if (categoryId) queriesToSearch.categoryId = categoryId;
-    if (page) queriesToSearch.page = page;
+    if (queries.categoryId) queriesToSearch.categoryId = queries.categoryId;
+    if (queries.page && !Number.isNaN(queries.page)) pageToSearch = Number(queries.page);
 
-    const { totalResults, totalPages, currentPage, products } = await productControllers.readAllProducts(queriesToSearch);
+    const { totalResults, totalPages, currentPage, products } = await productControllers.readAllProducts(queriesToSearch, pageToSearch);
 
     return res.status(200).json({
       totalResults,
@@ -33,7 +30,8 @@ export const getAllProducts = async (req: Request, res: Response): Promise<Respo
       products
     });
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };
 
@@ -46,7 +44,8 @@ export const getProductById = async (req: Request, res: Response): Promise<Respo
 
     return res.status(200).json({ response });
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };
 

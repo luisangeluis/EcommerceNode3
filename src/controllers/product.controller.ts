@@ -17,14 +17,13 @@ interface GetProducts {
 
 //Geat all products
 // export const readAllProducts = async (optionalQueries?: Partial<ProductReadAttributes>): Promise<ProductAttributes[]> => {
-export const readAllProducts = async (queriesToSearch: any): Promise<GetProducts> => {
+export const readAllProducts = async (queriesToSearch?: any, page: number = 1): Promise<GetProducts> => {
   const limit = 5;
-  const offset = ((queriesToSearch.page || 1) - 1) * limit;
-  const { page, ...restOfQueries } = queriesToSearch;
-  console.log({ restOfQueries });
+  const currentPage = page;
+  const offset = (currentPage - 1) * limit;
 
-  const { rows: products, count } = await Product.findAndCountAll({
-    where: restOfQueries,
+  const { rows: products, count: totalResults } = await Product.findAndCountAll({
+    where: queriesToSearch,
     include: [{ model: ProductImage, required: false }],
     limit,
     offset,
@@ -32,12 +31,12 @@ export const readAllProducts = async (queriesToSearch: any): Promise<GetProducts
   });
 
   //Getting total pages
-  const totalPages = Math.ceil(count / limit);
+  const totalPages = Math.ceil(totalResults / limit);
 
   return {
-    totalResults: count,
+    totalResults,
     totalPages,
-    currentPage: page || 1,
+    currentPage,
     products
   };
 };
