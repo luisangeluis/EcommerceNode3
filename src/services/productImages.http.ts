@@ -14,8 +14,8 @@ export const postImageByProductId = async (req: Request, res: Response): Promise
     const productId = req.params.id;
 
     //Search the user product
-    const product = await productController.readProductById(productId, { sellerId: user.id });
-    if (!product) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
+    const product = await productController.readProductById(productId);
+    if (!product || product.sellerId !== user.id) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
 
     //Read tempFiles
     let tempFiles: any = req.files;
@@ -53,8 +53,8 @@ export const deleteImg = async (req: Request, res: Response): Promise<Response> 
     const productImageId = req.params.productImageId;
 
     //check that the product is valid
-    const product = await productController.readProductById(productId, seller!.id);
-    if (!product) return res.status(400).json({ message: `Product with id: ${productId} doesn't exist` });
+    const product = await productController.readProductById(productId);
+    if (!product || product.sellerId !== seller.id) return res.status(400).json({ message: `Product with id: ${productId} doesn't exist` });
 
     //check that the productImage is valid
     const productImage = await productImagesController.readAProductImage(product.id, productImageId);

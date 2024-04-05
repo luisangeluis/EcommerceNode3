@@ -21,6 +21,7 @@ before(async () => {
   }
 });
 
+//GET ALL PRODUCTS
 describe("GET - products - integration tests", () => {
   it("Should respond with 200 status code", (done) => {
     chai
@@ -35,24 +36,24 @@ describe("GET - products - integration tests", () => {
   });
 });
 
-// describe("GET - product by id - integration tests", () => {
-//   it("Should respond with 200 status code when I send a correct product id", async () => {
-//     const response = await chai.request(app).get(`/api/v1/products/10119ed0-b180-4ed5-a2b4-3c3619af97d9`);
-//     // console.log(response);
-//     expect(response).to.have.status(200);
-//   });
+describe("GET - product by id - integration tests", () => {
+  it("Should respond with 200 status code when I send a correct product id", async () => {
+    const response = await chai.request(app).get(`/api/v1/products/10119ed0-b180-4ed5-a2b4-3c3619af97d9`);
+    // console.log(response);
+    expect(response).to.have.status(200);
+  });
 
-//   it("Should respond with 404 status code when I send a wrong product id", (done) => {
-//     const id = 1;
-//     chai
-//       .request(app)
-//       .get(`/api/v1/products/${id}`)
-//       .end((_err, res) => {
-//         expect(res).to.have.status(404);
-//         done();
-//       });
-//   });
-// });
+  it("Should respond with 404 status code when I send a wrong product id", (done) => {
+    const id = 1;
+    chai
+      .request(app)
+      .get(`/api/v1/products/${id}`)
+      .end((_err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+});
 
 //POST CREATE A PRODUCT
 // describe("POST - Create a product - integration tests", () => {
