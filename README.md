@@ -12,7 +12,7 @@ GET - "GET ALL PRODUCTS"
 GET - "GET A PRODUCT BY ID"
 - /api/v1/products/:id
 - - Auth:No
-- - Params: product id.
+- - Params: productId.
 - - Querys: no querys.
 - - Body: no body.
 

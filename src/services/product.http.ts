@@ -35,6 +35,7 @@ export const getAllProducts = async (req: Request, res: Response): Promise<Respo
   }
 };
 
+//Get a product by id
 export const getProductById = async (req: Request, res: Response): Promise<Response> => {
   try {
     const productId = req.params.id;
@@ -43,6 +44,49 @@ export const getProductById = async (req: Request, res: Response): Promise<Respo
     if (!response) return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
 
     return res.status(200).json({ response });
+  } catch (error: any) {
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
+  }
+};
+
+export const post = async (req: Request, res: Response) => {
+  try {
+    const seller = req.user;
+    const data = req.body;
+    const status = ["active", "inactive"];
+
+    if (Object.keys(data).length === 0) return res.status(400).json({ message: "Missing data" });
+
+    if (data.status)
+      if (!status.includes(data.status))
+        return res.status(400).json({ message: "invalid status value, active/inactive - optional value -" });
+
+    if (typeof data.price !== "number") return res.status(400).json({ message: "Price property must be a number" });
+
+    if (!data.title || !data.description || !data.categoryId) {
+      return res.status(400).json({
+        message: "At least these  fields must be completed",
+        fields: {
+          title: "string",
+          description: "string",
+          categoryId: "string"
+        }
+      });
+    }
+
+    const productToCreate = {
+      title: data.title,
+      description: data.description,
+      price: data.price,
+      status: data.status,
+      categoryId: data.categoryId,
+      sellerId: (seller as UserTokenAttributes)?.id
+    };
+
+    const response = await productControllers.createProduct(productToCreate);
+
+    return res.status(201).json({ message: `Product with id: ${response.id} successfully created` });
   } catch (error: any) {
     const customError = catchErrors(error);
     return res.status(customError.status).json({ message: customError.error });
