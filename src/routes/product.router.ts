@@ -15,7 +15,10 @@ router
 
 router.route("/:id/add-to-cart").post(passport.authenticate("jwt", { session: false }), cartItemServices.addToCart);
 
-//GUEST ROUTE
-router.route("/:id").get(productServices.getProductById);
+router
+  .route("/:id")
+  //GUEST ROUTE
+  .get(productServices.getProductById)
+  .put(passport.authenticate("jwt", { session: false }), productServices.update);
 
 export default router;

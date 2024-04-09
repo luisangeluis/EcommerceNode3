@@ -50,6 +50,7 @@ export const getProductById = async (req: Request, res: Response): Promise<Respo
   }
 };
 
+//Post a product
 export const post = async (req: Request, res: Response) => {
   try {
     const seller = req.user;
@@ -92,6 +93,38 @@ export const post = async (req: Request, res: Response) => {
   }
 };
 
+export const update = async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+    const data = req.body;
+    const productId = req.params.id;
+    const { id: _id, sellerId: _sellerId, ...restOfData } = data;
+    const status = ["active", "inactive"];
+
+    if (Object.keys(restOfData).length === 0) return res.status(400).json({ message: "Missing data" });
+    if (restOfData.status && !status.includes(restOfData.status))
+      return res.status(400).json({ message: "invalid status value, active/inactive - optional value -" });
+    if (restOfData.price && typeof restOfData.price !== "number")
+      return res.status(400).json({ message: "Price property must be a number" });
+
+    // const productToUpdate = await productControllers.readProductById(productId);
+
+    // if (!productToUpdate || productToUpdate.sellerId !== (user as UserTokenAttributes)!.id)
+    //   return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
+
+    // for (let key in restOfData) {
+    //   console.log(key + ": " + restOfData[key]);
+
+    //   productToUpdate[key] = restOfData[key];
+    // }
+    // await productToUpdate.save();
+  } catch (error: any) {
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
+  }
+};
+
+//Delete a product
 export const deleteProductById = async (req: Request, res: Response) => {
   try {
     const userId = (req.user as UserTokenAttributes).id;
