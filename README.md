@@ -26,11 +26,8 @@ POST "CREATE A PRODUCT
 const newProduct = {
       title: "string",
       description: "string",
-      //price is of type number
-      price: 2,
-      //status is optional and its value is active by default
-      //Acepted values are: active inactive
-      status: "string",
+      price: 2, //Type number
+      status: "string", //Value is Optional "active" or "inactive"
       categoryId: "string",
       sellerId: "string",
     }

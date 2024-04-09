@@ -58,9 +58,8 @@ export const post = async (req: Request, res: Response) => {
 
     if (Object.keys(data).length === 0) return res.status(400).json({ message: "Missing data" });
 
-    if (data.status)
-      if (!status.includes(data.status))
-        return res.status(400).json({ message: "invalid status value, active/inactive - optional value -" });
+    if (data.status && !status.includes(data.status))
+      return res.status(400).json({ message: "invalid status value, active/inactive - optional value -" });
 
     if (typeof data.price !== "number") return res.status(400).json({ message: "Price property must be a number" });
 

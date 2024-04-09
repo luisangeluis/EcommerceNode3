@@ -67,69 +67,69 @@ describe("POST - Create a product - integration tests", () => {
       sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
     };
 
-    const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
+    const response = await chai.request(app).post(`/api/v1/products`).set("Authorization", `Bearer ${token}`).send(product);
 
     expect(response).to.have.status(201);
   });
 
-  // it("Should respond with 400 status code when a property is missing", async () => {
-  //   const product = {
-  //     title: "a product",
-  //     price: 10,
-  //     status: "active",
-  //     categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-  //     sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
-  //   };
+  it("Should respond with 400 status code when a property is missing", async () => {
+    const product = {
+      title: "a product",
+      price: 10,
+      status: "active",
+      categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
+    };
 
-  //   const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
+    const response = await chai.request(app).post(`/api/v1/products`).set("Authorization", `Bearer ${token}`).send(product);
 
-  //   expect(response).to.have.status(400);
-  // });
+    expect(response).to.have.status(400);
+  });
 
-  // it("Should respond with 400 status code. Request with a non-numeric value", async () => {
-  //   const product = {
-  //     title: "A product",
-  //     description: "A pruduct",
-  //     price: "aaa",
-  //     status: "active",
-  //     categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-  //     sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
-  //   };
+  it("Should respond with 400 status code. Request with a non-numeric value", async () => {
+    const product = {
+      title: "A product",
+      description: "A pruduct",
+      price: "aaa",
+      status: "active",
+      categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
+    };
 
-  //   const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
+    const response = await chai.request(app).post(`/api/v1/products`).set("Authorization", `Bearer ${token}`).send(product);
 
-  //   expect(response).to.have.status(400);
-  // });
+    expect(response).to.have.status(400);
+  });
 
-  // it("Should respond with 400 status code. Request with a empty string in a property", async () => {
-  //   const product = {
-  //     title: "",
-  //     description: "A product",
-  //     price: 2,
-  //     status: "active",
-  //     categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-  //     sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
-  //   };
+  it("Should respond with 400 status code. Request with a empty string in a property", async () => {
+    const product = {
+      title: "",
+      description: "A product",
+      price: 2,
+      status: "active",
+      categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
+    };
 
-  //   const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
+    const response = await chai.request(app).post(`/api/v1/products`).set("Authorization", `Bearer ${token}`).send(product);
 
-  //   expect(response).to.have.status(400);
-  // });
+    expect(response).to.have.status(400);
+  });
 
-  // it("Should respond with 400 status code. Request with a nonexistent category id", async () => {
-  //   const product = {
-  //     title: "a product",
-  //     description: "A product",
-  //     price: 2,
-  //     status: "active",
-  //     categoryId: "5",
-  //     sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
-  //   };
+  it("Should respond with 400 status code. Request with a nonexistent category id", async () => {
+    const product = {
+      title: "a product",
+      description: "A product",
+      price: 2,
+      status: "active",
+      categoryId: "5",
+      sellerId: "28149311-26a3-4b17-8ab4-f8d9a3b9657e"
+    };
 
-  //   const response = await chai.request(app).post(`/api/v1/products/seller`).set("Authorization", `Bearer ${token}`).send(product);
+    const response = await chai.request(app).post(`/api/v1/products`).set("Authorization", `Bearer ${token}`).send(product);
 
-  //   expect(response).to.have.status(400);
-  // });
+    expect(response).to.have.status(400);
+  });
 });
 
 // describe("PUT - Edit a product integration tests", async () => {
