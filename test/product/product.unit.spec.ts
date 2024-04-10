@@ -131,73 +131,73 @@ describe("CREATE - product - unit tests", () => {
   });
 });
 
-// describe("UPDATE - product - unit tests", () => {
-//   it("Should update a product when I send a valid productId and data", async () => {
-//     const productId = "10119ed0-b180-4ed5-a2b4-3c3619af97d9";
-//     const data: any = {
-//       title: "new title",
-//       description: "new description",
-//       price: 10,
-//       status: "inactive",
-//       categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd"
-//     };
+describe("UPDATE - product - unit tests", () => {
+  it("Should update a product when I send a valid productId and data", async () => {
+    const productId = "10119ed0-b180-4ed5-a2b4-3c3619af97d9";
+    const data: any = {
+      title: "Test title",
+      description: "Test description",
+      price: 0,
+      status: "inactive",
+      categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd"
+    };
 
-//     const response = await productControllers.updateProduct(productId, data);
-//     expect(response[0]).to.equal(1);
-//   });
+    const response = await productControllers.updateProductById(productId, data);
+    expect(response[0]).to.equal(1);
+  });
 
-//   it("Shouldn't update a product when I send an invalid productId", async () => {
-//     const productId = "1";
-//     const data: any = {
-//       title: "new title",
-//       description: "new description",
-//       price: 10,
-//       status: "inactive"
-//     };
+  it("Shouldn't update a product when I send an invalid productId", async () => {
+    const productId = "1";
+    const data: any = {
+      title: "new title",
+      description: "new description",
+      price: 10,
+      status: "inactive"
+    };
 
-//     const response = await productControllers.updateProduct(productId, data);
-//     expect(response[0]).to.equal(0);
-//   });
+    const response = await productControllers.updateProductById(productId, data);
+    expect(response[0]).to.equal(0);
+  });
 
-//   it("Shouldn't update a product when I send an invalid categoryId", async () => {
-//     try {
-//       const productId = "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b";
-//       const data: any = {
-//         categoryId: "1"
-//       };
+  it("Shouldn't update a product when I send an invalid categoryId", async () => {
+    try {
+      const productId = "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b";
+      const data: any = {
+        categoryId: "1"
+      };
 
-//       await productControllers.updateProduct(productId, data);
-//     } catch (error: any) {
-//       expect(error.message).to.be.an("string");
-//     }
-//   });
+      await productControllers.updateProductById(productId, data);
+    } catch (error: any) {
+      expect(error.message).to.be.an("string");
+    }
+  });
 
-//   it("Shouldn't update a product when I send an invalid status", async () => {
-//     try {
-//       const productId = "dc228176-e25a-4f2e-a485-5c16aa83a415";
-//       const data: any = {
-//         status: "wrongstatus"
-//       };
+  it("Shouldn't update a product when I send an invalid status", async () => {
+    try {
+      const productId = "dc228176-e25a-4f2e-a485-5c16aa83a415";
+      const data: any = {
+        status: "wrongstatus"
+      };
 
-//       await productControllers.updateProduct(productId, data);
-//     } catch (error: any) {
-//       expect(error.message).to.be.an("string");
-//     }
-//   });
+      await productControllers.updateProductById(productId, data);
+    } catch (error: any) {
+      expect(error.message).to.be.an("string");
+    }
+  });
 
-//   it("Shouldn't update a product when I send an invalid type of data", async () => {
-//     try {
-//       const productId = "dc228176-e25a-4f2e-a485-5c16aa83a415";
-//       const data: any = {
-//         price: "2"
-//       };
+  it("Shouldn't update a product when I send an invalid type of data", async () => {
+    try {
+      const productId = "dc228176-e25a-4f2e-a485-5c16aa83a415";
+      const data: any = {
+        price: "hola"
+      };
 
-//       await productControllers.updateProduct(productId, data);
-//     } catch (error: any) {
-//       expect(error.message).to.be.an("string");
-//     }
-//   });
-// });
+      await productControllers.updateProductById(productId, data);
+    } catch (error: any) {
+      expect(error.message).to.be.an("string");
+    }
+  });
+});
 
 // describe("DELETE - product - unit tests", () => {
 //   it("Should change the product status to deleted when I send a valid value", async () => {

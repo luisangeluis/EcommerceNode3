@@ -132,105 +132,84 @@ describe("POST - Create a product - integration tests", () => {
   });
 });
 
-// describe("PUT - Edit a product integration tests", async () => {
-//   it("Should respond with 200 status code when I send a valid to update ", async () => {
-//     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
-//     const newData = {
-//       price: "10"
-//     };
-//     const response = await chai
-//       .request(app)
-//       .put(`/api/v1/products/seller/${productId}`)
-//       .set("Authorization", `Bearer ${token}`)
-//       .send(newData);
+// UPDATE A PRODUCT
+describe("PUT - Edit a product integration tests", async () => {
+  it("Should respond with 200 status code when I send a valid to update ", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      price: 1000
+    };
+    const response = await chai.request(app).put(`/api/v1/products/${productId}`).set("Authorization", `Bearer ${token}`).send(newData);
 
-//     expect(response).to.have.status(200);
-//   });
+    expect(response).to.have.status(200);
+  });
 
-//   it("Should respond with 200 status code when I send a valid status ", async () => {
-//     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
-//     const newData = {
-//       status: "inactive"
-//     };
-//     const response = await chai
-//       .request(app)
-//       .put(`/api/v1/products/seller/${productId}`)
-//       .set("Authorization", `Bearer ${token}`)
-//       .send(newData);
+  it("Should respond with 200 status code when I send a valid status ", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      status: "inactive"
+    };
+    const response = await chai.request(app).put(`/api/v1/products/${productId}`).set("Authorization", `Bearer ${token}`).send(newData);
 
-//     expect(response).to.have.status(200);
-//   });
+    expect(response).to.have.status(200);
+  });
 
-//   it("Should respond with 400 status code when I send a product id to update", async () => {
-//     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
-//     const newData = {
-//       id: 1
-//     };
+  it("Should respond with 400 status code when I send a product id to update", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      id: 1
+    };
 
-//     const response = await chai
-//       .request(app)
-//       .put(`/api/v1/products/seller/${productId}`)
-//       .set("Authorization", `Bearer ${token}`)
-//       .send(newData);
+    const response = await chai.request(app).put(`/api/v1/products/${productId}`).set("Authorization", `Bearer ${token}`).send(newData);
 
-//     expect(response).to.have.status(400);
-//   });
+    expect(response).to.have.status(400);
+  });
 
-//   it("Should respond with 400 status code when I send a property with wrong type", async () => {
-//     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
-//     const newData = {
-//       price: "tres"
-//     };
+  it("Should respond with 400 status code when I send a property with wrong type", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      price: "tres"
+    };
 
-//     const response = await chai
-//       .request(app)
-//       .put(`/api/v1/products/seller/${productId}`)
-//       .set("Authorization", `Bearer ${token}`)
-//       .send(newData);
-//     // console.log({ response });
+    const response = await chai.request(app).put(`/api/v1/products/${productId}`).set("Authorization", `Bearer ${token}`).send(newData);
 
-//     expect(response).to.have.status(400);
-//   });
+    expect(response).to.have.status(400);
+  });
 
-//   it("Should respond with 404 status code when I send and invalid id", (done) => {
-//     const id = 1;
-//     const data = {
-//       price: 10
-//     };
+  it("Should respond with 404 status code when I send and invalid id", (done) => {
+    const id = 1;
+    const data = {
+      price: 10
+    };
 
-//     chai
-//       .request(app)
-//       .put(`/api/v1/products/seller/${id}`)
-//       .set("Authorization", `Bearer ${token}`)
-//       .send(data)
-//       .end((_err, res) => {
-//         expect(res).to.have.status(404);
-//         done();
-//       });
-//   });
+    chai
+      .request(app)
+      .put(`/api/v1/products/${id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(data)
+      .end((_err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
 
-//   it("Should respond with 400 status code when I send a wrong status", async () => {
-//     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
-//     const newData = {
-//       status: "deleted"
-//     };
+  it("Should respond with 400 status code when I send a wrong status", async () => {
+    const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
+    const newData = {
+      status: "deleted"
+    };
 
-//     const response = await chai
-//       .request(app)
-//       .put(`/api/v1/products/seller/${productId}`)
-//       .set("Authorization", `Bearer ${token}`)
-//       .send(newData);
-//     // console.log({ response });
+    const response = await chai.request(app).put(`/api/v1/products/${productId}`).set("Authorization", `Bearer ${token}`).send(newData);
 
-//     expect(response).to.have.status(400);
-//   });
-// });
+    expect(response).to.have.status(400);
+  });
+});
 
 // describe("Delete - Delete a product as seller integration test", () => {
 //   it("Should respond with 204 status code", (done) => {
 //     chai
 //       .request(app)
-//       .delete(`/api/v1/products/seller/e2914c19-0f6c-4554-a2b9-97f4ceaffb6b`)
+//       .delete(`/api/v1/products/e2914c19-0f6c-4554-a2b9-97f4ceaffb6b`)
 //       .set("Authorization", `Bearer ${token}`)
 //       .send()
 //       .end((_err, res) => {
@@ -244,7 +223,7 @@ describe("POST - Create a product - integration tests", () => {
 
 //     chai
 //       .request(app)
-//       .delete(`/api/v1/products/seller/${id}`)
+//       .delete(`/api/v1/products/${id}`)
 //       .set("Authorization", `Bearer ${token}`)
 //       .send()
 //       .end((_err, res) => {

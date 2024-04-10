@@ -47,10 +47,8 @@ export const readProductById = async (id: string): Promise<Product | null> => {
 export const createProduct = async (product: ProductCreationAttributes): Promise<ProductAttributes> =>
   await Product.create({ ...product, id: uuidv4() });
 
-//Update a product
-export const updateProduct = async (id: string, data: ProductUpdateAttributes): Promise<number[]> => {
-  return await Product.update(data, { where: { id } });
-};
+export const updateProductById = async (id: string, data: ProductUpdateAttributes): Promise<number[]> =>
+  await Product.update(data, { where: { id } });
 
 export const updateProductAsSeller = async (
   { id, sellerId }: Partial<ProductAttributes>,

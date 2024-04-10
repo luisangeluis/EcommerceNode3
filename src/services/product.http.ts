@@ -95,29 +95,32 @@ export const post = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const seller = req.user;
     const data = req.body;
     const productId = req.params.id;
+
+    //Cleaning data
     const { id: _id, sellerId: _sellerId, ...restOfData } = data;
     const status = ["active", "inactive"];
 
+    //Cleaning data
     if (Object.keys(restOfData).length === 0) return res.status(400).json({ message: "Missing data" });
+
     if (restOfData.status && !status.includes(restOfData.status))
       return res.status(400).json({ message: "invalid status value, active/inactive - optional value -" });
+
     if (restOfData.price && typeof restOfData.price !== "number")
       return res.status(400).json({ message: "Price property must be a number" });
 
-    // const productToUpdate = await productControllers.readProductById(productId);
+    //Updating product
+    const productToUpdate = await productControllers.readProductById(productId);
 
-    // if (!productToUpdate || productToUpdate.sellerId !== (user as UserTokenAttributes)!.id)
-    //   return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
+    if (!productToUpdate || productToUpdate.sellerId !== (seller as UserTokenAttributes)!.id)
+      return res.status(404).json({ message: `Product with id: ${productId} doesn't exists` });
 
-    // for (let key in restOfData) {
-    //   console.log(key + ": " + restOfData[key]);
+    await productControllers.updateProductById(productId, restOfData);
 
-    //   productToUpdate[key] = restOfData[key];
-    // }
-    // await productToUpdate.save();
+    return res.status(200).json({ message: `Product with id:${productId} successfully edited` });
   } catch (error: any) {
     const customError = catchErrors(error);
     return res.status(customError.status).json({ message: customError.error });

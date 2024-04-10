@@ -13,12 +13,14 @@ router
   //SELLER ROUTER
   .post(passport.authenticate("jwt", { session: false }), isAseller, productServices.post);
 
+//CUSTOMER ROUTE
 router.route("/:id/add-to-cart").post(passport.authenticate("jwt", { session: false }), cartItemServices.addToCart);
 
 router
   .route("/:id")
   //GUEST ROUTE
   .get(productServices.getProductById)
+  //SELLER ROUTER
   .put(passport.authenticate("jwt", { session: false }), productServices.update);
 
 export default router;
