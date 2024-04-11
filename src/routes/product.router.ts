@@ -20,7 +20,9 @@ router
   .route("/:id")
   //GUEST ROUTE
   .get(productServices.getProductById)
-  //SELLER ROUTER
-  .put(passport.authenticate("jwt", { session: false }), productServices.update);
+  //SELLER ROUTE
+  .put(passport.authenticate("jwt", { session: false }), isAseller, productServices.update)
+  //SELLER ROUTE
+  .delete(passport.authenticate("jwt", { session: false }), isAseller, productServices.deleteProductById);
 
 export default router;

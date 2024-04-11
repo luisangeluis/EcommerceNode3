@@ -131,15 +131,24 @@ export const update = async (req: Request, res: Response) => {
 export const deleteProductById = async (req: Request, res: Response) => {
   try {
     const userId = (req.user as UserTokenAttributes).id;
-    const productId = req.params.productId;
-    const data = { status: ProductStatusEnum.DELETED };
+    const productId = req.params.id;
 
-    const response = await productControllers.updateAProductBySellerId(userId, productId, data);
+    const productToDelete = await productControllers.readProductById(productId);
 
-    if (!response[0]) return res.status(404).json({ message: `Product with id:${productId} doesn't exist` });
+    //Check if productToDelete exists and that it corresponds to the seller.
+    if (!productToDelete || productToDelete.sellerId !== userId || productToDelete.status === ProductStatusEnum.DELETED)
+      return res.status(404).json({ message: `Product with id:${productId} doesn't exist` });
+
+    productToDelete.status = ProductStatusEnum.DELETED;
+
+    await productToDelete.save();
+
+    //TO DO Delete images from product as well, maybe with a transaction to make both operations
 
     return res.status(204).json();
   } catch (error: any) {
+    console.log({ error });
+
     const customError = catchErrors(error);
     return res.status(customError.status).json({ message: customError.error });
   }

@@ -205,32 +205,32 @@ describe("PUT - Edit a product integration tests", async () => {
   });
 });
 
-// describe("Delete - Delete a product as seller integration test", () => {
-//   it("Should respond with 204 status code", (done) => {
-//     chai
-//       .request(app)
-//       .delete(`/api/v1/products/e2914c19-0f6c-4554-a2b9-97f4ceaffb6b`)
-//       .set("Authorization", `Bearer ${token}`)
-//       .send()
-//       .end((_err, res) => {
-//         expect(res).to.have.status(204);
-//         done();
-//       });
-//   });
+describe("Delete - Delete a product as seller integration test", () => {
+  it("Should respond with 204 status code", (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/products/dc228176-e25a-4f2e-a485-5c16aa83a415`)
+      .set("Authorization", `Bearer ${token}`)
+      .send()
+      .end((_err, res) => {
+        expect(res).to.have.status(204);
+        done();
+      });
+  });
 
-//   it("Should respond with 404 status code", (done) => {
-//     const id = 1;
+  it("Should respond with 404 status code", (done) => {
+    const id = 1;
 
-//     chai
-//       .request(app)
-//       .delete(`/api/v1/products/${id}`)
-//       .set("Authorization", `Bearer ${token}`)
-//       .send()
-//       .end((_err, res) => {
-//         expect(res).to.have.status(404);
-//         done();
-//       });
-//   });
+    chai
+      .request(app)
+      .delete(`/api/v1/products/${id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send()
+      .end((_err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
 
-//   //TO DO to try delete a product of another seller
-// });
+  //TO DO to try delete a product of another seller
+});

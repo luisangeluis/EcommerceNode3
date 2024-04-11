@@ -50,15 +50,5 @@ export const createProduct = async (product: ProductCreationAttributes): Promise
 export const updateProductById = async (id: string, data: ProductUpdateAttributes): Promise<number[]> =>
   await Product.update(data, { where: { id } });
 
-export const updateProductAsSeller = async (
-  { id, sellerId }: Partial<ProductAttributes>,
-  data: ProductUpdateAttributes
-): Promise<number[]> => {
-  return await Product.update(data, { where: { id, sellerId } });
-};
-
-export const updateAProductBySellerId = async (sellerId: string, productId: string, data: ProductUpdateAttributes): Promise<number[]> =>
-  await Product.update(data, { where: { sellerId, id: productId } });
-
 //Delete a product
 export const deleteProduct = async (id: string): Promise<number> => await Product.destroy({ where: { id } });

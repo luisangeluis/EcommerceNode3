@@ -42,6 +42,7 @@ describe("READ - product - unit tests", () => {
   });
 });
 
+//Get a product by id
 describe("READ - Get product by id - unit tests", () => {
   it("Should respond with a product when I send a correct Id", async () => {
     const response = await productControllers.readProductById("10119ed0-b180-4ed5-a2b4-3c3619af97d9");
@@ -56,6 +57,7 @@ describe("READ - Get product by id - unit tests", () => {
   });
 });
 
+//Create a product
 describe("CREATE - product - unit tests", () => {
   it("Should respond with a product when I send all necesary", async () => {
     const status: any = "active";
@@ -130,7 +132,7 @@ describe("CREATE - product - unit tests", () => {
     }
   });
 });
-
+//Update a product
 describe("UPDATE - product - unit tests", () => {
   it("Should update a product when I send a valid productId and data", async () => {
     const productId = "10119ed0-b180-4ed5-a2b4-3c3619af97d9";
@@ -199,23 +201,23 @@ describe("UPDATE - product - unit tests", () => {
   });
 });
 
-// describe("DELETE - product - unit tests", () => {
-//   it("Should change the product status to deleted when I send a valid value", async () => {
-//     const productId = "dc29ea92-d7c3-48de-a389-76af84a470da";
-//     const data: any = {
-//       status: "deleted"
-//     };
-//     const response = await productControllers.updateProduct(productId, data);
-//     expect(response[0]).to.equal(1);
-//   });
+describe("DELETE - product - unit tests", () => {
+  it("Should change the product status to deleted when I send a valid value", async () => {
+    const productId = "e2914c19-0f6c-4554-a2b9-97f4ceaffb6b";
+    const data: any = {
+      status: "deleted"
+    };
+    const response = await productControllers.updateProductById(productId, data);
+    expect(response[0]).to.equal(1);
+  });
 
-//   it("Should thrown an error when I send a product id that doesn't exist", async () => {
-//     const productId = "1";
-//     const data: any = {
-//       status: "deleted"
-//     };
-//     const response = await productControllers.updateProduct(productId, data);
+  it("Should thrown an error when I send a product id that doesn't exist", async () => {
+    const productId = "1";
+    const data: any = {
+      status: "deleted"
+    };
+    const response = await productControllers.updateProductById(productId, data);
 
-//     expect(response[0]).to.equal(0);
-//   });
-// });
+    expect(response[0]).to.equal(0);
+  });
+});
