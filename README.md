@@ -17,33 +17,38 @@ GET - "GET A PRODUCT BY ID"
 - - Body: no body.
 
 POST "CREATE A PRODUCT
-- /api/v1/products/seller
+- /api/v1/products
 - - Auth:Yes (Only for sellers).
 - - Params: no params.
 - - Querys: no querys.
-- - Body:
+- - Body: (title, description, price, status, categoryId)
 ```javascript
 const newProduct = {
       title: "string",
       description: "string",
       price: 2, //Type number
       status: "string", //Value is Optional "active" or "inactive"
-      categoryId: "string",
-      sellerId: "string",
+      categoryId: "string"
     }
 ```
 PUT "UPDATE A PRODUCT"
-- /api/v1/products/seller
+- /api/v1/products
 - - Auth:Yes (Only for sellers).
 - - Params: product id.
 - - Querys: no querys.
-- - Body:
+- - Body: (title, description, price, status, categoryId);
+- - - Example:
+ 
 ```javascript
 const newData = {
-      title: "new title"
+      title: "string" //Optional
+      description: "string" //Optional
+      price: 100 // Type number Optional
+      status: "string" //Value: ["active","inactive"] Optional
+      categoryId: "string" //Optional
       }
 ```
-## CART Routes
+## CART ROUTES
 
 /api/v1/cart
 - GET "Get cart as customer"
