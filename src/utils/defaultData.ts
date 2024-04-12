@@ -11,8 +11,6 @@ import Status from "../models/Status.model";
 import ProductImage from "../models/ProductImage.model";
 
 export const generateData = async (): Promise<void> => {
-  console.log("creating my data");
-
   try {
     await Role.bulkCreate([
       { title: UserRoleEnum.ADMIN, id: "bfff93c9-f81b-4c01-aaa9-df9167611595" },
@@ -424,6 +422,8 @@ export const generateData = async (): Promise<void> => {
       ],
       { validate: true }
     );
+
+    console.log("created data");
   } catch (error: any) {
     console.log(error);
   }

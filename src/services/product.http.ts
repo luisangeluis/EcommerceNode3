@@ -4,6 +4,9 @@ import type { UserTokenAttributes } from "../types";
 import catchErrors from "../utils/catchErrors";
 import { ProductStatusEnum } from "../utils/Enums";
 import * as productControllers from "../controllers/product.controller";
+import * as productImageControllers from "../controllers/productImage.controller";
+import { deleteImage } from "../utils/cloudinary";
+import db from "../db/connection";
 
 const { Op } = sequelize;
 
@@ -129,11 +132,13 @@ export const update = async (req: Request, res: Response) => {
 
 //Delete a product
 export const deleteProductById = async (req: Request, res: Response) => {
+  const transaction = await db.transaction();
+
   try {
     const userId = (req.user as UserTokenAttributes).id;
     const productId = req.params.id;
 
-    const productToDelete = await productControllers.readProductById(productId);
+    const productToDelete = await productControllers.readProductById(productId, transaction);
 
     //Check if productToDelete exists and that it corresponds to the seller.
     if (!productToDelete || productToDelete.sellerId !== userId || productToDelete.status === ProductStatusEnum.DELETED)
@@ -141,13 +146,27 @@ export const deleteProductById = async (req: Request, res: Response) => {
 
     productToDelete.status = ProductStatusEnum.DELETED;
 
-    await productToDelete.save();
+    await productToDelete.save({ transaction });
 
-    //TO DO Delete images from product as well, maybe with a transaction to make both operations
+    //Getting product's images
+    const productImages = await productImageControllers.readAllImagesByProductId(productId, transaction);
+
+    if (productImages) {
+      const cloudImages: string[] = [];
+      productImages.map((productImage) => cloudImages.push(productImage.cloudinaryId));
+
+      //Deleting productImage registers
+      await Promise.all(productImages.map((productImage) => productImage.destroy({ force: true, transaction })));
+
+      //Deleting cloudinary images
+      await Promise.all(cloudImages.map((image) => deleteImage(image)));
+    }
+
+    await transaction.commit();
 
     return res.status(204).json();
   } catch (error: any) {
-    console.log({ error });
+    await transaction.rollback();
 
     const customError = catchErrors(error);
     return res.status(customError.status).json({ message: customError.error });

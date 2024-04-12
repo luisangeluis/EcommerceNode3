@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { ProductAttributes, ProductCreationAttributes, ProductUpdateAttributes } from "../types";
 import Product from "../models/Product.model";
 import ProductImage from "../models/ProductImage.model";
+import { Transaction } from "sequelize";
 
 interface GetProducts {
   totalResults: number;
@@ -36,10 +37,11 @@ export const readAllProducts = async (queriesToSearch?: any, page: number = 1): 
 };
 
 //Get a product by id
-export const readProductById = async (id: string): Promise<Product | null> => {
+export const readProductById = async (id: string, transaction?: Transaction): Promise<Product | null> => {
   return await Product.findOne({
     where: { id },
-    include: { model: ProductImage, required: false }
+    include: { model: ProductImage, required: false },
+    transaction
   });
 };
 
