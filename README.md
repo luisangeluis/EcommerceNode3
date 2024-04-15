@@ -4,24 +4,28 @@
 
 GET - "GET ALL PRODUCTS"
 - /api/v1/products
-      Auth:no 
-      Params: No params.
-      Querys:(productInfo, categoryId, page) 
-      Body: no body. 
+
+        Auth:no 
+        Params: No params.
+        Optional querys:(productInfo, categoryId, page) 
+        Body: no body. 
 
 GET - "GET A PRODUCT BY ID"
 - /api/v1/products/:id
-- - Auth:No
-- - Params: productId.
-- - Querys: no querys.
-- - Body: no body.
+
+        Auth:No
+        Params: productId.
+        Optional querys: no querys.
+        Body: no body.
 
 POST "CREATE A PRODUCT
 - /api/v1/products
-- - Auth:Yes (Only for sellers).
-- - Params: no params.
-- - Querys: no querys.
-- - Body: (title, description, price, status, categoryId)
+
+        Auth:Yes (Only for sellers).
+        Params: no params.
+        Optional querys: no querys.
+        Body: (title, description, price, status, categoryId)
+Example
 ```javascript
 const newProduct = {
       title: "string",
@@ -31,13 +35,14 @@ const newProduct = {
       categoryId: "string"
     }
 ```
-PUT "UPDATE A PRODUCT"
-- /api/v1/products
-- - Auth:Yes (Only for sellers).
-- - Params: product id.
-- - Querys: no querys.
-- - Body: (title, description, price, status, categoryId);
-- - - Example:
+PUT "UPDATE A PRODUCT BY ID"
+- /api/v1/products/${id}
+
+        Auth:Yes (Only for sellers).
+        Params: product id.
+        Optional querys: no querys.
+        Body: (title, description, price, status, categoryId);
+Example:
  
 ```javascript
 const newData = {
@@ -48,6 +53,14 @@ const newData = {
       categoryId: "string" //Optional
       }
 ```
+DELETE "DELETE A PRODUCT BY ID"
+- /api/v1/products/${id}
+
+        Auth:Yes (Only for sellers).
+        Params: product id.
+        Optional querys: no querys.
+        Body: no body;
+
 ## CART ROUTES
 
 /api/v1/cart
