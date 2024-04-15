@@ -5,9 +5,9 @@
 GET - "GET ALL PRODUCTS"
 - /api/v1/products
       Auth:no 
-- - Params: No params.
-- - Querys:(productInfo, categoryId, page) 
-- - Body: no body. 
+      Params: No params.
+      Querys:(productInfo, categoryId, page) 
+      Body: no body. 
 
 GET - "GET A PRODUCT BY ID"
 - /api/v1/products/:id
