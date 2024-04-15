@@ -6,7 +6,6 @@ import fs from "fs-extra";
 import * as productImagesController from "../controllers/productImage.controller";
 import * as productController from "../controllers/product.controller";
 import catchErrors from "../utils/catchErrors";
-
 //Post images by product id
 export const postImageByProductId = async (req: Request, res: Response): Promise<Response> => {
   try {

@@ -230,5 +230,15 @@ describe("Delete - Delete a product as seller integration test", () => {
       });
   });
 
-  //TO DO to try delete a product of another seller
+  it("Should respond with 404 status code product doesn't belong to the seller", (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/products/87860648-450b-460e-9ba4-2fae3179716d`)
+      .set("Authorization", `Bearer ${token}`)
+      .send()
+      .end((_err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
 });
