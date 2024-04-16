@@ -154,7 +154,6 @@ export const deleteProductById = async (req: Request, res: Response) => {
     if (productImages) {
       const cloudImages: string[] = [];
       productImages.map((productImage) => cloudImages.push(productImage.cloudinaryId));
-
       //Deleting productImage registers
       await Promise.all(productImages.map((productImage) => productImage.destroy({ force: true, transaction })));
 
