@@ -63,8 +63,13 @@ DELETE "DELETE A PRODUCT BY ID"
 
 ## CART ROUTES
 
-/api/v1/cart
-- GET "Get cart as customer"
+GET "GET A CART AS A CUSTOMER"
+- /api/v1/cart
+
+        Auth:Yes (Route for sellers).
+        Params: no params.
+        Optional querys: no querys.
+        Body: no body;
 
 ## CARTITEM Routes
 
