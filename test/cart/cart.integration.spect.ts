@@ -27,4 +27,17 @@ describe("GET - cart - integration tests ", () => {
 
     expect(response).to.have.status(200);
   });
+
+  it("Should respond with 401 status code when don't send a bearer token", async () => {
+    const response = await chai.request(app).get("/api/v1/cart");
+
+    expect(response).to.have.status(401);
+  });
+
+  it("Should respond with 401 status code when I send an invalid token", async () => {
+    const response = await chai.request(app).get("/api/v1/cart").set("Authorization", `Bearer a`);
+    console.log(response.status);
+
+    expect(response).to.have.status(401);
+  });
 });

@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 describe("POST - cart - unit test", () => {
   it("Should create a cart when I send a valid userId", async () => {
-    const userId = "45925e48-60d5-4c08-8962-3001195167dd";
+    const userId = "442f120c-af05-4468-9624-7e7262ce2b6c";
     const newCart = await cartControllers.createCart(userId);
 
     expect(newCart.userId).to.be.equal(userId);
@@ -23,5 +23,20 @@ describe("POST - cart - unit test", () => {
     } catch (error: any) {
       expect(error.name).to.be.equal("SequelizeForeignKeyConstraintError");
     }
+  });
+});
+
+describe("GET - cart - unit test", () => {
+  it("Should get a cart when I send a valid userId", async () => {
+    const userId = "442f120c-af05-4468-9624-7e7262ce2b6c";
+    const cart = await cartControllers.readCartByUserId(userId);
+
+    expect(cart?.userId).to.be.equal(userId);
+  });
+
+  it("Should get a null value when I send an invalid userId", async () => {
+    const userId = "a";
+    const cart = await cartControllers.readCartByUserId(userId);
+    expect(cart).to.be.equal(null);
   });
 });

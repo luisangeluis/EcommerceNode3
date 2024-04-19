@@ -100,6 +100,15 @@ export const generateData = async (): Promise<void> => {
           password: "bE1<6YMRjw",
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
+        },
+        {
+          id: "442f120c-af05-4468-9624-7e7262ce2b6c",
+          firstName: "Tonny",
+          lastName: "Stark",
+          email: "tonny.stark@mycompany.org",
+          password: "12345",
+          roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         }
       ],
       { validate: true }
