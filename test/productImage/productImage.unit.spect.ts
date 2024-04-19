@@ -33,3 +33,5 @@ describe("CREATE - productImage - unit test", () => {
     }
   });
 });
+
+describe("DELETE - productImage - unit test", () => {});

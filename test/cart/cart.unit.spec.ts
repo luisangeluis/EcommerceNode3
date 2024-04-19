@@ -13,4 +13,15 @@ describe("POST - cart - unit test", () => {
 
     expect(newCart.userId).to.be.equal(userId);
   });
+
+  it("Should send an error when I send wrong data", async () => {
+    try {
+      const userId = "1";
+      await cartControllers.createCart(userId);
+      //Si la linea anterior no da errores la prueba falla
+      expect.fail("Expected an error to be thrown");
+    } catch (error: any) {
+      expect(error.name).to.be.equal("SequelizeForeignKeyConstraintError");
+    }
+  });
 });

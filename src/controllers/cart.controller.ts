@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Transaction } from "sequelize";
 
 //Types
-import { CartAttributes } from "../types";
+// import { CartAttributes } from "../types";
 
 //Models
 import Cart from "../models/Cart.model";
@@ -35,23 +35,23 @@ export const createCart = async (userId: string, transaction?: Transaction) => {
   return response;
 };
 
-export const readOrCreateCart = async (userId: string): Promise<[CartAttributes, boolean]> => {
-  const response = await Cart.findOrCreate({
-    where: { userId: userId },
-    defaults: { id: uuidv4(), isActive: true, userId },
-    include: [
-      {
-        model: CartItem,
-        attributes: ["id", "quantity", "price"],
-        include: [
-          {
-            model: Product,
-            attributes: ["title", "description", "categoryId"]
-          }
-        ]
-      }
-    ]
-  });
+// export const readOrCreateCart = async (userId: string): Promise<[CartAttributes, boolean]> => {
+//   const response = await Cart.findOrCreate({
+//     where: { userId: userId },
+//     defaults: { id: uuidv4(), isActive: true, userId },
+//     include: [
+//       {
+//         model: CartItem,
+//         attributes: ["id", "quantity", "price"],
+//         include: [
+//           {
+//             model: Product,
+//             attributes: ["title", "description", "categoryId"]
+//           }
+//         ]
+//       }
+//     ]
+//   });
 
-  return response;
-};
+//   return response;
+// };
