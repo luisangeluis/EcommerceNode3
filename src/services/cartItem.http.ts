@@ -5,20 +5,20 @@ import * as cartItemControllers from "../controllers/cartItem.controller";
 import * as cartControllers from "../controllers/cart.controller";
 import { readProductById } from "../controllers/product.controller";
 
-export const getCartItem = async (req: Request, res: Response): Promise<Response> => {
-  try {
-    const userId = (req.user as UserTokenAttributes)?.id;
-    const cartItemId = req.params.cartItemId;
+// export const getCartItem = async (req: Request, res: Response): Promise<Response> => {
+//   try {
+//     const userId = (req.user as UserTokenAttributes)?.id;
+//     const cartItemId = req.params.cartItemId;
 
-    const response = await cartItemControllers.readCartItemById(cartItemId, userId);
+//     const response = await cartItemControllers.readCartItemById(cartItemId, userId);
 
-    if (!response) return res.status(404).json({ message: `Cart item with id: ${cartItemId} doesn´t exists` });
+//     if (!response) return res.status(404).json({ message: `Cart item with id: ${cartItemId} doesn´t exists` });
 
-    return res.status(200).json({ response });
-  } catch (error: any) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+//     return res.status(200).json({ response });
+//   } catch (error: any) {
+//     return res.status(500).json({ message: error.message });
+//   }
+// };
 
 //Add to cart
 export const addToCart = async (req: Request, res: Response): Promise<Response> => {
@@ -47,6 +47,22 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
     return res.status(201).json({ message: `Product with id: ${cartItem.productId} added to cart` });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+export const addToCart2 = async (req: Request, res: Response) => {
+  const productId = req.params.id;
+  const userId = (req.user as UserTokenAttributes)?.id;
+  const cart = await cartControllers.readCartByUserId(userId);
+
+  const index = cart!.cartItems.findIndex((cartItem) => cartItem.product.id === productId);
+
+  if (index >= 0) {
+    cart!.cartItems[index].quantity += 1;
+    cart!.save();
+
+  } else {
+    const response = await.cartItemControllers.createCartItem();
   }
 };
 

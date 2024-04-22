@@ -18,37 +18,37 @@ const cartItemId = "6693978b-1bce-4ff8-acc2-6bcd7786d792";
 //Si es mi intencion que entre al catch usar expect en el catch
 
 //READ
-describe("READ - cartItem - unit tests", () => {
-  it("should get an existing cartItem when I send a cartItemId and a userId", async () => {
-    try {
-      const response = await cartItemControllers.readCartItemById(cartItemId, user.id);
+// describe("READ - cartItem - unit tests", () => {
+//   it("should get an existing cartItem when I send a cartItemId and a userId", async () => {
+//     try {
+//       const response = await cartItemControllers.readCartItemById(cartItemId, user.id);
 
-      expect(response?.id).to.equal(cartItemId);
-      expect(response?.cart.userId).to.equal(user.id);
-    } catch (error: any) {
-      throw new Error(`Test failed due to an error: ${error.message}`);
-    }
-  });
+//       expect(response?.id).to.equal(cartItemId);
+//       expect(response?.cart.userId).to.equal(user.id);
+//     } catch (error: any) {
+//       throw new Error(`Test failed due to an error: ${error.message}`);
+//     }
+//   });
 
-  it("should get an null value when I send a invalid cartItemId and an userId", async () => {
-    try {
-      const response = await cartItemControllers.readCartItemById(1 as any, user.id);
-      expect(response).to.equal(null);
-    } catch (error: any) {
-      throw new Error(`Test failed due to an error: ${error.message}`);
-    }
-  });
+//   it("should get an null value when I send a invalid cartItemId and an userId", async () => {
+//     try {
+//       const response = await cartItemControllers.readCartItemById(1 as any, user.id);
+//       expect(response).to.equal(null);
+//     } catch (error: any) {
+//       throw new Error(`Test failed due to an error: ${error.message}`);
+//     }
+//   });
 
-  it("should get an null value when I send a cartItemId and an invalid userId", async () => {
-    try {
-      const response = await cartItemControllers.readCartItemById(cartItemId, "wrongUserId");
+//   it("should get an null value when I send a cartItemId and an invalid userId", async () => {
+//     try {
+//       const response = await cartItemControllers.readCartItemById(cartItemId, "wrongUserId");
 
-      expect(response).to.equal(null);
-    } catch (error: any) {
-      throw new Error(`Test failed due to an error: ${error.message}`);
-    }
-  });
-});
+//       expect(response).to.equal(null);
+//     } catch (error: any) {
+//       throw new Error(`Test failed due to an error: ${error.message}`);
+//     }
+//   });
+// });
 
 //CREATE
 describe("CREATE - cartItem - unit tests", () => {

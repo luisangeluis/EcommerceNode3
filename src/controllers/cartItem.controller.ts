@@ -33,6 +33,10 @@ export const readOrCreateCartItemById = async (cartItem: Omit<CartItemAttributes
   return response;
 };
 
+export const createCartItem = (cartItem: Omit<CartItemAttributes, "id" | "quantity">) => {
+  //TO DO Create only to create a cartItem
+};
+
 export const deleteAllCartItems = async (cartId: string, transaction?: Transaction) =>
   await CartItem.destroy({
     where: {
