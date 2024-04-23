@@ -23,28 +23,28 @@ before(async () => {
   }
 });
 
-describe("GET - Get a cart item - integration test", () => {
-  it("Should respond with 200 code status", async () => {
-    const response = await chai
-      .request(app)
-      .get("/api/v1/cartItem/6693978b-1bce-4ff8-acc2-6bcd7786d792")
-      .set("Authorization", `Bearer ${token}`);
-    expect(response).to.have.status(200);
-  });
+// describe("GET - Get a cart item - integration test", () => {
+//   it("Should respond with 200 code status", async () => {
+//     const response = await chai
+//       .request(app)
+//       .get("/api/v1/cartItem/6144b398-b2f6-459b-85f1-45964858345c")
+//       .set("Authorization", `Bearer ${token}`);
+//     expect(response).to.have.status(200);
+//   });
 
-  it("Should respond with 404 code status, when cart item doesn't exists", async () => {
-    const response = await chai.request(app).get("/api/v1/cartItem/1").set("Authorization", `Bearer ${token}`);
-    expect(response).to.have.status(404);
-  });
+//   it("Should respond with 404 code status, when cart item doesn't exists", async () => {
+//     const response = await chai.request(app).get("/api/v1/cartItem/1").set("Authorization", `Bearer ${token}`);
+//     expect(response).to.have.status(404);
+//   });
 
-  it("Should respond with 404 code status, when I get a non-corresponding cartItem ", async () => {
-    const response = await chai
-      .request(app)
-      .get("/api/v1/cartItem/d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6")
-      .set("Authorization", `Bearer ${token}`);
-    expect(response).to.have.status(404);
-  });
-});
+//   it("Should respond with 404 code status, when I get a non-corresponding cartItem ", async () => {
+//     const response = await chai
+//       .request(app)
+//       .get("/api/v1/cartItem/d79ae3c4-b88d-47f5-9a2d-14eeb4e8d0d6")
+//       .set("Authorization", `Bearer ${token}`);
+//     expect(response).to.have.status(404);
+//   });
+// });
 
 describe("POST - Add a cart item - integration test", () => {
   it("Should respond with 201 code status", async () => {

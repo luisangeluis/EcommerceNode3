@@ -18,37 +18,37 @@ const cartItemId = "6693978b-1bce-4ff8-acc2-6bcd7786d792";
 //Si es mi intencion que entre al catch usar expect en el catch
 
 //READ
-// describe("READ - cartItem - unit tests", () => {
-//   it("should get an existing cartItem when I send a cartItemId and a userId", async () => {
-//     try {
-//       const response = await cartItemControllers.readCartItemById(cartItemId, user.id);
+describe("READ - cartItem - unit tests", () => {
+  it("should get an existing cartItem when I send a cartItemId and a userId", async () => {
+    try {
+      const response = await cartItemControllers.readCartItemById(cartItemId, user.id);
 
-//       expect(response?.id).to.equal(cartItemId);
-//       expect(response?.cart.userId).to.equal(user.id);
-//     } catch (error: any) {
-//       throw new Error(`Test failed due to an error: ${error.message}`);
-//     }
-//   });
+      expect(response?.id).to.equal(cartItemId);
+      expect(response?.cart.userId).to.equal(user.id);
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
 
-//   it("should get an null value when I send a invalid cartItemId and an userId", async () => {
-//     try {
-//       const response = await cartItemControllers.readCartItemById(1 as any, user.id);
-//       expect(response).to.equal(null);
-//     } catch (error: any) {
-//       throw new Error(`Test failed due to an error: ${error.message}`);
-//     }
-//   });
+  it("should get an null value when I send a invalid cartItemId and an userId", async () => {
+    try {
+      const response = await cartItemControllers.readCartItemById(1 as any, user.id);
+      expect(response).to.equal(null);
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
 
-//   it("should get an null value when I send a cartItemId and an invalid userId", async () => {
-//     try {
-//       const response = await cartItemControllers.readCartItemById(cartItemId, "wrongUserId");
+  it("should get an null value when I send a cartItemId and an invalid userId", async () => {
+    try {
+      const response = await cartItemControllers.readCartItemById(cartItemId, "wrongUserId");
 
-//       expect(response).to.equal(null);
-//     } catch (error: any) {
-//       throw new Error(`Test failed due to an error: ${error.message}`);
-//     }
-//   });
-// });
+      expect(response).to.equal(null);
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
+});
 
 //CREATE
 describe("CREATE - cartItem - unit tests", () => {
@@ -59,7 +59,7 @@ describe("CREATE - cartItem - unit tests", () => {
         cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079"
       };
 
-      const [cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);
+      const cartItem = await cartItemControllers.createCartItem(data);
       expect(cartItem.quantity).to.equal(1);
       expect(cartItem.productId).to.equal("dc228176-e25a-4f2e-a485-5c16aa83a415");
       expect(cartItem.cartId).to.equal("2d17bf0b-579d-417d-8b71-0fa1b75d3079");
@@ -74,7 +74,7 @@ describe("CREATE - cartItem - unit tests", () => {
         cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079"
       };
 
-      const [cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);
+      const cartItem = await cartItemControllers.createCartItem(data);
 
       expect(cartItem.quantity).to.equal(1);
       expect(cartItem.productId).to.equal("e2914c19-0f6c-4554-a2b9-97f4ceaffb6b");
@@ -91,7 +91,7 @@ describe("CREATE - cartItem - unit tests", () => {
         cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079"
       };
 
-      const [_cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);
+      await cartItemControllers.createCartItem(data);
     } catch (error: any) {
       expect(error.name).to.equal("SequelizeForeignKeyConstraintError");
     }
@@ -104,7 +104,7 @@ describe("CREATE - cartItem - unit tests", () => {
         cartId: 2 as any
       };
 
-      const [_cartItem, _created] = await cartItemControllers.readOrCreateCartItemById(data);
+      await cartItemControllers.createCartItem(data);
     } catch (error: any) {
       expect(error.name).to.equal("SequelizeForeignKeyConstraintError");
     }

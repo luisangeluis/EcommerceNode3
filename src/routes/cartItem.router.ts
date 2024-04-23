@@ -7,7 +7,7 @@ const router = Router();
 
 router
   .route("/:cartItemId")
-  .get(passport.authenticate("jwt", { session: false }), cartItemServices.getCartItem)
+  // .get(passport.authenticate("jwt", { session: false }), cartItemServices.getCartItem)
   .patch(passport.authenticate("jwt", { session: false }), IsACustomer, cartItemServices.updateQuantityFromCartItem)
   .delete(passport.authenticate("jwt", { session: false }), cartItemServices.removeCartItem);
 

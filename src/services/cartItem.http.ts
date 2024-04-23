@@ -4,6 +4,7 @@ import type { UserTokenAttributes } from "../types";
 import * as cartItemControllers from "../controllers/cartItem.controller";
 import * as cartControllers from "../controllers/cart.controller";
 import { readProductById } from "../controllers/product.controller";
+// import { readProductById } from "../controllers/product.controller";
 
 // export const getCartItem = async (req: Request, res: Response): Promise<Response> => {
 //   try {
@@ -21,7 +22,36 @@ import { readProductById } from "../controllers/product.controller";
 // };
 
 //Add to cart
-export const addToCart = async (req: Request, res: Response): Promise<Response> => {
+// export const addToCart = async (req: Request, res: Response): Promise<Response> => {
+//   try {
+//     const productId = req.params.id;
+//     const userId = (req.user as UserTokenAttributes)?.id;
+//     const cart = await cartControllers.readCartByUserId(userId);
+//     const product = await readProductById(productId);
+
+//     if (!product || product === null) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
+
+//     const currentCartItem = {
+//       productId: product.id,
+//       cartId: cart!.id
+//     };
+
+//     const [cartItem, created] = await cartItemControllers.readOrCreateCartItemById(currentCartItem);
+
+//     if (!created) {
+//       cartItem.quantity += 1;
+//       await cartItem.save();
+
+//       return res.status(200).json({ message: `Product with id: ${cartItem.productId} added to cart` });
+//     }
+
+//     return res.status(201).json({ message: `Product with id: ${cartItem.productId} added to cart` });
+//   } catch (error: any) {
+//     return res.status(500).json({ message: error.message });
+//   }
+// };
+
+export const addToCart = async (req: Request, res: Response) => {
   try {
     const productId = req.params.id;
     const userId = (req.user as UserTokenAttributes)?.id;
@@ -30,39 +60,21 @@ export const addToCart = async (req: Request, res: Response): Promise<Response> 
 
     if (!product || product === null) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
 
-    const currentCartItem = {
-      productId: product.id,
-      cartId: cart!.id
-    };
+    //Searching cartItem in cart
+    const index = cart!.cartItems.findIndex((cartItem) => cartItem.product.id === productId);
 
-    const [cartItem, created] = await cartItemControllers.readOrCreateCartItemById(currentCartItem);
-
-    if (!created) {
-      cartItem.quantity += 1;
-      await cartItem.save();
-
-      return res.status(200).json({ message: `Product with id: ${cartItem.productId} added to cart` });
+    //If cartItem exists
+    if (index >= 0) {
+      cart!.cartItems[index].quantity += 1;
+      await cart!.save();
+      return res.status(200).json({ message: `Product with id: ${productId} added to cart` });
+    } else {
+      await cartItemControllers.createCartItem({ cartId: cart!.id, productId });
+      return res.status(201).json({ message: `Product with id: ${productId} added to cart` });
     }
-
-    return res.status(201).json({ message: `Product with id: ${cartItem.productId} added to cart` });
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-export const addToCart2 = async (req: Request, res: Response) => {
-  const productId = req.params.id;
-  const userId = (req.user as UserTokenAttributes)?.id;
-  const cart = await cartControllers.readCartByUserId(userId);
-
-  const index = cart!.cartItems.findIndex((cartItem) => cartItem.product.id === productId);
-
-  if (index >= 0) {
-    cart!.cartItems[index].quantity += 1;
-    cart!.save();
-
-  } else {
-    const response = await.cartItemControllers.createCartItem();
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };
 
@@ -72,6 +84,7 @@ export const updateQuantityFromCartItem = async (req: Request, res: Response): P
     const cartItemId = req.params.cartItemId;
     const quantity = req.body.quantity;
 
+    //Check it out a valid value
     if (!quantity || quantity < 1 || quantity > 10) return res.status(400).json({ message: "Type a quantity between 1 and 10" });
 
     const currentCartItem = await cartItemControllers.readCartItemById(cartItemId, userId);
