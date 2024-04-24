@@ -36,19 +36,28 @@ export const post = async (req: Request, res: Response) => {
     const userId = (req.user as UserTokenAttributes)?.id;
     //****TODO LOGICA PARA PAGOS
     //*************************/
+
+    //Get cart from user
     const cart = await readCartByUserId(userId);
 
-    if (!cart?.cartItems.length || cart?.cartItems.length === 0) return res.status(400).json({ message: "Please to add products to cart" });
+    // if (!cart?.cartItems.length || cart?.cartItems.length === 0) return res.status(400).json({ message: "Please to add products to cart" });
+    //TO DO Revisar el if below
+    if (!cart?.cartItems || cart?.cartItems.length === 0) return res.status(400).json({ message: "Please to add products to cart" });
     if (!cart.isActive) return res.status(400).json({ message: "Unavailable cart to make an order" });
 
+    //calculating total
     const total = cart?.cartItems.reduce((accum: number, current: CartItem) => accum + current.product.price * current.quantity, 0);
 
+    //Making order
     const newOrder: OrderCreationAttributes = {
       cartId: cart?.id,
       total,
       status: "created"
     };
+
     const order = await orderControllers.createOrder(newOrder, transaction);
+
+    //Making order details
     const orderDetails = cart?.cartItems.map((cartItem: CartItem) => {
       const price = cartItem.product.price;
       const quantity = cartItem.quantity;
@@ -66,9 +75,10 @@ export const post = async (req: Request, res: Response) => {
 
     await Promise.all(orderDetails);
 
+    //Deleting cartItems
     await deleteAllCartItems(cart.id, transaction);
-
     await transaction.commit();
+
     return res.status(201).json({ message: "Order sucessfully created" });
   } catch (error: any) {
     await transaction.rollback();
