@@ -66,15 +66,30 @@ DELETE "DELETE A PRODUCT BY ID"
 /api/v1/cart
 - GET "Get cart as customer"
 
-## CARTITEM Routes
+## CARTITEM ROUTES
 
-- /api/v1/products/:id/add-to-cart
-- - POST "Add product to cart as customer"
+/api/v1/products/:id/add-to-cart
+- POST "Add product to cart"
 
-- /api/v1/cartItem/:cartItemId
-- - GET "Get a cart item as customer"
-- - PATCH "Update quantity in cart item"
-- - DELETE "Remo a cart item"
+          Auth:Yes (Route for sellers and customers).
+          Params: product id.
+          Optional querys: no querys.
+          Body: no body;
+
+/api/v1/cartItem/:cartItemId
+- PATCH "Update quantity in cart item"
+
+          Auth:Yes (Route for sellers and customers).
+          Params: cartItemId.
+          Optional querys: no querys.
+          Body: quantity:(Type number, Mandatory);
+  
+- DELETE "Delete a cart item"
+
+          Auth:Yes (Route for sellers and customers).
+          Params: cartItemId.
+          Optional querys: no querys.
+          Body: no body;
 
 ## ORDER Routes
 
