@@ -58,6 +58,7 @@ export const addToCart = async (req: Request, res: Response) => {
     const cart = await cartControllers.readCartByUserId(userId);
     const product = await readProductById(productId);
 
+    //Checking if product exists
     if (!product || product === null) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
 
     //Searching cartItem in cart
@@ -113,6 +114,7 @@ export const removeCartItem = async (req: Request, res: Response): Promise<Respo
 
     return res.status(204).json();
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };
