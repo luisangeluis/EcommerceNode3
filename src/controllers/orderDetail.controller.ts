@@ -8,4 +8,14 @@ export const createOrderDetail = async (
   transaction?: Transaction
 ): Promise<OrderDetailAttributes | null> => await OrderDetail.create({ ...orderDetail, id: uuidv4() }, { transaction });
 
+export const createOrderDetails = async (
+  orderDetails: OrderDetailCreationAttributes[],
+  transaction?: Transaction
+): Promise<OrderDetailAttributes[] | null> => {
+  const newOrderDetails = orderDetails.map((orderDetail) => {
+    return { ...orderDetail, id: uuidv4() };
+  });
+
+  return await OrderDetail.bulkCreate(newOrderDetails, { transaction });
+};
 export const deleteOrders = async (orderId: string): Promise<number> => await OrderDetail.destroy({ where: { orderId } });

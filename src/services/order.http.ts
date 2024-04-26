@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import db from "../db/connection";
-import type { OrderCreationAttributes, UserTokenAttributes } from "../types";
+import type { OrderCreationAttributes, OrderDetailAttributes, UserTokenAttributes } from "../types";
 // import type { orderStatus } from "../utils/Enums";
 import * as orderControllers from "../controllers/order.controller";
 import * as orderDetailControllers from "../controllers/orderDetail.controller";
 import { readCartByUserId } from "../controllers/cart.controller";
 import { deleteAllCartItems } from "../controllers/cartItem.controller";
 import CartItem from "../models/CartItem.model";
+import catchErrors from "../utils/catchErrors";
 
 export const getOrdersByUserId = async (req: Request, res: Response): Promise<Response> => {
   const userId = (req.user as UserTokenAttributes)?.id;
@@ -21,6 +22,7 @@ export const getOrderById = async (req: Request, res: Response): Promise<Respons
 
   try {
     const response = await orderControllers.readOrderById(userId, orderId);
+    console.log({ response });
 
     if (!response) return res.status(404).json({ message: `Order with id: ${orderId} doesn´t exists` });
 
@@ -35,33 +37,29 @@ export const post = async (req: Request, res: Response) => {
   try {
     const userId = (req.user as UserTokenAttributes)?.id;
     //****TODO LOGICA PARA PAGOS
-    //*************************/
 
     //Get cart from user
     const cart = await readCartByUserId(userId);
 
-    // if (!cart?.cartItems.length || cart?.cartItems.length === 0) return res.status(400).json({ message: "Please to add products to cart" });
     //TO DO Revisar el if below
     if (!cart?.cartItems || cart?.cartItems.length === 0) return res.status(400).json({ message: "Please to add products to cart" });
     if (!cart.isActive) return res.status(400).json({ message: "Unavailable cart to make an order" });
 
     //calculating total
-    const total = cart?.cartItems.reduce((accum: number, current: CartItem) => accum + current.product.price * current.quantity, 0);
+    let total = 0;
 
-    //Making order
+    //Creating order
     const newOrder: OrderCreationAttributes = {
       cartId: cart?.id,
       total,
       status: "created"
     };
-
     const order = await orderControllers.createOrder(newOrder, transaction);
 
-    //Making order details
+    //Creating order details
     const orderDetails = cart?.cartItems.map((cartItem: CartItem) => {
       const price = cartItem.product.price;
       const quantity = cartItem.quantity;
-
       const newOrderDetail = {
         orderId: order.id,
         productId: cartItem.product.id,
@@ -70,10 +68,14 @@ export const post = async (req: Request, res: Response) => {
         subtotal: quantity * price
       };
 
-      return orderDetailControllers.createOrderDetail(newOrderDetail, transaction);
+      return newOrderDetail;
     });
+    const orderDetailsCreated = await orderDetailControllers.createOrderDetails(orderDetails, transaction);
 
-    await Promise.all(orderDetails);
+    //Total of order
+    total = orderDetailsCreated!.reduce((accum: number, current: OrderDetailAttributes) => accum + current.subtotal, 0);
+    order.total = total;
+    await order.save({ transaction });
 
     //Deleting cartItems
     await deleteAllCartItems(cart.id, transaction);
@@ -82,7 +84,8 @@ export const post = async (req: Request, res: Response) => {
     return res.status(201).json({ message: "Order sucessfully created" });
   } catch (error: any) {
     await transaction.rollback();
-    return res.status(500).json({ message: error.message });
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };
 

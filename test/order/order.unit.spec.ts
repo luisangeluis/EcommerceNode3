@@ -53,7 +53,7 @@ describe("READ - Read an order by id - unit test", () => {
 describe("CREATE - order - unit test", () => {
   it("Should create an order when I send data correctly", async () => {
     try {
-      const total = cartLuis.cartItems.reduce((accum: number, current: CartItem) => accum + current.price * current.quantity, 0);
+      const total = cartLuis.cartItems.reduce((accum: number, current: CartItem) => accum + current.product.price * current.quantity, 0);
       const newOrder = {
         cartId: cartLuis.id,
         total
