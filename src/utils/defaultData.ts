@@ -48,6 +48,7 @@ export const generateData = async (): Promise<void> => {
     await User.bulkCreate(
       [
         {
+          //SELLER
           id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
           firstName: "juan",
           lastName: "perez",
@@ -57,6 +58,7 @@ export const generateData = async (): Promise<void> => {
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
         {
+          //CUSTOMER
           id: "45925e48-60d5-4c08-8962-3001195167dd",
           firstName: "luis",
           lastName: "gonzalez",
@@ -66,6 +68,7 @@ export const generateData = async (): Promise<void> => {
           statusId: "75ead6de-ed41-488d-91c0-175a47e1d16e"
         },
         {
+          //CUSTOMER
           id: "2940915c-071e-423e-827c-a04d1ead2ce7",
           firstName: "angel",
           lastName: "zepeda",
@@ -75,15 +78,17 @@ export const generateData = async (): Promise<void> => {
           statusId: "4b48c2d6-0114-4b76-a80e-d795661f5c9d"
         },
         {
+          //SELLER
           id: "024c33d3-2033-4baf-a1c2-c383d0765d03",
           firstName: "pedro",
           lastName: "lopez",
           email: "pedro.lopez@correo.com",
           password: "12345",
-          roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
+          roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
         {
+          //SUPERUSER
           id: "187378bb-df40-4372-9558-cf3d0923c80c",
           firstName: "rafa",
           lastName: "marquez",
@@ -93,6 +98,7 @@ export const generateData = async (): Promise<void> => {
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
         {
+          //CUSTOMER
           id: "456e0972-01ed-4975-acfe-f13af058ba17",
           firstName: "Clemmy",
           lastName: "Haylor",
@@ -102,6 +108,7 @@ export const generateData = async (): Promise<void> => {
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
         {
+          //CUSTOMER
           id: "442f120c-af05-4468-9624-7e7262ce2b6c",
           firstName: "Tonny",
           lastName: "Stark",
@@ -228,7 +235,7 @@ export const generateData = async (): Promise<void> => {
           price: 100,
           status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
-          sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7"
+          sellerId: "024c33d3-2033-4baf-a1c2-c383d0765d03"
         },
         {
           id: "7802d357-239d-415e-859c-d0c1da0010a0",
@@ -237,7 +244,7 @@ export const generateData = async (): Promise<void> => {
           price: 100,
           status: ProductStatusEnum.ACTIVE,
           categoryId: "7c4b8522-bffa-4b1c-b82d-0c906366ec25",
-          sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7"
+          sellerId: "024c33d3-2033-4baf-a1c2-c383d0765d03"
         },
         {
           id: "bb4dcbe5-2974-4326-a999-b0dd9c641e03",
@@ -246,7 +253,7 @@ export const generateData = async (): Promise<void> => {
           price: 250,
           status: ProductStatusEnum.ACTIVE,
           categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-          sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7"
+          sellerId: "024c33d3-2033-4baf-a1c2-c383d0765d03"
         },
         {
           id: "d0ea5e20-cce1-4198-9184-cf20f93fbd9c",
@@ -255,7 +262,7 @@ export const generateData = async (): Promise<void> => {
           price: 450,
           status: ProductStatusEnum.ACTIVE,
           categoryId: "c7a96caa-719c-4097-ab3b-77139d4644dd",
-          sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7"
+          sellerId: "024c33d3-2033-4baf-a1c2-c383d0765d03"
         },
         {
           id: "6edfd984-807f-4829-932f-0511fb1881b7",
@@ -264,7 +271,7 @@ export const generateData = async (): Promise<void> => {
           price: 150,
           status: ProductStatusEnum.INACTIVE,
           categoryId: "58c21712-0dc4-4f98-af84-2ba868fcd2cd",
-          sellerId: "2940915c-071e-423e-827c-a04d1ead2ce7"
+          sellerId: "024c33d3-2033-4baf-a1c2-c383d0765d03"
         },
         {
           id: "b0a6b7c8-e47d-48f8-9d86-4448beff61f5",
