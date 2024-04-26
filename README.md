@@ -91,22 +91,27 @@ DELETE "DELETE A PRODUCT BY ID"
           Optional querys: no querys.
           Body: no body;
 
-## ORDER Routes
+## ORDER ROUTES
 
-- /api/v1/cart/:cartId/make-order
-- - POST "Create an order by cartId"
+/api/v1/cart/make-order
+- POST "Create an order by cartId"
 
-- /api/v1/orders
-- - GET "Get all user orders"
+          Auth:Yes (Route for sellers and customers).
+          Params: no params.
+          Optional querys: no querys.
+          Body: no body;
 
-- /api/v1/orders/:orderId
-- - GET "Get user order by orderId"
+/api/v1/orders
+- GET "Get all user orders"
 
-- /api/v1/orders/:orderId/cancel
-- - Patch "Cancel an order as customer"
+/api/v1/orders/:orderId
+- GET "Get user order by orderId"
 
-- /api/v1/orders/:orderId/finish
-- - Patch "Cancel an order as superUser"
+/api/v1/orders/:orderId/cancel
+- Patch "Cancel an order as customer"
+
+/api/v1/orders/:orderId/finish
+- Patch "Cancel an order as superUser"
 
 ## USER Routes
 
