@@ -11,22 +11,12 @@ import OrderDetail from "../models/OrderDetail.model";
 // import * as cartControllers from "./cart.controller";
 // import { orderStatus } from "../utils/Enums";
 
-export const readAllOrders = async (userId: string): Promise<Order[]> => {
-  const response = await Order.findAll({
-    include: [{ model: Cart, where: { userId }, attributes: [] }, { model: OrderDetail }]
-  });
+//Read all orders by cartId
+export const readAllOrdersByCartId = async (cartId: string): Promise<Order[]> => await Order.findAll({ where: { cartId } });
 
-  return response;
-};
-
-export const readOrderById = async (orderId: string, userId: string): Promise<Order | null> => {
-  const response = await Order.findOne({
-    where: { id: orderId },
-    include: [{ model: Cart, where: { userId }, attributes: ["userId"] }, { model: OrderDetail }]
-  });
-
-  return response;
-};
+//Read and order by orderId and cartId
+export const readOrderById = async (orderId: string, cartId: string): Promise<Order | null> =>
+  await Order.findOne({ where: { id: orderId, cartId } });
 
 export const createOrder = async (order: OrderCreationAttributes, transaction?: Transaction) =>
   await Order.create({ ...order, id: uuidv4() }, { transaction });

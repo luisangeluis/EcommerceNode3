@@ -6,7 +6,6 @@ import * as orderServices from "../services/order.http";
 
 const router = Router();
 
-//TODO CREAR AN IsACustomer.middleware
 router.route("/").get(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.getOrdersByUserId);
 
 router.route("/:orderId/cancel");

@@ -23,10 +23,20 @@ before(async () => {
   }
 });
 
-describe("READ - Read all orders by userId - unit test", () => {
-  it("Should get all user orders when I send an existing user", async () => {
+describe("READ - Read all orders by cartId - unit test", () => {
+  it("Should get all user orders when I send a valid cartId", async () => {
     try {
-      const orders = await orderControllers.readAllOrders(user.id);
+      const orders = await orderControllers.readAllOrdersByCartId("2d17bf0b-579d-417d-8b71-0fa1b75d3079");
+
+      expect(orders[0].cartId).to.equal("2d17bf0b-579d-417d-8b71-0fa1b75d3079");
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
+
+  it("Should get an empty array when I send a non-existen cartId", async () => {
+    try {
+      const orders = await orderControllers.readAllOrdersByCartId("a");
 
       expect(orders.length).to.equal(0);
     } catch (error: any) {

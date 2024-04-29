@@ -10,19 +10,25 @@ import CartItem from "../models/CartItem.model";
 import catchErrors from "../utils/catchErrors";
 
 export const getOrdersByUserId = async (req: Request, res: Response): Promise<Response> => {
-  const userId = (req.user as UserTokenAttributes)?.id;
-  const response = await orderControllers.readAllOrders(userId);
+  try {
+    const userId = (req.user as UserTokenAttributes)?.id;
+    const cart = await readCartByUserId(userId);
+    const response = await orderControllers.readAllOrdersByCartId(cart!.id);
 
-  return res.status(200).json({ response });
+    return res.status(200).json({ response });
+  } catch (error: any) {
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
+  }
 };
 
 export const getOrderById = async (req: Request, res: Response): Promise<Response> => {
-  const userId = (req.user as UserTokenAttributes)?.id;
-  const orderId = req.params.orderId;
-
   try {
-    const response = await orderControllers.readOrderById(userId, orderId);
-    console.log({ response });
+    const userId = (req.user as UserTokenAttributes)?.id;
+    const orderId = req.params.orderId;
+    const cart = await readCartByUserId(userId);
+
+    const response = await orderControllers.readOrderById(orderId, cart!.id);
 
     if (!response) return res.status(404).json({ message: `Order with id: ${orderId} doesn´t exists` });
 
@@ -38,7 +44,6 @@ export const post = async (req: Request, res: Response) => {
     const userId = (req.user as UserTokenAttributes)?.id;
     //****TODO LOGICA PARA PAGOS
 
-    //Get cart from user
     const cart = await readCartByUserId(userId);
 
     //TO DO Revisar el if below
@@ -55,7 +60,6 @@ export const post = async (req: Request, res: Response) => {
       status: "created"
     };
     const order = await orderControllers.createOrder(newOrder, transaction);
-
     //Creating order details
     const orderDetails = cart?.cartItems.map((cartItem: CartItem) => {
       const price = cartItem.product.price;

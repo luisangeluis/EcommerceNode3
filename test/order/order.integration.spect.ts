@@ -38,19 +38,23 @@ before(async () => {
   // superToken = await generateToken(superUser);
 });
 
-describe("POST - Create an order - Integration test", () => {
-  it("Should respond with an status 201 when I send un valid cartId", async () => {
-    const response = await chai.request(app).post(`/api/v1/cart/make-order`).set("Authorization", `Bearer ${token}`);
-
-    expect(response).to.have.status(201);
-  });
-});
-
 describe("GET - Read all orders by userId - Integration test", () => {
   it("Should respond with an status 200 when I send a valid token", async () => {
     const response = await chai.request(app).get(`/api/v1/orders/`).set("Authorization", `Bearer ${token}`);
 
     expect(response).to.have.status(200);
+  });
+
+  it("Should respond with an status 200 when I send an invalid token", async () => {
+    const response = await chai.request(app).get(`/api/v1/orders/`).set("Authorization", "Bearer token");
+
+    expect(response).to.have.status(401);
+  });
+
+  it("Should respond with an status 401 when I don't send a token", async () => {
+    const response = await chai.request(app).get(`/api/v1/orders/`);
+
+    expect(response).to.have.status(401);
   });
 });
 
@@ -73,6 +77,14 @@ describe("GET - Read user order by orderId - Integration test", () => {
       .set("Authorization", `Bearer ${token}`);
 
     expect(response).to.have.status(200);
+  });
+});
+
+describe("POST - Create an order - Integration test", () => {
+  it("Should respond with an status 201 when I send un valid cartId", async () => {
+    const response = await chai.request(app).post(`/api/v1/cart/make-order`).set("Authorization", `Bearer ${token}`);
+
+    expect(response).to.have.status(201);
   });
 });
 

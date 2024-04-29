@@ -14,7 +14,7 @@
     "test:cart:unit": "mocha --timeout 10000 -require ts-node/register test/setup.ts 'test/cart/cart.unit.spec.ts'",
     "test:cartItem:unit": "mocha --timeout 10000 -require ts-node/register test/setup.ts 'test/cartItem/cartItem.unit.spect.ts'",
     "test:cartItem:integration": "mocha --timeout 40000 -require ts-node/register test/setup.ts 'test/cartItem/cartItem.integration.spect.ts'",
-    "test:order:unit": "mocha --timeout 12000 -require ts-node/register test/setup.ts 'test/order/order.unit.spec.ts'",
+    "test:order:unit": "mocha --timeout 12000 -require ts-node/register test/setup.ts 'test/order/order.unit.spect.ts'",
     "test:order:integration": "mocha --timeout 12000 -require ts-node/register test/setup.ts 'test/order/order.integration.spect.ts'",
     "test:orderDetail:unit": "mocha --timeout 12000 -require ts-node/register test/setup.ts 'test/orderDetail/orderDetail.unit.spect.ts'",
     "dev": "ts-node-dev src/index.ts",
