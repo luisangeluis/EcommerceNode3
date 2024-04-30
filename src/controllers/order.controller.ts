@@ -4,8 +4,8 @@ import { Transaction } from "sequelize";
 
 //MODELS
 import Order from "../models/Order.model";
-import Cart from "../models/Cart.model";
-import OrderDetail from "../models/OrderDetail.model";
+// import Cart from "../models/Cart.model";
+// import OrderDetail from "../models/OrderDetail.model";
 
 //controllers
 // import * as cartControllers from "./cart.controller";

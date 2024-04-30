@@ -50,10 +50,11 @@ describe("READ - Read an order by id - unit test", () => {
     try {
       //User pedro lopez
       const orderId = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
-      const userId = "024c33d3-2033-4baf-a1c2-c383d0765d03";
-      const order = await orderControllers.readOrderById(orderId, userId);
+      const cartId = "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8";
+      const order = await orderControllers.readOrderById(orderId, cartId);
 
-      expect(order?.cart.userId).to.equal(userId);
+      expect(order?.id).to.equal(orderId);
+      expect(order?.cartId).to.equal(cartId);
     } catch (error: any) {
       throw new Error(`Test failed due to an error: ${error.message}`);
     }

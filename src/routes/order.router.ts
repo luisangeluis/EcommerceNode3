@@ -14,6 +14,6 @@ router.route("/:orderId/cancel");
 router.route("/:orderId/finish");
 // .patch(passport.authenticate("jwt", { session: false }), isASuperUser, orderServices.finishAnOrder);
 
-router.route("/:orderId").get(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.getOrderById);
+router.route("/:orderId").get(passport.authenticate("jwt", { session: false }), orderServices.getOrderById);
 
 export default router;

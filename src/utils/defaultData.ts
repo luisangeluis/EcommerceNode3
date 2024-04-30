@@ -415,6 +415,7 @@ export const generateData = async (): Promise<void> => {
     await Order.bulkCreate(
       [
         {
+          //Pedro's order
           id: "7a21eedf-048b-45d4-90bd-7491e31df4e4",
           cartId: "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8",
           total: 200,
@@ -433,6 +434,7 @@ export const generateData = async (): Promise<void> => {
     await OrderDetail.bulkCreate(
       [
         {
+          //Pedro's order detail
           id: "c0dde3c2-4368-434c-a84c-3e1661d4b5fa",
           orderId: "7a21eedf-048b-45d4-90bd-7491e31df4e4",
           productId: "dc29ea92-d7c3-48de-a389-76af84a470da",
