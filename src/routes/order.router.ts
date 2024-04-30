@@ -8,11 +8,10 @@ const router = Router();
 
 router.route("/").get(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.getOrdersByUserId);
 
+router.route("/:orderId/finish").patch(passport.authenticate("jwt", { session: false }), orderServices.finishAnOrder);
+
 router.route("/:orderId/cancel");
 // .patch(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.cancelAnOrder);
-
-router.route("/:orderId/finish");
-// .patch(passport.authenticate("jwt", { session: false }), isASuperUser, orderServices.finishAnOrder);
 
 router.route("/:orderId").get(passport.authenticate("jwt", { session: false }), orderServices.getOrderById);
 

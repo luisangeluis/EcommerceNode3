@@ -59,6 +59,32 @@ describe("READ - Read an order by id - unit test", () => {
       throw new Error(`Test failed due to an error: ${error.message}`);
     }
   });
+
+  it("Should get a null value when I send an non-existent orderId", async () => {
+    try {
+      //User pedro lopez
+      const orderId = "1";
+      const cartId = "4bb52c8d-a5e5-4220-b3d9-17cb6b204bd8";
+      const order = await orderControllers.readOrderById(orderId, cartId);
+
+      expect(order).to.equal(null);
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
+
+  it("Should get a null value when I send an non-existent cartId", async () => {
+    try {
+      //User pedro lopez
+      const orderId = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
+      const cartId = "1";
+      const order = await orderControllers.readOrderById(orderId, cartId);
+
+      expect(order).to.equal(null);
+    } catch (error: any) {
+      throw new Error(`Test failed due to an error: ${error.message}`);
+    }
+  });
 });
 
 describe("CREATE - order - unit test", () => {
