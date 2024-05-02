@@ -5,7 +5,8 @@ import { Transaction } from "sequelize";
 //MODELS
 import Order from "../models/Order.model";
 // import Cart from "../models/Cart.model";
-// import OrderDetail from "../models/OrderDetail.model";
+import OrderDetail from "../models/OrderDetail.model";
+import Product from "../models/Product.model";
 
 //controllers
 // import * as cartControllers from "./cart.controller";
@@ -15,8 +16,25 @@ import Order from "../models/Order.model";
 export const readAllOrdersByCartId = async (cartId: string): Promise<Order[]> => await Order.findAll({ where: { cartId } });
 
 //Read and order by orderId and cartId
-export const readOrderById = async (orderId: string, cartId: string): Promise<Order | null> =>
-  await Order.findOne({ where: { id: orderId, cartId } });
+export const readOrderById = async (orderId: string, cartId: string): Promise<Order | null> => {
+  const response = await Order.findOne({
+    where: { id: orderId, cartId },
+    include: [
+      {
+        model: OrderDetail,
+        attributes: { exclude: ["orderId"] },
+        include: [
+          {
+            model: Product,
+            attributes: { exclude: ["id", "price"] }
+          }
+        ]
+      }
+    ]
+  });
+
+  return response;
+};
 
 export const createOrder = async (order: OrderCreationAttributes, transaction?: Transaction) =>
   await Order.create({ ...order, id: uuidv4() }, { transaction });
@@ -38,28 +56,6 @@ export const changeStatus = async (orderId: string, userId: string, status: stri
 
 // export const updateOrderStatus = async (id: string, status: orderStatus) => {
 //   const response = await Order.update({ status }, { where: { id } });
-
-//   return response;
-// };
-
-// export const updateOrderStatusAsCustomer = async (orderId: string, status: string, userId: string) => {
-//   const response = await Order.findOne({
-//     where: { id: orderId, status: "created" },
-//     include: [
-//       {
-//         model: Cart,
-//         where: { userId: userId },
-//         required: true
-//       }
-//     ]
-//   });
-//   // console.log(response);
-
-//   if (!response) return null;
-
-//   response.status = status;
-
-//   await response.save();
 
 //   return response;
 // };

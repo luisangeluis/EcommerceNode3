@@ -24,7 +24,7 @@ class Order extends Model<OrderAttributes, OrderCreationAttributes> {
     type: DataType.STRING(20),
     allowNull: false
   })
-  status?: string; //finished, created, canceled
+  status?: string; //finished, progress, created, canceled
 
   @Column({
     type: DataType.DECIMAL,

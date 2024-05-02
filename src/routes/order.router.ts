@@ -6,13 +6,16 @@ import * as orderServices from "../services/order.http";
 
 const router = Router();
 
+//Get Orders by userId
 router.route("/").get(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.getOrdersByUserId);
 
-router.route("/:orderId/finish").patch(passport.authenticate("jwt", { session: false }), orderServices.finishAnOrder);
+//Pay an order
+router.route("/:orderId/pay").patch(passport.authenticate("jwt", { session: false }), orderServices.payAnOrder);
 
-router.route("/:orderId/cancel");
-// .patch(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.cancelAnOrder);
+//Cancel an order
+router.route("/:orderId/cancel").patch(passport.authenticate("jwt", { session: false }), orderServices.cancelAnOrder);
 
+//Get Order by userId
 router.route("/:orderId").get(passport.authenticate("jwt", { session: false }), orderServices.getOrderById);
 
 export default router;

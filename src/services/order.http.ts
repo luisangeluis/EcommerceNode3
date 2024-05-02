@@ -64,6 +64,7 @@ export const post = async (req: Request, res: Response) => {
     const orderDetails = cart?.cartItems.map((cartItem: CartItem) => {
       const price = cartItem.product.price;
       const quantity = cartItem.quantity;
+
       const newOrderDetail = {
         orderId: order.id,
         productId: cartItem.product.id,
@@ -93,36 +94,47 @@ export const post = async (req: Request, res: Response) => {
   }
 };
 
-export const finishAnOrder = async (req: Request, res: Response) => {
-  const orderId = req.params.orderId;
-  // const userId = req.body.userId;
-  const status = "finished";
-
+// export const finishAnOrder = async (req: Request, res: Response) => {
+export const payAnOrder = async (req: Request, res: Response) => {
   try {
-    const response = await orderControllers.updateOrderStatus(orderId, status);
+    const orderId = req.params.orderId;
+    const userId = req.body.userId;
+    const cart = await readCartByUserId(userId);
 
-    if (!response[0]) return res.status(404).json({ message: `Order with id: ${orderId} doesn´t exists` });
+    const order = await orderControllers.readOrderById(orderId, cart!.id);
 
-    return res.status(200).json({ message: `Order with id: ${orderId} finished` });
+    if (!order) return res.status(404).json({ message: `Order with id: ${orderId} doesn´t exists` });
+
+    //TO DO Create pay process
+
+    order.status = "progress";
+
+    await order.save();
+
+    return res.status(200).json({ message: `Order with id: ${orderId} in progress` });
   } catch (error: any) {
-    return res.status(500).json({ message: error.message });
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
   }
 };
 
-// export const cancelAnOrder = async (req: Request, res: Response): Promise<Response> => {
-//   const userId = (req.user as UserTokenAttributes)?.id;
-//   const orderId = req.params.orderId;
-//   const status: orderStatus = "canceled";
+export const cancelAnOrder = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    //TO DO Maybe create a middleware to check if the user is ADMIN
 
-//   try {
-//     const response = await orderControllers.updateOrderStatusAsCustomer(orderId, status, userId);
+    const userId = (req.user as UserTokenAttributes)?.id;
+    const orderId = req.params.orderId;
+    const cart = await readCartByUserId(userId);
+    const order = await orderControllers.readOrderById(orderId, cart!.id);
 
-//     // console.log({hola:response});
+    if (!order) return res.status(404).json({ message: `Order with id: ${orderId} doesn´t exists` });
 
-//     if (!response) return res.status(404).json({ message: `Order with id:${orderId} doesn't exists` });
+    order.status = "canceled";
+    await order.save();
 
-//     return res.status(200).json({ message: `Order with id: ${orderId} canceled` });
-//   } catch (error: any) {
-//     return res.status(500).json({ message: error.message });
-//   }
-// };
+    return res.status(200).json({ message: `Order with id: ${orderId} canceled` });
+  } catch (error: any) {
+    const customError = catchErrors(error);
+    return res.status(customError.status).json({ message: customError.error });
+  }
+};

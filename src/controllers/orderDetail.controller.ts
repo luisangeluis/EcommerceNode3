@@ -18,4 +18,5 @@ export const createOrderDetails = async (
 
   return await OrderDetail.bulkCreate(newOrderDetails, { transaction });
 };
+
 export const deleteOrders = async (orderId: string): Promise<number> => await OrderDetail.destroy({ where: { orderId } });
