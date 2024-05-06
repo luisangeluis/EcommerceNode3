@@ -98,7 +98,7 @@ export const post = async (req: Request, res: Response) => {
 export const payAnOrder = async (req: Request, res: Response) => {
   try {
     const orderId = req.params.orderId;
-    const userId = req.body.userId;
+    const userId = (req.user as UserTokenAttributes).id;
     const cart = await readCartByUserId(userId);
 
     const order = await orderControllers.readOrderById(orderId, cart!.id);
@@ -108,7 +108,6 @@ export const payAnOrder = async (req: Request, res: Response) => {
     //TO DO Create pay process
 
     order.status = "progress";
-
     await order.save();
 
     return res.status(200).json({ message: `Order with id: ${orderId} in progress` });

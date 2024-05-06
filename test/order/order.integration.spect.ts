@@ -89,6 +89,29 @@ describe("POST - Create an order - Integration test", () => {
   });
 });
 
+describe("PATCH - Pay an order", () => {
+  it("Should respond with a status 200 when the order corresponds to the user", async () => {
+    const pedroOrder = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
+    const response = await chai.request(app).patch(`/api/v1/orders/${pedroOrder}/pay`).set("Authorization", `Bearer ${tokenPedro}`);
+
+    expect(response).to.have.status(200);
+  });
+
+  it("Should respond with a status 404 when the order don't correspond to the user", async () => {
+    const pedroOrder = "1";
+    const response = await chai.request(app).patch(`/api/v1/orders/${pedroOrder}/pay`).set("Authorization", `Bearer ${tokenPedro}`);
+
+    expect(response).to.have.status(404);
+  });
+
+  it("Should respond with a status 401 when the user don't have authorization", async () => {
+    const pedroOrder = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
+    const response = await chai.request(app).patch(`/api/v1/orders/${pedroOrder}/pay`);
+
+    expect(response).to.have.status(401);
+  });
+});
+
 // describe("PATCH - Cancel an order by id as customer", () => {
 //   it("Should respond with a status 200 when the user is a customer", async () => {
 //     const order = await Order.findOne({
@@ -105,27 +128,6 @@ describe("POST - Create an order - Integration test", () => {
 //       .request(app)
 //       .patch(`/api/v1/orders/${order?.id}/cancel`)
 //       .set("Authorization", `Bearer ${tokenPedro}`);
-
-//     expect(response).to.have.status(200);
-//   });
-// });
-
-// describe("PATCH - Finished an order as superUser", () => {
-//   it("Should respond with a status 200 when the user is superUser", async () => {
-//     const order = await Order.findOne({
-//       include: [
-//         {
-//           model: Cart,
-//           where: { userId: "2940915c-071e-423e-827c-a04d1ead2ce7" },
-//           attributes: []
-//         }
-//       ]
-//     });
-
-//     const response = await chai
-//       .request(app)
-//       .patch(`/api/v1/orders/${order?.id}/finish`)
-//       .set("Authorization", `Bearer ${superToken}`);
 
 //     expect(response).to.have.status(200);
 //   });

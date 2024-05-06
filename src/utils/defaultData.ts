@@ -422,6 +422,7 @@ export const generateData = async (): Promise<void> => {
           status: "created"
         },
         {
+          //Luis's order
           id: "10d6ae78-fe83-4aab-8364-cea1d2a5e610",
           cartId: "2d17bf0b-579d-417d-8b71-0fa1b75d3079",
           total: 300,
@@ -445,7 +446,6 @@ export const generateData = async (): Promise<void> => {
       ],
       { validate: true }
     );
-
     console.log("created data");
   } catch (error: any) {
     console.log(error);
