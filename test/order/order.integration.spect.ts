@@ -10,6 +10,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 let token: string;
 let tokenPedro: string;
+let tokenLuis: string;
 // let superToken: string;
 
 before(async () => {
@@ -29,13 +30,13 @@ before(async () => {
 
   tokenPedro = await generateToken(userPedro);
 
-  // const superUser = {
-  //   id: "187378bb-df40-4372-9558-cf3d0923c80c",
-  //   email: "rafa.marquez@correo.com",
-  //   roleId: "6c00b89a-d293-40ec-8bf7-abdd161ad94a"
-  // };
+  const userLuis = {
+    id: "45925e48-60d5-4c08-8962-3001195167dd",
+    email: "luis.gonzalez@correo.com",
+    roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8"
+  };
 
-  // superToken = await generateToken(superUser);
+  tokenLuis = await generateToken(userLuis);
 });
 
 describe("GET - Read all orders by userId - Integration test", () => {
@@ -112,23 +113,25 @@ describe("PATCH - Pay an order", () => {
   });
 });
 
-// describe("PATCH - Cancel an order by id as customer", () => {
-//   it("Should respond with a status 200 when the user is a customer", async () => {
-//     const order = await Order.findOne({
-//       include: [
-//         {
-//           model: Cart,
-//           where: { userId: "024c33d3-2033-4baf-a1c2-c383d0765d03" },
-//           attributes: []
-//         }
-//       ]
-//     });
-//     // console.log(order);
-//     const response = await chai
-//       .request(app)
-//       .patch(`/api/v1/orders/${order?.id}/cancel`)
-//       .set("Authorization", `Bearer ${tokenPedro}`);
+describe("PATCH - Cancel an order by id", () => {
+  it("Should respond with a status 200 if the order corresponds to the user", async () => {
+    const luisOrder = "10d6ae78-fe83-4aab-8364-cea1d2a5e610";
+    const response = await chai.request(app).patch(`/api/v1/orders/${luisOrder}/cancel`).set("Authorization", `Bearer ${tokenLuis}`);
 
-//     expect(response).to.have.status(200);
-//   });
-// });
+    expect(response).to.have.status(200);
+  });
+
+  it("Should respond with a status 404 when the order don't correspond to the user", async () => {
+    const otherOrder = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
+    const response = await chai.request(app).patch(`/api/v1/orders/${otherOrder}/cancel`).set("Authorization", `Bearer ${tokenLuis}`);
+
+    expect(response).to.have.status(404);
+  });
+
+  it("Should respond with a status 401 when the user don't have authorization", async () => {
+    const luisOrder = "10d6ae78-fe83-4aab-8364-cea1d2a5e610";
+    const response = await chai.request(app).patch(`/api/v1/orders/${luisOrder}/cancel`);
+
+    expect(response).to.have.status(401);
+  });
+});

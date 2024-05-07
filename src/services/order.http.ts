@@ -119,8 +119,6 @@ export const payAnOrder = async (req: Request, res: Response) => {
 
 export const cancelAnOrder = async (req: Request, res: Response): Promise<Response> => {
   try {
-    //TO DO Maybe create a middleware to check if the user is ADMIN
-
     const userId = (req.user as UserTokenAttributes)?.id;
     const orderId = req.params.orderId;
     const cart = await readCartByUserId(userId);
@@ -129,6 +127,7 @@ export const cancelAnOrder = async (req: Request, res: Response): Promise<Respon
     if (!order) return res.status(404).json({ message: `Order with id: ${orderId} doesn´t exists` });
 
     order.status = "canceled";
+
     await order.save();
 
     return res.status(200).json({ message: `Order with id: ${orderId} canceled` });
