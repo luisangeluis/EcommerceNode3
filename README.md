@@ -104,14 +104,34 @@ DELETE "DELETE A PRODUCT BY ID"
 /api/v1/orders
 - GET "Get all user orders"
 
+          Auth:Yes (Route for sellers and customers).
+          Params: no params.
+          Optional querys: no querys.
+          Body: no body;
+
 /api/v1/orders/:orderId
 - GET "Get user order by orderId"
+
+          Auth:Yes (Route for sellers and customers).
+          Params: order id.
+          Optional querys: no querys.
+          Body: no body;
+
+/api/v1/orders/:orderId/pay
+- Patch "Pay an order"
+
+          Auth:Yes (Route for sellers and customers).
+          Params: order id.
+          Optional querys: no querys.
+          Body: no body;
 
 /api/v1/orders/:orderId/cancel
 - Patch "Cancel an order as customer"
 
-/api/v1/orders/:orderId/finish
-- Patch "Cancel an order as superUser"
+          Auth:Yes (Route for sellers and customers).
+          Params: order id.
+          Optional querys: no querys.
+          Body: no body;
 
 ## USER Routes
 
