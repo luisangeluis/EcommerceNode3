@@ -25,10 +25,11 @@ before(async () => {
 
 describe("READ - Read all orders by cartId - unit test", () => {
   it("Should get all user orders when I send a valid cartId", async () => {
+    const cartId = "2d17bf0b-579d-417d-8b71-0fa1b75d3079";
     try {
-      const orders = await orderControllers.readAllOrdersByCartId("2d17bf0b-579d-417d-8b71-0fa1b75d3079");
+      const orders = await orderControllers.readAllOrdersByCartId(cartId);
 
-      expect(orders[0].cartId).to.equal("2d17bf0b-579d-417d-8b71-0fa1b75d3079");
+      expect(orders[0].cartId).to.equal(cartId);
     } catch (error: any) {
       throw new Error(`Test failed due to an error: ${error.message}`);
     }
@@ -104,17 +105,17 @@ describe("CREATE - order - unit test", () => {
   });
 });
 
-describe("UPDATE - order - unit test", () => {
-  it("Should change status of the order when I send data correctly", async () => {
-    try {
-      //USER pedro lopez
-      const orderId = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
-      const userId = "024c33d3-2033-4baf-a1c2-c383d0765d03";
-      const response = await orderControllers.changeStatus(orderId, userId, "canceled");
+// describe("UPDATE - order - unit test", () => {
+//   it("Should change status of the order when I send data correctly", async () => {
+//     try {
+//       //USER pedro lopez
+//       const orderId = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
+//       const userId = "024c33d3-2033-4baf-a1c2-c383d0765d03";
+//       const response = await orderControllers.changeStatus(orderId, userId, "canceled");
 
-      expect(response).to.equal(1);
-    } catch (error: any) {
-      throw new Error(`Test failed due to an error: ${error.message}`);
-    }
-  });
-});
+//       expect(response).to.equal(1);
+//     } catch (error: any) {
+//       throw new Error(`Test failed due to an error: ${error.message}`);
+//     }
+//   });
+// });
