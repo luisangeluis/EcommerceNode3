@@ -13,7 +13,18 @@ import Product from "../models/Product.model";
 // import { orderStatus } from "../utils/Enums";
 
 //Read all orders by cartId
-export const readAllOrdersByCartId = async (cartId: string): Promise<Order[]> => await Order.findAll({ where: { cartId } });
+export const readAllOrdersByCartId = async (cartId: string): Promise<Order[]> => {
+  return await Order.findAll({
+    where: { cartId },
+    include: {
+      model: OrderDetail,
+      attributes: {
+        exclude: ["orderId"]
+      },
+      required: true
+    }
+  });
+};
 
 //Read and order by orderId and cartId
 export const readOrderById = async (orderId: string, cartId: string): Promise<Order | null> => {

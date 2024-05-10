@@ -1,6 +1,4 @@
 import express from "express";
-import cors from "cors";
-import passport from "./middleware/passport.middleware";
 import productRoutes from "./routes/product.router";
 import authRoutes from "./routes/auth.router";
 import userRoutes from "./routes/user.router";
@@ -9,7 +7,12 @@ import orderRoutes from "./routes/order.router";
 import cartItemRouter from "./routes/cartItem.router";
 import productImagesRoutes from "./routes/productImages.router";
 
+import passport from "./middleware/passport.middleware";
+import dotenv from "dotenv";
+import cors from "cors";
 import multer from "multer";
+
+dotenv.config();
 
 const app = express();
 

@@ -1,13 +1,13 @@
 import { Router } from "express";
 import passport from "../middleware/passport.middleware";
-import IsACustomer from "../middleware/isACustomer.middleware";
+// import IsACustomer from "../middleware/isACustomer.middleware";
 // import isASuperUser from "../middleware/isASuperUser.middleware";
 import * as orderServices from "../services/order.http";
 
 const router = Router();
 
 //Get Orders by userId
-router.route("/").get(passport.authenticate("jwt", { session: false }), IsACustomer, orderServices.getOrdersByUserId);
+router.route("/").get(passport.authenticate("jwt", { session: false }), orderServices.getOrdersByUserId);
 
 //Pay an order
 router.route("/:orderId/pay").patch(passport.authenticate("jwt", { session: false }), orderServices.payAnOrder);

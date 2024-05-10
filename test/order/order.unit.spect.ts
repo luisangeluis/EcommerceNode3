@@ -104,18 +104,3 @@ describe("CREATE - order - unit test", () => {
     }
   });
 });
-
-// describe("UPDATE - order - unit test", () => {
-//   it("Should change status of the order when I send data correctly", async () => {
-//     try {
-//       //USER pedro lopez
-//       const orderId = "7a21eedf-048b-45d4-90bd-7491e31df4e4";
-//       const userId = "024c33d3-2033-4baf-a1c2-c383d0765d03";
-//       const response = await orderControllers.changeStatus(orderId, userId, "canceled");
-
-//       expect(response).to.equal(1);
-//     } catch (error: any) {
-//       throw new Error(`Test failed due to an error: ${error.message}`);
-//     }
-//   });
-// });
