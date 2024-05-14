@@ -1,4 +1,14 @@
+//Dependecias
 import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import multer from "multer";
+import rateLimiter from "./utils/rateLimiter";
+
+//Middlewares
+import passport from "./middleware/passport.middleware";
+
+//Routes
 import productRoutes from "./routes/product.router";
 import authRoutes from "./routes/auth.router";
 import userRoutes from "./routes/user.router";
@@ -7,11 +17,6 @@ import orderRoutes from "./routes/order.router";
 import cartItemRouter from "./routes/cartItem.router";
 import productImagesRoutes from "./routes/productImages.router";
 
-import passport from "./middleware/passport.middleware";
-import dotenv from "dotenv";
-import cors from "cors";
-import multer from "multer";
-
 dotenv.config();
 
 const app = express();
@@ -19,6 +24,7 @@ const app = express();
 app.use(passport.initialize());
 app.use(express.json());
 app.use(cors());
+app.use(rateLimiter);
 
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/auth", authRoutes);
