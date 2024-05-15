@@ -31,7 +31,6 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/orders", orderRoutes);
-// app.use("/api/v1/seller-products", sellerProductsRouter);
 app.use("/api/v1/cartItem", cartItemRouter);
 app.use("/api/v1/productImages", productImagesRoutes);
 
