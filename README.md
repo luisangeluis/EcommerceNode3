@@ -1,6 +1,42 @@
 # ECOMERCE
+<hr />
+Yo can simulate e-commerce operations in this app, such as viewing products, viewing product details, adding productos to the cart, getting your cart, adding and removing products from your cart, etc.
 
-## PRODUCT ROUTES
+### Settings
+It's necessary to add some environment variables, to run the proyect.
+
+<u>For database</u>
+
+- DB_DIALECT
+- DB_HOST
+- DB_NAME
+- DB_PASSWORD
+- DB_USER
+
+<u>For Cloudinary api</u>
+
+- CLOUDINARY_API_KEY
+- CLOUDINARY_API_SECRET
+- CLOUDINARY_CLOUD_NAME
+
+<u>To generate tokens</u>
+
+- JWT_KEY
+
+<u>For node</u>
+
+- NODE_ENV
+
+# Documentation here
+<hr />
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/12459556-7552f8b8-e8cf-44ef-8c14-46711723ab6f?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D12459556-7552f8b8-e8cf-44ef-8c14-46711723ab6f%26entityType%3Dcollection%26workspaceId%3D71ad64ae-0aad-4cfb-8578-51338e5569a6)
+
+
+# ROUTES
+<hr />
+
+### PRODUCT ROUTES
 
 GET - "GET ALL PRODUCTS"
 - /api/v1/products
@@ -61,12 +97,12 @@ DELETE "DELETE A PRODUCT BY ID"
         Optional querys: no querys.
         Body: no body;
 
-## CART ROUTES
+### CART ROUTES
 
 /api/v1/cart
 - GET "Get cart as customer"
 
-## CARTITEM ROUTES
+### CARTITEM ROUTES
 
 /api/v1/products/:id/add-to-cart
 - POST "Add product to cart"
@@ -91,7 +127,7 @@ DELETE "DELETE A PRODUCT BY ID"
           Optional querys: no querys.
           Body: no body;
 
-## ORDER ROUTES
+### ORDER ROUTES
 
 /api/v1/cart/make-order
 - POST "Create an order by cartId"
@@ -132,15 +168,5 @@ DELETE "DELETE A PRODUCT BY ID"
           Params: order id.
           Optional querys: no querys.
           Body: no body;
-
-## USER Routes
-
-- /api/v1/auth/register
-- - POST "Create a new user"
-
-- /api/v1/users/my-user
-- - GET "Get my own user"
-- - PUT "Update my own user"
-- - DELETE "Delete my own user"
 
 
