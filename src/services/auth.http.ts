@@ -9,13 +9,13 @@ export const loginUser = async (req: Request, res: Response): Promise<Response> 
   const data = req.body;
   const jwtKey = process.env.JWT_KEY as string;
 
-  if (!Object.keys(data).length) return res.status(400).send("Missing data");
+  if (!Object.keys(data).length) return res.status(400).json({ message: "Missing data" });
 
-  if (!data.email || !data.password) return res.status(400).send("Missing data");
+  if (!data.email || !data.password) return res.status(400).json({ message: "Missing data" });
 
   const user = await authControllers.loginUser(data.email, data.password);
 
-  if (!user) return res.status(401).send("Invalid credentials");
+  if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
   const token = jwt.sign({ id: user.id, email: user.email, roleId: user.roleId }, jwtKey);
 
