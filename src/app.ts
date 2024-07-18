@@ -16,6 +16,7 @@ import cartRoutes from "./routes/cart.router";
 import orderRoutes from "./routes/order.router";
 import cartItemRouter from "./routes/cartItem.router";
 import productImagesRoutes from "./routes/productImages.router";
+import categoryRoutes from "./routes/category.router";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/cartItem", cartItemRouter);
 app.use("/api/v1/productImages", productImagesRoutes);
+app.use("/api/v1/categories", categoryRoutes);
 
 app.use(function (err: any, _req: any, res: any, _next: any) {
   if (err instanceof multer.MulterError) {
