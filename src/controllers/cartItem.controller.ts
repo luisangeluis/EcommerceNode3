@@ -22,6 +22,15 @@ export const readCartItemById = async (cartItemId: string, userId: string): Prom
   return response;
 };
 
+//Return cartItem by cartId and id
+export const readCartItemByCartId = async ({ cartId, productId }: any) =>
+  await CartItem.findOne({
+    where: { cartId, productId },
+    attributes: {
+      exclude: ["cartId"]
+    }
+  });
+
 //Create cartItem
 export const createCartItem = async (cartItem: Omit<CartItemAttributes, "id" | "quantity">) =>
   await CartItem.create({ cartId: cartItem.cartId, productId: cartItem.productId, quantity: 1, id: uuidv4() });
