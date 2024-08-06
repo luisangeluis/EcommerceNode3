@@ -62,17 +62,30 @@ export const addToCart = async (req: Request, res: Response) => {
     if (!product || product === null) return res.status(404).json({ message: `Product with id: ${productId} doesn't exist` });
 
     //Searching cartItem in cart
-    const index = cart!.cartItems.findIndex((cartItem) => cartItem.product.id === productId);
+    const cartItem = await cartItemControllers.readCartItemByCartId({ cartId: cart!.id, productId });
 
-    //If cartItem exists
-    if (index >= 0) {
-      cart!.cartItems[index].quantity += 1;
-      await cart!.save();
+    if (cartItem) {
+      cartItem.quantity += 1;
+      await cartItem?.save();
       return res.status(200).json({ message: `Product with id: ${productId} added to cart` });
     } else {
       await cartItemControllers.createCartItem({ cartId: cart!.id, productId });
       return res.status(201).json({ message: `Product with id: ${productId} added to cart` });
     }
+
+    //const index = cart!.cartItems.findIndex((cartItem) => cartItem.product.id === productId);
+
+    //console.log({ index });
+
+    //If cartItem exists
+    // if (index >= 0) {
+    //   cart!.cartItems[index].quantity += 1;
+    //   await cart!.save();
+    //   return res.status(200).json({ message: `Product with id: ${productId} added to cart` });
+    // } else {
+    //   await cartItemControllers.createCartItem({ cartId: cart!.id, productId });
+    //   return res.status(201).json({ message: `Product with id: ${productId} added to cart` });
+    // }
   } catch (error: any) {
     const customError = catchErrors(error);
     return res.status(customError.status).json({ message: customError.error });
