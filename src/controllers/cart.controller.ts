@@ -8,6 +8,7 @@ import { Transaction } from "sequelize";
 import Cart from "../models/Cart.model";
 import CartItem from "../models/CartItem.model";
 import Product from "../models/Product.model";
+import ProductImage from "../models/ProductImage.model";
 
 export const readCartByUserId = async (userId: string) => {
   const response = await Cart.findOne({
@@ -19,7 +20,13 @@ export const readCartByUserId = async (userId: string) => {
         include: [
           {
             model: Product,
-            attributes: ["id", "title", "description", "price", "categoryId"]
+            attributes: ["id", "title", "description", "price", "categoryId"],
+            include: [
+              {
+                model: ProductImage,
+                attributes:["url"]
+              }
+            ]
           }
         ]
       }
