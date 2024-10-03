@@ -4,6 +4,7 @@ import db from "../db/connection";
 //Utils
 import validateUserPassword from "../utils/validateUserPassword";
 import catchErrors from "../utils/catchErrors";
+import { hashPassword } from "../utils/crypt";
 
 //Types
 import { UserAttributes, UserTokenAttributes } from "../types";
@@ -54,6 +55,8 @@ export const post = async (req: Request, res: Response): Promise<Response> => {
           symbol: 1
         }
       });
+    const hashedPass = hashPassword(restOfData.password);
+    restOfData.password = hashedPass;
 
     const newUser = await userControllers.createUser(restOfData, t);
     const newCart = await createCart(newUser.id, t);
