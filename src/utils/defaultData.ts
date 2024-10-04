@@ -11,7 +11,8 @@ import Status from "../models/Status.model";
 import ProductImage from "../models/ProductImage.model";
 import { hashPassword } from "./crypt";
 
-const testUserPassword = process.env.TEST_USER_PASSWORD as string;
+const testCustomerPassword = process.env.TEST_CUSTOMER_PASSWORD as string;
+const testSellerPassword = process.env.TEST_SELLER_PASSWORD as string;
 
 export const generateData = async (): Promise<void> => {
   try {
@@ -56,7 +57,7 @@ export const generateData = async (): Promise<void> => {
           firstName: "seller",
           lastName: "one",
           email: "seller.one@correo.com",
-          password: hashPassword(testUserPassword),
+          password: hashPassword(testSellerPassword),
           roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
@@ -66,7 +67,7 @@ export const generateData = async (): Promise<void> => {
           firstName: "seller",
           lastName: "two",
           email: "seller.two@correo.com",
-          password: hashPassword(testUserPassword),
+          password: hashPassword(testSellerPassword),
           roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
@@ -76,7 +77,7 @@ export const generateData = async (): Promise<void> => {
           firstName: "customer",
           lastName: "one",
           email: "customer.one@correo.com",
-          password: hashPassword(testUserPassword),
+          password: hashPassword(testCustomerPassword),
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "75ead6de-ed41-488d-91c0-175a47e1d16e"
         },
@@ -86,7 +87,7 @@ export const generateData = async (): Promise<void> => {
           firstName: "customer",
           lastName: "two",
           email: "customer.two@correo.com",
-          password: hashPassword(testUserPassword),
+          password: hashPassword(testCustomerPassword),
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "4b48c2d6-0114-4b76-a80e-d795661f5c9d"
         },
@@ -96,7 +97,7 @@ export const generateData = async (): Promise<void> => {
           firstName: "customer",
           lastName: "three",
           email: "customer.three@creativecommons.org",
-          password: hashPassword(testUserPassword),
+          password: hashPassword(testCustomerPassword),
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
@@ -106,7 +107,7 @@ export const generateData = async (): Promise<void> => {
           firstName: "customer",
           lastName: "four",
           email: "customer.four@mycompany.org",
-          password: hashPassword(testUserPassword),
+          password: hashPassword(testCustomerPassword),
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
@@ -117,7 +118,7 @@ export const generateData = async (): Promise<void> => {
           firstName: "rafa",
           lastName: "marquez",
           email: "rafa.marquez@correo.com",
-          password: hashPassword(testUserPassword),
+          password: hashPassword(testSellerPassword),
           roleId: "6c00b89a-d293-40ec-8bf7-abdd161ad94a",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
