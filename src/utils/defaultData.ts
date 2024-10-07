@@ -11,6 +11,9 @@ import Status from "../models/Status.model";
 import ProductImage from "../models/ProductImage.model";
 import { hashPassword } from "./crypt";
 
+const testCustomerPassword = process.env.TEST_CUSTOMER_PASSWORD as string;
+const testSellerPassword = process.env.TEST_SELLER_PASSWORD as string;
+
 export const generateData = async (): Promise<void> => {
   try {
     await Role.bulkCreate([
@@ -51,73 +54,76 @@ export const generateData = async (): Promise<void> => {
         {
           //SELLER
           id: "28149311-26a3-4b17-8ab4-f8d9a3b9657e",
-          firstName: "juan",
-          lastName: "perez",
-          email: "juan.perez@correo.com",
-          password: hashPassword("12345"),
+          firstName: "seller",
+          lastName: "one",
+          email: "seller.one@correo.com",
+          password: hashPassword(testSellerPassword),
+          roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
+          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
+        },
+        {
+          //SELLER
+          id: "024c33d3-2033-4baf-a1c2-c383d0765d03",
+          firstName: "seller",
+          lastName: "two",
+          email: "seller.two@correo.com",
+          password: hashPassword(testSellerPassword),
           roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
         {
           //CUSTOMER
           id: "45925e48-60d5-4c08-8962-3001195167dd",
-          firstName: "luis",
-          lastName: "gonzalez",
-          email: "luis.gonzalez@correo.com",
-          password: hashPassword("12345"),
+          firstName: "customer",
+          lastName: "one",
+          email: "customer.one@correo.com",
+          password: hashPassword(testCustomerPassword),
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "75ead6de-ed41-488d-91c0-175a47e1d16e"
         },
         {
           //CUSTOMER
           id: "2940915c-071e-423e-827c-a04d1ead2ce7",
-          firstName: "angel",
-          lastName: "zepeda",
-          email: "angel.zepeda@correo.com",
-          password: hashPassword("12345"),
+          firstName: "customer",
+          lastName: "two",
+          email: "customer.two@correo.com",
+          password: hashPassword(testCustomerPassword),
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "4b48c2d6-0114-4b76-a80e-d795661f5c9d"
         },
         {
-          //SELLER
-          id: "024c33d3-2033-4baf-a1c2-c383d0765d03",
-          firstName: "pedro",
-          lastName: "lopez",
-          email: "pedro.lopez@correo.com",
-          password: hashPassword("12345"),
-          roleId: "5b39d9a2-a865-4a1c-8b4e-3341918d35c7",
-          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
-        },
-        {
-          //SUPERUSER
-          id: "187378bb-df40-4372-9558-cf3d0923c80c",
-          firstName: "rafa",
-          lastName: "marquez",
-          email: "rafa.marquez@correo.com",
-          password: hashPassword("12345"),
-          roleId: "6c00b89a-d293-40ec-8bf7-abdd161ad94a",
-          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
-        },
-        {
           //CUSTOMER
           id: "456e0972-01ed-4975-acfe-f13af058ba17",
-          firstName: "Clemmy",
-          lastName: "Haylor",
-          email: "chaylor4@creativecommons.org",
-          password: hashPassword("12345"),
+          firstName: "customer",
+          lastName: "three",
+          email: "customer.three@creativecommons.org",
+          password: hashPassword(testCustomerPassword),
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
         },
         {
           //CUSTOMER
           id: "442f120c-af05-4468-9624-7e7262ce2b6c",
-          firstName: "Tonny",
-          lastName: "Stark",
-          email: "tonny.stark@mycompany.org",
-          password: hashPassword("12345"),
+          firstName: "customer",
+          lastName: "four",
+          email: "customer.four@mycompany.org",
+          password: hashPassword(testCustomerPassword),
           roleId: "536e9745-8769-45e1-bca4-1e9b3054fac8",
           statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
-        }
+        },
+        
+        {
+          //SUPERUSER
+          id: "187378bb-df40-4372-9558-cf3d0923c80c",
+          firstName: "rafa",
+          lastName: "marquez",
+          email: "rafa.marquez@correo.com",
+          password: hashPassword(testSellerPassword),
+          roleId: "6c00b89a-d293-40ec-8bf7-abdd161ad94a",
+          statusId: "8efdc23f-922b-4acc-a548-74444ba689ce"
+        },
+        
+        
       ],
       { validate: true }
     );

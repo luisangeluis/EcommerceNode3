@@ -5,6 +5,9 @@ Yo can simulate e-commerce operations in this app, such as viewing products, vie
 ### Settings
 It's necessary to add some environment variables, to run the proyect.
 
+<u>For test users</u>
+- TEST_USER_PASSWORD
+
 <u>For database</u>
 
 - DB_DIALECT
@@ -26,6 +29,8 @@ It's necessary to add some environment variables, to run the proyect.
 <u>For node</u>
 
 - NODE_ENV
+
+
 
 # Documentation here
 <hr />
