@@ -6,7 +6,9 @@ Yo can simulate e-commerce operations in this app, such as viewing products, vie
 It's necessary to add some environment variables, to run the proyect.
 
 <u>For test users</u>
-- TEST_USER_PASSWORD
+ 
+- TEST_CUSTOMER_PASSWORD (FOR development)
+- TEST_SELLER_PASSWORD (FOR development)
 
 <u>For database</u>
 
