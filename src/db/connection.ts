@@ -38,6 +38,7 @@ export const initDb = async (): Promise<void> => {
     if (nodeEnv === "development") {
       await db.sync({ force: true });
       console.log("development");
+      await generateData();
     } else {
       await db.sync();
       console.log("production");
@@ -45,7 +46,6 @@ export const initDb = async (): Promise<void> => {
 
     // await db.sync({ force: true });
     // console.log("development");
-    // await generateData();
 
     console.log("db synced");
   } catch (error: any) {
