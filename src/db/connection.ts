@@ -20,7 +20,7 @@ const host = process.env.DB_HOST as string;
 const username = process.env.DB_USER as string;
 const password = process.env.DB_PASSWORD;
 const database = process.env.DB_NAME as string;
-//const nodeEnv = process.env.NODE_ENV as string;
+const nodeEnv = process.env.NODE_ENV as string;
 
 const isTesting = process.env.NODE_ENV === "test";
 
@@ -35,17 +35,17 @@ export const initDb = async (): Promise<void> => {
   try {
     await db.authenticate();
 
-    // if (nodeEnv === "development") {
-    //   await db.sync({ force: true });
-    //   console.log("development");
-    // } else {
-    //   await db.sync();
-    //   console.log("production");
-    // }
+    if (nodeEnv === "development") {
+      await db.sync({ force: true });
+      console.log("development");
+    } else {
+      await db.sync();
+      console.log("production");
+    }
 
-    await db.sync({ force: true });
-    console.log("development");
-    await generateData();
+    // await db.sync({ force: true });
+    // console.log("development");
+    // await generateData();
 
     console.log("db synced");
   } catch (error: any) {
