@@ -45,82 +45,46 @@ It's necessary to add some environment variables, to run the proyect.
 
 ### PRODUCT ROUTES
 
-GET - "GET ALL PRODUCTS"
-- /api/v1/products
+- GET - "GET ALL PRODUCTS"
+/api/v1/products
 
         Auth:no 
         Params: No params.
         Optional querys:(productInfo, categoryId, page) 
         Body: no body. 
 
-GET - "GET A PRODUCT BY ID"
-- /api/v1/products/:id
+- GET - "GET A PRODUCT BY ID"
+/api/v1/products/:id
 
         Auth:No
         Params: productId.
         Optional querys: no querys.
         Body: no body.
 
-POST "CREATE A PRODUCT
-- /api/v1/products
 
-        Auth:Yes (Only for sellers).
-        Params: no params.
-        Optional querys: no querys.
-        Body: (title, description, price, status, categoryId)
-Example
-```javascript
-const newProduct = {
-      title: "string",
-      description: "string",
-      price: 2, //Type number
-      status: "string", //Value is Optional "active" or "inactive"
-      categoryId: "string"
-    }
-```
-PUT "UPDATE A PRODUCT BY ID"
-- /api/v1/products/${id}
-
-        Auth:Yes (Only for sellers).
-        Params: product id.
-        Optional querys: no querys.
-        Body: (title, description, price, status, categoryId);
-Example:
- 
-```javascript
-const newData = {
-      title: "string" //Optional
-      description: "string" //Optional
-      price: 100 // Type number Optional
-      status: "string" //Value: ["active","inactive"] Optional
-      categoryId: "string" //Optional
-      }
-```
-DELETE "DELETE A PRODUCT BY ID"
-- /api/v1/products/${id}
-
-        Auth:Yes (Only for sellers).
-        Params: product id.
-        Optional querys: no querys.
-        Body: no body;
 
 ### CART ROUTES
 
-/api/v1/cart
 - GET "Get cart as customer"
+/api/v1/cart
+
+        Auth:Yes
+        Params: no params.
+        Optional querys: no querys.
+        Body: no body.
 
 ### CARTITEM ROUTES
 
-/api/v1/products/:id/add-to-cart
 - POST "Add product to cart"
+/api/v1/products/:id/add-to-cart
 
           Auth:Yes (Route for sellers and customers).
           Params: product id.
           Optional querys: no querys.
           Body: no body;
 
-/api/v1/cartItem/:cartItemId
 - PATCH "Update quantity in cart item"
+/api/v1/cartItem/:cartItemId
 
           Auth:Yes (Route for sellers and customers).
           Params: cartItemId.
@@ -128,6 +92,7 @@ DELETE "DELETE A PRODUCT BY ID"
           Body: quantity:(Type number, Mandatory);
   
 - DELETE "Delete a cart item"
+/api/v1/cartItem/:cartItemId
 
           Auth:Yes (Route for sellers and customers).
           Params: cartItemId.
@@ -136,44 +101,21 @@ DELETE "DELETE A PRODUCT BY ID"
 
 ### ORDER ROUTES
 
-/api/v1/cart/make-order
 - POST "Create an order by cartId"
+/api/v1/cart/make-order
 
           Auth:Yes (Route for sellers and customers).
           Params: no params.
           Optional querys: no querys.
           Body: no body;
 
-/api/v1/orders
 - GET "Get all user orders"
+/api/v1/orders
 
           Auth:Yes (Route for sellers and customers).
           Params: no params.
           Optional querys: no querys.
           Body: no body;
 
-/api/v1/orders/:orderId
-- GET "Get user order by orderId"
-
-          Auth:Yes (Route for sellers and customers).
-          Params: order id.
-          Optional querys: no querys.
-          Body: no body;
-
-/api/v1/orders/:orderId/pay
-- Patch "Pay an order"
-
-          Auth:Yes (Route for sellers and customers).
-          Params: order id.
-          Optional querys: no querys.
-          Body: no body;
-
-/api/v1/orders/:orderId/cancel
-- Patch "Cancel an order as customer"
-
-          Auth:Yes (Route for sellers and customers).
-          Params: order id.
-          Optional querys: no querys.
-          Body: no body;
 
 
